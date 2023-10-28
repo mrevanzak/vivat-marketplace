@@ -12,6 +12,7 @@
     "db:push": "pnpm -F db push",
     "db:studio": "pnpm -F db studio",
     "dev": "turbo dev --parallel",
+    "dev:web": "turbo --filter @vivat/nextjs dev",
     "dev:android": "expo start --android",
     "dev:ios": "expo start --ios",
     "format": "turbo format --continue -- --cache --cache-location='node_modules/.cache/.prettiercache'",
