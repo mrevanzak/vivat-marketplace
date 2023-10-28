@@ -1,8 +1,8 @@
 import type { ExpoConfig } from "@expo/config";
 
 const defineConfig = (): ExpoConfig => ({
-  name: "expo",
-  slug: "expo",
+  name: "Vivat Martketplace",
+  slug: "vivat-marketplace",
   scheme: "expo",
   version: "1.0.0",
   orientation: "portrait",
@@ -18,11 +18,11 @@ const defineConfig = (): ExpoConfig => ({
   },
   assetBundlePatterns: ["**/*"],
   ios: {
-    bundleIdentifier: "your.bundle.identifier",
+    bundleIdentifier: "vivat.marketplace.app",
     supportsTablet: true,
   },
   android: {
-    package: "your.bundle.identifier",
+    package: "vivat.marketplace.app",
     adaptiveIcon: {
       foregroundImage: "./assets/icon.png",
       backgroundColor: "#1F104A",

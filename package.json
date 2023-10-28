@@ -12,6 +12,8 @@
     "db:push": "pnpm -F db push",
     "db:studio": "pnpm -F db studio",
     "dev": "turbo dev --parallel",
+    "dev:android": "expo start --android",
+    "dev:ios": "expo start --ios",
     "format": "turbo format --continue -- --cache --cache-location='node_modules/.cache/.prettiercache'",
     "format:fix": "turbo format --continue -- --write --cache --cache-location='node_modules/.cache/.prettiercache'",
     "lint": "turbo lint --continue -- --cache --cache-location 'node_modules/.cache/.eslintcache' && manypkg check",
@@ -19,15 +21,15 @@
     "typecheck": "turbo typecheck"
   },
   "dependencies": {
-    "@acme/prettier-config": "^0.1.0",
     "@manypkg/cli": "^0.21.0",
     "@turbo/gen": "^1.10.15",
+    "@vivat/prettier-config": "^0.1.0",
     "prettier": "^3.0.3",
     "turbo": "^1.10.15",
     "typescript": "^5.2.2"
   },
-  "prettier": "@acme/prettier-config",
-  "packageManager": "bun@1.0.7",
+  "prettier": "@vivat/prettier-config",
+  "packageManager": "pnpm@8.9.2",
   "workspaces": [
     "apps/*",
     "packages/*",

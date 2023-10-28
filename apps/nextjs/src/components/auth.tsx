@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react";
 
-import type { OAuthProviders } from "@acme/auth";
-import { CSRF_experimental } from "@acme/auth";
+import type { OAuthProviders } from "@vivat/auth";
+import { CSRF_experimental } from "@vivat/auth";
 
 export function SignIn({
   provider,

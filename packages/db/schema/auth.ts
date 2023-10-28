@@ -10,9 +10,13 @@ import {
 } from "drizzle-orm/mysql-core";
 
 import { mySqlTable } from "./_table";
+import { products } from "./product";
 
 export const users = mySqlTable("user", {
-  id: varchar("id", { length: 255 }).notNull().primaryKey(),
+  id: varchar("id", { length: 36 })
+    .notNull()
+    .primaryKey()
+    .default(sql`(UUID())`),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull(),
   emailVerified: timestamp("emailVerified", {
@@ -24,7 +28,36 @@ export const users = mySqlTable("user", {
 
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
+  product: many(products),
+  usersToProducts: many(usersToProducts),
 }));
+
+export const usersToProducts = mySqlTable(
+  "users_to_products",
+  {
+    userId: varchar("userId", { length: 255 })
+      .notNull(),
+    productId: varchar("productId", { length: 255 })
+      .notNull(),
+  },
+  (usersToProducts) => ({
+    compoundKey: primaryKey(usersToProducts.userId, usersToProducts.productId),
+  }),
+);
+
+export const usersToProductsRelations = relations(
+  usersToProducts,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [usersToProducts.userId],
+      references: [users.id],
+    }),
+    product: one(products, {
+      fields: [usersToProducts.productId],
+      references: [products.id],
+    }),
+  }),
+);
 
 export const accounts = mySqlTable(
   "account",

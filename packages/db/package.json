@@ -1,5 +1,5 @@
 {
-  "name": "@acme/db",
+  "name": "@vivat/db",
   "version": "0.1.0",
   "private": true,
   "main": "./index.ts",
@@ -15,12 +15,13 @@
   },
   "dependencies": {
     "@planetscale/database": "^1.11.0",
-    "drizzle-orm": "^0.28.6"
+    "drizzle-orm": "^0.28.6",
+    "mysql2": "^3.6.2"
   },
   "devDependencies": {
-    "@acme/eslint-config": "^0.2.0",
-    "@acme/prettier-config": "^0.1.0",
-    "@acme/tsconfig": "^0.1.0",
+    "@vivat/eslint-config": "^0.2.0",
+    "@vivat/prettier-config": "^0.1.0",
+    "@vivat/tsconfig": "^0.1.0",
     "dotenv-cli": "^7.3.0",
     "drizzle-kit": "^0.19.13",
     "eslint": "^8.52.0",
@@ -30,8 +31,8 @@
   "eslintConfig": {
     "root": true,
     "extends": [
-      "@acme/eslint-config/base"
+      "@vivat/eslint-config/base"
     ]
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@vivat/prettier-config"
 }

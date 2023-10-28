@@ -10,9 +10,9 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { auth } from "@acme/auth";
-import type { Session } from "@acme/auth";
-import { db } from "@acme/db";
+import { auth } from "@vivat/auth";
+import type { Session } from "@vivat/auth";
+import { db } from "@vivat/db";
 
 /**
  * 1. CONTEXT
