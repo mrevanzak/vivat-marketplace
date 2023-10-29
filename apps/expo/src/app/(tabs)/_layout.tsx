@@ -15,6 +15,7 @@ export default function TabsLayout() {
           borderTopRightRadius: 15,
           height: 70,
         },
+        headerShown: false,
       }}
     >
       <Tabs.Screen
@@ -45,13 +46,21 @@ export default function TabsLayout() {
             left: 2,
           },
           tabBarIcon: ({ focused }) => (
-            <Ionicons
-              name={
-                focused ? "md-checkmark-circle-outline" : "md-checkmark-circle"
-              }
-              size={70}
-              color="#FDBC12"
-            />
+            <Button
+              avoidInnerPadding
+              avoidMinWidth
+              backgroundColor="transparent"
+            >
+              <Ionicons
+                name={
+                  focused
+                    ? "md-checkmark-circle-outline"
+                    : "md-checkmark-circle"
+                }
+                size={70}
+                color="#FDBC12"
+              />
+            </Button>
           ),
         }}
       />
