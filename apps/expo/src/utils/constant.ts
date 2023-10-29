@@ -1,6 +1,6 @@
 import { Colors } from "react-native-ui-lib";
 
-const colors = {
+export const colors = {
     primary: "#157DC1",
     secondary: "#FDBC12",
 } as const;

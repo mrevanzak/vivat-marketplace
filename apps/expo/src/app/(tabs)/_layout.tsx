@@ -1,7 +1,8 @@
 import React from "react";
-import { Button } from "react-native-ui-lib";
+import { Button, Colors } from "react-native-ui-lib";
 import { Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { colors } from "@/utils/constant";
 
 export default function TabsLayout() {
   return (
@@ -10,7 +11,7 @@ export default function TabsLayout() {
       screenOptions={{
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: "#157DC1",
+          backgroundColor: colors.primary,
           borderTopLeftRadius: 15,
           borderTopRightRadius: 15,
           height: 70,
@@ -39,7 +40,7 @@ export default function TabsLayout() {
           tabBarItemStyle: {
             top: -35,
             borderRadius: 120,
-            backgroundColor: "white",
+            backgroundColor: Colors.white,
             aspectRatio: 1,
           },
           tabBarIconStyle: {
@@ -58,7 +59,7 @@ export default function TabsLayout() {
                     : "md-checkmark-circle"
                 }
                 size={70}
-                color="#FDBC12"
+                color={colors.secondary}
               />
             </Button>
           ),
@@ -74,7 +75,7 @@ export default function TabsLayout() {
             <Ionicons
               name={focused ? "md-person" : "md-person-outline"}
               size={32}
-              color="white"
+              color={Colors.white}
             />
           ),
         }}
