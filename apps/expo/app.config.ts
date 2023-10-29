@@ -9,9 +9,8 @@ const defineConfig = (): ExpoConfig => ({
   icon: "./assets/icon.png",
   userInterfaceStyle: "light",
   splash: {
-    image: "./assets/icon.png",
+    image: "./assets/splashscreen.png",
     resizeMode: "contain",
-    backgroundColor: "#1F104A",
   },
   updates: {
     fallbackToCacheTimeout: 0,
