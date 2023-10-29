@@ -35,10 +35,8 @@ export const usersRelations = relations(users, ({ many }) => ({
 export const usersToProducts = mySqlTable(
   "users_to_products",
   {
-    userId: varchar("userId", { length: 255 })
-      .notNull(),
-    productId: varchar("productId", { length: 255 })
-      .notNull(),
+    userId: varchar("userId", { length: 255 }).notNull(),
+    productId: varchar("productId", { length: 255 }).notNull(),
   },
   (usersToProducts) => ({
     compoundKey: primaryKey(usersToProducts.userId, usersToProducts.productId),

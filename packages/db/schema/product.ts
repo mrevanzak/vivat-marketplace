@@ -5,7 +5,10 @@ import { mySqlTable } from "./_table";
 import { users, usersToProducts } from "./auth";
 
 export const products = mySqlTable("product", {
-  id: varchar("id", { length: 36 }).notNull().primaryKey().default(sql`(UUID())`),
+  id: varchar("id", { length: 36 })
+    .notNull()
+    .primaryKey()
+    .default(sql`(UUID())`),
   name: varchar("name", { length: 256 }).notNull(),
   description: varchar("description", { length: 256 }).notNull(),
   price: int("price").notNull(),
