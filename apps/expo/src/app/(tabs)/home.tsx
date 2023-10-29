@@ -16,4 +16,4 @@ export default function HomeScreen() {
       {/* <Stack.Screen options={{ title: "Home Page" }} /> */}
     </SafeAreaView>
   );
-};
+}

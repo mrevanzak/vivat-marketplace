@@ -1,9 +1,10 @@
+import type { ImageSourcePropType } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, Image, View } from "react-native-ui-lib";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
-import Logo from "~/full-logo.png"
-import type { ImageSourcePropType } from "react-native";
+
+import Logo from "~/full-logo.png";
 
 export default function WelcomeScreen() {
   return (

@@ -15,4 +15,4 @@ export default function ProfileScreen() {
       {/* <Stack.Screen options={{ title: "Home Page" }} /> */}
     </SafeAreaView>
   );
-};
+}

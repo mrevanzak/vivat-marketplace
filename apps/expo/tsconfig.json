@@ -7,7 +7,7 @@
       "~/*": ["./assets/*"]
     },
     "jsx": "react-native",
-    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
   },
   "include": [
     "expo-plugins",
