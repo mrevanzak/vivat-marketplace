@@ -1,8 +1,8 @@
 import { Client } from "@planetscale/database";
 import { drizzle } from "drizzle-orm/planetscale-serverless";
 
-import * as auth from "./schema/auth";
 import * as post from "./schema/product";
+import * as auth from "./schema/user";
 
 export const schema = { ...auth, ...post };
 

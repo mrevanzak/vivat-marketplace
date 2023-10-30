@@ -2,7 +2,7 @@ import { relations, sql } from "drizzle-orm";
 import { int, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 import { mySqlTable } from "./_table";
-import { users, usersToProducts } from "./auth";
+import { users, usersToProducts } from "./user";
 
 export const products = mySqlTable("product", {
   id: varchar("id", { length: 36 })
