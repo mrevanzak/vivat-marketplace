@@ -32,6 +32,9 @@ const getBaseUrl = () => {
 
   if (!localhost) {
     if (process.env.EXPO_PUBLIC_API_URL) {
+      console.log(
+        "Failed to get localhost. Falling back to EXPO_PUBLIC_API_URL.",
+      );
       return process.env.EXPO_PUBLIC_API_URL;
     }
 

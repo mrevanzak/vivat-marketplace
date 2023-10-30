@@ -1,4 +1,3 @@
-import { colors } from "@/utils/constant";
 import type { Config } from "tailwindcss";
 
 import baseConfig from "@vivat/tailwind-config";
@@ -8,10 +7,10 @@ export default {
   presets: [baseConfig],
   theme: {
     extend: {
-      colors: {
-        primary: colors.primary,
-        secondary: colors.secondary,
-      },
+      // colors: {
+      //   primary: colors.primary,
+      //   secondary: colors.secondary,
+      // },
     },
   },
 } satisfies Config;

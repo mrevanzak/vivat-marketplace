@@ -10,15 +10,15 @@ export const products = mySqlTable("product", {
     .primaryKey()
     .default(sql`(UUID())`),
   name: varchar("name", { length: 256 }).notNull(),
-  description: varchar("description", { length: 256 }).notNull(),
+  description: varchar("description", { length: 256 }),
   price: int("price").notNull(),
   stock: int("stock").notNull(),
   image: varchar("image", { length: 256 }).notNull(),
-  sellerId: varchar("sellerId", { length: 36 }).notNull(),
+  sellerId: varchar("seller_id", { length: 36 }).notNull(),
   createdAt: timestamp("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: timestamp("updatedAt").onUpdateNow(),
+  updatedAt: timestamp("updated_at").onUpdateNow(),
 });
 
 export const productsRelations = relations(products, ({ many, one }) => ({

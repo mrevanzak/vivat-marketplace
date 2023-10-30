@@ -1,13 +1,21 @@
 import type { ImageSourcePropType } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button, Image, Colors, View } from "react-native-ui-lib";
+import { Colors, Image, View } from "react-native-ui-lib";
 import { LinearGradient } from "expo-linear-gradient";
-import { Link } from "expo-router";
+import { Redirect } from "expo-router";
+import SignInButton from "@/components/SignInButton";
+import { colors } from "@/utils/constant";
+import { useAuth } from "@clerk/clerk-expo";
 
 import Logo from "~/full-logo.png";
-import { colors } from "@/utils/constant";
 
 export default function WelcomeScreen() {
+  const { isSignedIn } = useAuth();
+
+  if (isSignedIn) {
+    return <Redirect href="/(app)/(tabs)/home" />;
+  }
+
   return (
     <SafeAreaView className="flex-1">
       <LinearGradient
@@ -18,16 +26,7 @@ export default function WelcomeScreen() {
         <View flex center>
           <Image source={Logo as ImageSourcePropType} />
         </View>
-        <View flex centerH>
-          <Link replace href="/(tabs)/home" asChild>
-            <Button
-              label="Login"
-              size="medium"
-              bg-primary
-              className="w-1/2 p-3"
-            />
-          </Link>
-        </View>
+        <SignInButton />
       </LinearGradient>
     </SafeAreaView>
   );

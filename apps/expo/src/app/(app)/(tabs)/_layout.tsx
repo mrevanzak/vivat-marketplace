@@ -1,10 +1,17 @@
 import React from "react";
 import { Button, Colors } from "react-native-ui-lib";
-import { Tabs } from "expo-router";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { Redirect, Tabs } from "expo-router";
 import { colors } from "@/utils/constant";
+import { useUser } from "@clerk/clerk-expo";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function TabsLayout() {
+  const { isSignedIn } = useUser();
+
+  if (!isSignedIn) {
+    return <Redirect href="/" />;
+  }
+
   return (
     <Tabs
       initialRouteName="home"
@@ -21,6 +28,7 @@ export default function TabsLayout() {
     >
       <Tabs.Screen
         name="home"
+        // redirect={!isSignedIn}
         options={{
           tabBarButton: (props) => (
             <Button avoidInnerPadding flex-1 {...props} />
@@ -36,6 +44,7 @@ export default function TabsLayout() {
       />
       <Tabs.Screen
         name="listing"
+        // redirect={!isSignedIn}
         options={{
           tabBarItemStyle: {
             top: -35,
@@ -67,6 +76,7 @@ export default function TabsLayout() {
       />
       <Tabs.Screen
         name="profile"
+        // redirect={!isSignedIn}
         options={{
           tabBarButton: (props) => (
             <Button avoidInnerPadding flex-1 {...props} />
