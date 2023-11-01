@@ -9,6 +9,7 @@ import superjson from "superjson";
 
 import { env } from "~/env.mjs";
 import { api } from "~/utils/api";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return ""; // browser should use relative url
@@ -56,10 +57,12 @@ export function TRPCReactProvider(props: {
   return (
     <api.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <ReactQueryStreamedHydration transformer={superjson}>
-          {props.children}
-        </ReactQueryStreamedHydration>
-        <ReactQueryDevtools initialIsOpen={false} />
+        <ClerkProvider>
+          <ReactQueryStreamedHydration transformer={superjson}>
+            {props.children}
+          </ReactQueryStreamedHydration>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </ClerkProvider>
       </QueryClientProvider>
     </api.Provider>
   );
