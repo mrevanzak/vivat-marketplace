@@ -5,6 +5,7 @@ import { Link, usePathname } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import type { BottomTabHeaderProps } from "@react-navigation/bottom-tabs";
 import type { NativeStackHeaderProps } from "@react-navigation/native-stack";
+import { useSearchStore } from "@/lib/stores/useSearchStore";
 
 export default function Header(
   props: BottomTabHeaderProps | NativeStackHeaderProps,
@@ -12,10 +13,12 @@ export default function Header(
   const pathname = usePathname();
   const isSearchScreen = pathname === "/search";
 
+  const setSearch = useSearchStore((state) => state.setSearch);
+
   return (
     <SafeAreaView className="flex-row bg-[#157DC1]" {...props}>
       {isSearchScreen && (
-        <Link href="/(tabs)/home" asChild>
+        <Link href="/(app)/(tabs)/home" asChild>
           <Button
             avoidInnerPadding
             animateLayout
@@ -50,14 +53,7 @@ export default function Header(
               marginLeft: 10,
             }}
             readonly={!isSearchScreen}
-            // onChangeText={onChangeText}
-            enableErrors
-            // validate={["required", "email", (value) => value.length > 6]}
-            // validationMessage={[
-            //   "Field is required",
-            //   "Email is invalid",
-            //   "Password is too short",
-            // ]}
+            onChangeText={setSearch}
             maxLength={30}
           />
         </Button>

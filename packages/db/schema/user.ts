@@ -16,7 +16,7 @@ export const users = mySqlTable("user", {
   email: varchar("email", { length: 255 })
     .notNull()
     .unique(),
-  imageUrl: varchar("image_url", { length: 255 }),
+  imageUrl: varchar("image_url", { length: 255 }).notNull(),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
