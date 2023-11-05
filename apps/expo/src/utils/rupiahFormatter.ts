@@ -1,4 +1,6 @@
-export default function rupiahFormatter(value: number): string {
+export default function rupiahFormatter(value?: number): string {
+  if (!value) return "";
+
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
