@@ -1,22 +1,17 @@
 import { relations, sql } from "drizzle-orm";
-import {
-  primaryKey,
-  timestamp,
-  varchar,
-} from "drizzle-orm/mysql-core";
+import { primaryKey, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 import { mySqlTable } from "./_table";
 import { products } from "./product";
 
 export const users = mySqlTable("user", {
-  id: varchar("id", { length: 191 }).notNull().primaryKey(),
+  id: varchar("id", { length: 256 }).notNull().primaryKey(),
   createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: timestamp("updated_at").onUpdateNow(),
   name: varchar("name", { length: 255 }).notNull(),
-  email: varchar("email", { length: 255 })
-    .notNull()
-    .unique(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
   imageUrl: varchar("image_url", { length: 255 }).notNull(),
+  major: varchar("major", { length: 255 }),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({

@@ -13,6 +13,13 @@ export default function AuthLayout() {
           backgroundColor: colors.primary,
         },
       }}
-    />
+    >
+      <Stack.Screen
+        name="[productId]"
+        options={{
+          header: (props) => <Header {...props} hideSearch />,
+        }}
+      />
+    </Stack>
   );
 }

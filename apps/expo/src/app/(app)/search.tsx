@@ -19,11 +19,12 @@ import { FlashList } from "@shopify/flash-list";
 export default function SearchScreen() {
   const search = useSearchStore((state) => state.search);
   const [debouncedSearch] = useDebouncedValue(search, 500);
-  const { data, isFetching, refetch } =
-    api.product.getProduct.useQuery(debouncedSearch);
+  const { data, isFetching, refetch } = api.product.getProduct.useQuery({
+    query: debouncedSearch,
+  });
 
   return (
-    <View bg-white br50 absF padding-s4 className="rounded-b-none">
+    <View bg-white br50 flex padding-s4 className="rounded-b-none">
       <Text primary text65>
         Produk
       </Text>

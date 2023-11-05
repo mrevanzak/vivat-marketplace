@@ -2,6 +2,7 @@ import { relations, sql } from "drizzle-orm";
 import { int, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 import { mySqlTable } from "./_table";
+import { categories } from "./category";
 import { users, usersToProducts } from "./user";
 
 export const products = mySqlTable("product", {
@@ -15,6 +16,7 @@ export const products = mySqlTable("product", {
   stock: int("stock").notNull(),
   image: varchar("image", { length: 256 }).notNull(),
   sellerId: varchar("seller_id", { length: 36 }).notNull(),
+  category: varchar("category", { length: 255 }).notNull(),
   createdAt: timestamp("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
@@ -27,4 +29,8 @@ export const productsRelations = relations(products, ({ many, one }) => ({
     references: [users.id],
   }),
   usersToProducts: many(usersToProducts),
+  category: one(categories, {
+    fields: [products.category],
+    references: [categories.name],
+  }),
 }));
