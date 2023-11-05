@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, Colors } from "react-native-ui-lib";
+import { Platform } from "react-native";
+import { Button, Colors, Spacings } from "react-native-ui-lib";
 import { Redirect, Tabs } from "expo-router";
 import { colors } from "@/utils/constant";
 import { useUser } from "@clerk/clerk-expo";
@@ -21,6 +22,7 @@ export default function TabsLayout() {
           backgroundColor: colors.primary,
           borderTopLeftRadius: 15,
           borderTopRightRadius: 15,
+          paddingVertical: Platform.OS === "ios" ? Spacings.s3 : 0,
           height: 70,
         },
         headerShown: false,
@@ -47,7 +49,7 @@ export default function TabsLayout() {
         // redirect={!isSignedIn}
         options={{
           tabBarItemStyle: {
-            top: -35,
+            top: "-10%",
             borderRadius: 120,
             backgroundColor: Colors.white,
             aspectRatio: 1,
