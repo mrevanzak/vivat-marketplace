@@ -45,10 +45,17 @@ export default function SearchScreen() {
               }}
             >
               <Card flex-1 margin-8 enableShadow>
-                <Card.Image
+                <AnimatedImage
                   source={{ uri: item.image }}
                   height={250}
                   borderRadius={BorderRadiuses.br60}
+                  loader={
+                    <ActivityIndicator
+                      color={colors.secondary}
+                      size="large"
+                      className="mb-24"
+                    />
+                  }
                 />
                 <View
                   padding-s2
