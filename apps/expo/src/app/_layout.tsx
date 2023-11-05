@@ -1,10 +1,12 @@
 import { useEffect } from "react";
+import { LoaderScreen } from "react-native-ui-lib";
 import Constants from "expo-constants";
 import { Slot, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { TRPCProvider } from "@/utils/api";
 import { tokenCache } from "@/utils/cache";
+import { colors } from "@/utils/constant";
 import { ClerkProvider, SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
 
 void SplashScreen.preventAutoHideAsync();
@@ -14,12 +16,12 @@ function InitialLayout() {
 
   useEffect(() => {
     if (isLoaded) {
-      void SplashScreen.hideAsync()
+      void SplashScreen.hideAsync();
     }
   }, [isLoaded]);
 
   if (!isLoaded) {
-    return null;
+    return <LoaderScreen loaderColor={colors.primary} />;
   }
 
   return (
