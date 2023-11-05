@@ -1,30 +1,49 @@
 import React from "react";
-import { Avatar, BorderRadiuses, Card, Text, View } from "react-native-ui-lib";
+import { ActivityIndicator } from "react-native";
+import {
+  AnimatedImage,
+  Avatar,
+  BorderRadiuses,
+  Card,
+  Text,
+  View,
+} from "react-native-ui-lib";
+import { Link } from "expo-router";
+import { useDebouncedValue } from "@/lib/hooks/useDebouncedValues";
+import { useSearchStore } from "@/lib/stores/useSearchStore";
 import { api } from "@/utils/api";
+import { colors } from "@/utils/constant";
 import rupiahFormatter from "@/utils/rupiahFormatter";
 import { FlashList } from "@shopify/flash-list";
-import { useSearchStore } from "@/lib/stores/useSearchStore";
-import { useDebouncedValue } from "@/lib/hooks/useDebouncedValues";
 
 export default function SearchScreen() {
   const search = useSearchStore((state) => state.search);
   const [debouncedSearch] = useDebouncedValue(search, 500);
-  const { data, isFetching, refetch } = api.product.getProduct.useQuery(debouncedSearch);
+  const { data, isFetching, refetch } =
+    api.product.getProduct.useQuery(debouncedSearch);
 
   return (
-    <View flex-1 bg-primary>
-      <View bg-white br50 absF padding-s4 className="rounded-b-none">
-        <Text primary text65>
-          Produk
-        </Text>
-        <FlashList
-          data={data}
-          numColumns={2}
-          estimatedItemSize={200}
-          onRefresh={() => refetch()}
-          refreshing={isFetching}
-          renderItem={({ item }) => {
-            return (
+    <View bg-white br50 absF padding-s4 className="rounded-b-none">
+      <Text primary text65>
+        Produk
+      </Text>
+      <FlashList
+        data={data}
+        numColumns={2}
+        estimatedItemSize={200}
+        onRefresh={() => refetch()}
+        refreshing={isFetching}
+        renderItem={({ item }) => {
+          return (
+            <Link
+              asChild
+              href={{
+                pathname: "/(app)/[productId]",
+                params: {
+                  productId: item.id,
+                },
+              }}
+            >
               <Card flex-1 margin-8 enableShadow>
                 <Card.Image
                   source={{ uri: item.image }}
@@ -58,10 +77,10 @@ export default function SearchScreen() {
                   </View>
                 </View>
               </Card>
-            );
-          }}
-        />
-      </View>
+            </Link>
+          );
+        }}
+      />
     </View>
   );
 }
