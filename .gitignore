@@ -43,3 +43,6 @@ yarn-error.log*
 
 # turbo
 .turbo
+
+server
+apps/nextjs/drizzle.config.ts

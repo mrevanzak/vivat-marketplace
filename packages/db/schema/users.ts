@@ -2,9 +2,9 @@ import { relations, sql } from "drizzle-orm";
 import { primaryKey, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 import { mySqlTable } from "./_table";
-import { products } from "./product";
+import { products } from "./products";
 
-export const users = mySqlTable("user", {
+export const users = mySqlTable("users", {
   id: varchar("id", { length: 256 }).notNull().primaryKey(),
   createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: timestamp("updated_at").onUpdateNow(),

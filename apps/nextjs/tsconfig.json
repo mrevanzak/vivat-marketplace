@@ -1,10 +1,13 @@
 {
   "extends": "@vivat/tsconfig/base.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "~/*": [
+      "@/*": [
         "./src/*"
+      ],
+      "~/*": [
+        "./public/*"
       ]
     },
     "plugins": [
@@ -13,7 +16,8 @@
       }
     ],
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "target": "esnext"
   },
   "include": [
     ".",

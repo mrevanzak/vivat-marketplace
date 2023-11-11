@@ -17,7 +17,7 @@
     "@trpc/server": "next",
     "@vivat/db": "^0.1.0",
     "superjson": "1.13.1",
-    "zod": "^3.22.2"
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@vivat/eslint-config": "^0.2.0",
