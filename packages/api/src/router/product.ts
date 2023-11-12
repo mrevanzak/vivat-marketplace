@@ -26,6 +26,7 @@ export const productRouter = createTRPCRouter({
       return ctx.db.query.products.findFirst({
         with: {
           user: true,
+          category: true,
         },
         where: (products, { eq }) => eq(products.id, input.id),
       });
