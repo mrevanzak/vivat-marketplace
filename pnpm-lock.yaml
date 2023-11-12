@@ -41,6 +41,9 @@ importers:
       '@gorhom/bottom-sheet':
         specifier: ^4
         version: 4.5.1(@types/react@18.2.33)(react-native-gesture-handler@2.12.1)(react-native-reanimated@3.3.0)(react-native@0.72.6)(react@18.2.0)
+      '@hookform/resolvers':
+        specifier: ^3.3.0
+        version: 3.3.2(react-hook-form@7.48.2)
       '@shopify/flash-list':
         specifier: 1.4.3
         version: 1.4.3(@babel/runtime@7.23.2)(react-native@0.72.6)(react@18.2.0)
@@ -89,15 +92,15 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
+      react-hook-form:
+        specifier: ^7.47.0
+        version: 7.48.2(react@18.2.0)
       react-native:
         specifier: 0.72.6
         version: 0.72.6(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(react@18.2.0)
       react-native-gesture-handler:
         specifier: ~2.12.1
         version: 2.12.1(react-native@0.72.6)(react@18.2.0)
-      react-native-parallax-scroll-view:
-        specifier: ^0.21.3
-        version: 0.21.3
       react-native-reanimated:
         specifier: ^3.3.0
         version: 3.3.0(@babel/core@7.23.2)(@babel/plugin-proposal-nullish-coalescing-operator@7.18.6)(@babel/plugin-proposal-optional-chaining@7.21.0)(@babel/plugin-transform-arrow-functions@7.22.5)(@babel/plugin-transform-shorthand-properties@7.22.5)(@babel/plugin-transform-template-literals@7.22.5)(react-native@0.72.6)(react@18.2.0)
@@ -113,6 +116,9 @@ importers:
       superjson:
         specifier: 1.13.1
         version: 1.13.1
+      zod:
+        specifier: ^3.21.4
+        version: 3.22.4
       zustand:
         specifier: ^4.4.6
         version: 4.4.6(@types/react@18.2.33)(react@18.2.0)
@@ -11018,12 +11024,6 @@ packages:
       prop-types: 15.8.1
       react: 18.2.0
       react-native: 0.72.6(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(react@18.2.0)
-    dev: false
-
-  /react-native-parallax-scroll-view@0.21.3:
-    resolution: {integrity: sha512-oVbZPijNGYGcpU2z7k/ZOOnl0vYxch7qtVvaJpH4+wLVnEP49NC2diCzjFGz8PE0yEcgyeTdkpdUK8RTD3QEew==}
-    dependencies:
-      prop-types: 15.8.1
     dev: false
 
   /react-native-reanimated@3.3.0(@babel/core@7.23.2)(@babel/plugin-proposal-nullish-coalescing-operator@7.18.6)(@babel/plugin-proposal-optional-chaining@7.21.0)(@babel/plugin-transform-arrow-functions@7.22.5)(@babel/plugin-transform-shorthand-properties@7.22.5)(@babel/plugin-transform-template-literals@7.22.5)(react-native@0.72.6)(react@18.2.0):

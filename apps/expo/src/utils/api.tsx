@@ -6,13 +6,7 @@ import { httpBatchLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
 import superjson from "superjson";
 
-
-
 import type { AppRouter } from "@vivat/api";
-
-
-
-
 
 /**
  * A set of typesafe hooks for consuming your API.
@@ -37,14 +31,11 @@ const getBaseUrl = () => {
   const debuggerHost = Constants.expoConfig?.hostUri;
   const localhost = debuggerHost?.split(":")[0];
 
-  if (!localhost) {
-    if (process.env.EXPO_PUBLIC_API_URL) {
-      console.log(
-        "Failed to get localhost. Falling back to EXPO_PUBLIC_API_URL.",
-      );
-      return process.env.EXPO_PUBLIC_API_URL;
-    }
+  if (process.env.EXPO_PUBLIC_API_URL) {
+    return process.env.EXPO_PUBLIC_API_URL;
+  }
 
+  if (!localhost) {
     throw new Error(
       "Failed to get localhost. Please point to your production server.",
     );
