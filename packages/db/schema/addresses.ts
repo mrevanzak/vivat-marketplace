@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { varchar } from "drizzle-orm/mysql-core";
+import { boolean, varchar } from "drizzle-orm/mysql-core";
 
 import { mySqlTable } from "./_table";
 import { users } from "./users";
@@ -16,6 +16,7 @@ export const addresses = mySqlTable("addresses", {
 	recipient: varchar("recipient", { length: 255 }).notNull(),
 	phoneNumber: varchar("phone_number", { length: 255 }).notNull(),
 	userId: varchar("user_id", { length: 255 }).notNull(),
+	default: boolean("default").notNull().default(false),
 });
 
 export const addressesRelations = relations(addresses, ({ one }) => ({
@@ -26,3 +27,4 @@ export const addressesRelations = relations(addresses, ({ one }) => ({
 }));
 
 export const insertAddressSchema = createInsertSchema(addresses);
+export const addressIdSchema = insertAddressSchema.pick({ id: true }).required();

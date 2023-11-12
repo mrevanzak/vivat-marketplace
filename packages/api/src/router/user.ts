@@ -1,5 +1,6 @@
-import { addresses, insertAddressSchema } from "@vivat/db/schema/addresses";
+import { addressIdSchema, addresses, insertAddressSchema } from "@vivat/db/schema/addresses";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { and, eq } from "@vivat/db";
 
 export const userRouter = createTRPCRouter({
   getAddresses: protectedProcedure
@@ -15,5 +16,17 @@ export const userRouter = createTRPCRouter({
         ...input,
         userId: ctx.auth.userId,
       });
+    }),
+  setDefaultAddress: protectedProcedure
+    .input(addressIdSchema)
+    .query(async ({ input, ctx }) => {
+      await ctx.db
+        .update(addresses)
+        .set({ default: false });
+
+      return ctx.db
+        .update(addresses)
+        .set({ default: true })
+        .where(and(eq(addresses.userId, ctx.auth.userId), eq(addresses.id, input.id)));
     }),
 });
