@@ -20,7 +20,7 @@ export const products = mySqlTable(
     stock: int("stock").notNull(),
     image: varchar("image", { length: 256 }).notNull(),
     sellerId: varchar("seller_id", { length: 36 }).notNull(),
-    categoryId: varchar("category", { length: 255 }).notNull(),
+    categoryId: varchar("category_id", { length: 255 }).notNull(),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),

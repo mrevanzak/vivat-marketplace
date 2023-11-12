@@ -3,7 +3,7 @@ import type { User } from "@clerk/nextjs/api";
 import { Webhook } from "svix";
 
 import { db, eq } from "@vivat/db";
-import { users } from "@vivat/db/schema/user";
+import { users } from "@vivat/db/schema/users";
 
 type UnwantedKeys =
   | "emailAddresses"
