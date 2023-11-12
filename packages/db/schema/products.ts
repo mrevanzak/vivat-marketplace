@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { int, timestamp, uniqueIndex, varchar } from "drizzle-orm/mysql-core";
+import { index, int, timestamp, varchar } from "drizzle-orm/mysql-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -28,7 +28,7 @@ export const products = mySqlTable(
   },
   (products) => {
     return {
-      sellerIdIndex: uniqueIndex("seller_id_idx").on(products.sellerId),
+      sellerIdIndex: index("seller_id_idx").on(products.sellerId),
     };
   },
 );
