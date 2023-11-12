@@ -3,6 +3,7 @@ import { primaryKey, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 import { mySqlTable } from "./_table";
 import { products } from "./products";
+import { addresses } from "./addresses";
 
 export const users = mySqlTable("users", {
   id: varchar("id", { length: 256 }).notNull().primaryKey(),
@@ -17,6 +18,7 @@ export const users = mySqlTable("users", {
 export const usersRelations = relations(users, ({ many }) => ({
   product: many(products),
   usersToProducts: many(usersToProducts),
+  address: many(addresses),
 }));
 
 export const usersToProducts = mySqlTable(

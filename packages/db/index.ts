@@ -4,8 +4,9 @@ import { drizzle } from "drizzle-orm/planetscale-serverless";
 import * as products from "./schema/products";
 import * as users from "./schema/users";
 import * as categories from "./schema/categories";
+import * as addresses from "./schema/addresses";
 
-export const schema = { ...users, ...products, ...categories };
+export const schema = { ...users, ...products, ...categories, ...addresses };
 
 export { mySqlTable as tableCreator } from "./schema/_table";
 
