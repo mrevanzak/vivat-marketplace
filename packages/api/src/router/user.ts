@@ -17,7 +17,7 @@ export const userRouter = createTRPCRouter({
     }),
   createAddress: protectedProcedure
     .input(insertAddressSchema)
-    .query(({ input, ctx }) => {
+    .mutation(({ input, ctx }) => {
       return ctx.db.insert(addresses).values({
         ...input,
         userId: ctx.auth.userId,
@@ -25,7 +25,7 @@ export const userRouter = createTRPCRouter({
     }),
   setDefaultAddress: protectedProcedure
     .input(addressIdSchema)
-    .query(async ({ input, ctx }) => {
+    .mutation(async ({ input, ctx }) => {
       await ctx.db
         .update(addresses)
         .set({ default: false });
