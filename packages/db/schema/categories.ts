@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { varchar } from "drizzle-orm/mysql-core";
+import { timestamp, varchar } from "drizzle-orm/mysql-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import type { z } from "zod";
 
@@ -13,6 +13,10 @@ export const categories = mySqlTable("categories", {
     .default(sql`(UUID())`),
   name: varchar("name", { length: 256 }).notNull(),
   imageUrl: varchar("image_url", { length: 256 }).notNull(),
+  createdAt: timestamp("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp("updated_at").onUpdateNow(),
 });
 
 export const categorysRelations = relations(categories, ({ many }) => ({

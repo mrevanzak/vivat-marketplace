@@ -114,7 +114,13 @@ export default function ProductDetailScreen() {
             className="space-x-4 rounded-b-none"
           >
             {/* <Button bg-white primary label="Keranjang" br40 flex /> */}
-            <Link href="/(app)/checkout" asChild>
+            <Link
+              href={{
+                pathname: "/checkout",
+                params: { productId: data?.id ?? "" },
+              }}
+              asChild
+            >
               <Button bg-secondary primary label="Beli" br40 flex />
             </Link>
           </View>

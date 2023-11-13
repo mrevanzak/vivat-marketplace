@@ -5,7 +5,7 @@ import { z } from "zod";
 
 import { mySqlTable } from "./_table";
 import { categories } from "./categories";
-import { users, usersToProducts } from "./users";
+import { productSold, users } from "./users";
 
 export const products = mySqlTable(
   "products",
@@ -38,7 +38,7 @@ export const productsRelations = relations(products, ({ many, one }) => ({
     fields: [products.sellerId],
     references: [users.id],
   }),
-  usersToProducts: many(usersToProducts),
+  productSold: many(productSold),
   category: one(categories, {
     fields: [products.categoryId],
     references: [categories.id],

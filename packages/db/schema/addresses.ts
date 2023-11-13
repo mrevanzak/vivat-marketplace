@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { boolean, char, varchar } from "drizzle-orm/mysql-core";
+import { boolean, char, timestamp, varchar } from "drizzle-orm/mysql-core";
 import { createInsertSchema } from "drizzle-zod";
 
 import { mySqlTable } from "./_table";
@@ -10,6 +10,10 @@ export const addresses = mySqlTable("addresses", {
     .notNull()
     .primaryKey()
     .default(sql`(UUID())`),
+  createdAt: timestamp("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp("updated_at").onUpdateNow(),
   title: varchar("title", { length: 255 }).notNull(),
   address: varchar("address", { length: 255 }).notNull(),
   zipCode: char("zip_code", { length: 5 }).notNull(),
