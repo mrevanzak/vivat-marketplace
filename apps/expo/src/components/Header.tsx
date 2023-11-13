@@ -1,4 +1,5 @@
 import React from "react";
+import { Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   BorderRadiuses,
@@ -24,7 +25,7 @@ export default function Header(props: HeaderProps) {
   const setSearch = useSearchStore((state) => state.setSearch);
 
   return (
-    <SafeAreaView className="flex-row bg-[#157DC1]" {...props}>
+    <SafeAreaView className="bg-primary flex-row" {...props} edges={["top"]}>
       <View flex row padding-s4 className="space-x-2">
         {canGoBack && (
           <Button
@@ -56,6 +57,7 @@ export default function Header(props: HeaderProps) {
                 }}
                 fieldStyle={{
                   marginLeft: 10,
+                  marginVertical: Platform.OS === "ios" ? Spacings.s2 : 0,
                 }}
                 readonly={!canGoBack}
                 onChangeText={setSearch}
