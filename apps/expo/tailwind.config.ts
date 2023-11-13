@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 
 import baseConfig from "@vivat/tailwind-config";
 
-import colors from "@/utils/colors";
+import colors from "./src/utils/colors";
 
 export default {
   content: ["./src/**/*.{ts,tsx}"],

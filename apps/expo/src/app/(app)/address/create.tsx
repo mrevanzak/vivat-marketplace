@@ -1,10 +1,14 @@
-import { Button, LoaderScreen, View } from "react-native-ui-lib";
+import { Button, View } from "react-native-ui-lib";
 import { useRouter } from "expo-router";
 import Input from "@/components/forms/Input";
 import { api } from "@/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
+
+
+
+
 
 const schema = z.object({
   title: z.string(),
@@ -16,6 +20,8 @@ const schema = z.object({
 
 export default function CreateAddressScreen() {
   const router = useRouter();
+
+  const utils = api.useUtils();
   const { mutate, isPending } = api.user.createAddress.useMutation();
 
   const methods = useForm<z.infer<typeof schema>>({
@@ -25,37 +31,38 @@ export default function CreateAddressScreen() {
   const onSubmit = handleSubmit((data) => {
     mutate(data, {
       onSuccess: () => {
-        void api.useUtils().user.getAddresses.invalidate();
         router.back();
+        void utils.user.getAddresses.invalidate();
       },
     });
   });
 
-  if (isPending) return <LoaderScreen message="Loading..." />;
-
   return (
     <View bg-white flex padding-s4>
       <FormProvider {...methods}>
-        <Input id="title" label="Save address as" />
+        <Input id="title" label="Simpan sebagai" placeholder="Masukan judul" />
         <Input
           id="address"
-          label="Address"
+          label="Alamat"
           autoComplete="street-address"
           multiline
         />
         <Input
           id="zipCode"
-          label="Zip Code"
+          label="Kode Pos"
           autoComplete="postal-code"
           inputMode="numeric"
         />
-        <Input id="recipient" label="Recipient" />
-        <Input id="phoneNumber" label="Phone Number" inputMode="tel" />
+        <Input id="recipient" label="Penerima" />
+        <Input id="phoneNumber" label="Nomer Telepon" inputMode="tel" />
         <Button
-          label="Submit"
+          label="Simpan"
           onPress={onSubmit}
           bg-primary
           disabled={isPending}
+          // iconSource={() => (
+          //   <EvilIcons name="spinner-3" size={24} color="white" className="animate-spin" />
+          // )}
         />
       </FormProvider>
     </View>

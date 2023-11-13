@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import type { AppStateStatus } from "react-native";
+import { AppState, Platform } from "react-native";
 import { Colors, LoaderScreen } from "react-native-ui-lib";
 import Constants from "expo-constants";
 import { Slot, Stack } from "expo-router";
@@ -8,13 +10,25 @@ import { TRPCProvider } from "@/utils/api";
 import { tokenCache } from "@/utils/cache";
 import colors from "@/utils/colors";
 import { ClerkProvider, SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
+import { focusManager } from "@tanstack/react-query";
 
 Colors.loadColors(colors);
 void SplashScreen.preventAutoHideAsync();
 
 function InitialLayout() {
-  const { isLoaded } = useAuth();
+  function onAppStateChange(status: AppStateStatus) {
+    if (Platform.OS !== "web") {
+      focusManager.setFocused(status === "active");
+    }
+  }
 
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", onAppStateChange);
+
+    return () => subscription.remove();
+  }, []);
+
+  const { isLoaded } = useAuth();
   useEffect(() => {
     if (isLoaded) {
       void SplashScreen.hideAsync();

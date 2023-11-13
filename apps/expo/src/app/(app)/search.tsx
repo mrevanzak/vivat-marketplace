@@ -78,8 +78,8 @@ export default function SearchScreen() {
                       <Text text100 white>
                         {item.user.name}
                       </Text>
-                      <Text text100 white>
-                        {item.user.email}
+                      <Text text100 white className="text-right">
+                        {item.user.major}
                       </Text>
                     </View>
                   </View>

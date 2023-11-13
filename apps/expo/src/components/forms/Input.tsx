@@ -13,7 +13,7 @@ type InputProps = {
   id: string;
 } & TextFieldProps;
 
-export default function Input({ id, label, ...props }: InputProps) {
+export default function Input({ id, label, placeholder, ...props }: InputProps) {
   const {
     formState: { errors },
     control,
@@ -26,7 +26,7 @@ export default function Input({ id, label, ...props }: InputProps) {
       name={id}
       render={({ field }) => (
         <TextField
-          placeholder={`Input ${id}`}
+          placeholder={placeholder ?? `Masukkan ${label.toLowerCase()}...`}
           label={label}
           labelColor={colors.primary}
           containerStyle={{

@@ -6,17 +6,30 @@ import { api } from "@/utils/api";
 export default function AddressScreen() {
   const ref = useRef<Swipeable>(null);
 
+  const utils = api.useUtils();
   const { data } = api.user.getAddresses.useQuery();
-  const { mutate } = api.user.setDefaultAddress.useMutation();
+  const setDefaultAddress = api.user.setDefaultAddress.useMutation();
+  const deleteAddress = api.user.deleteAddress.useMutation();
 
-  const setDefaultAddress = (id: string) => {
-    console.log(id);
-    mutate(
+  const setDefaultAddressHandler = (id: string) => {
+    ref.current?.close();
+    setDefaultAddress.mutate(
       { id },
       {
         onSuccess: () => {
-          void api.useUtils().user.invalidate();
-          ref.current?.close();
+          void utils.user.invalidate();
+        },
+      },
+    );
+  };
+
+  const removeAddressHandler = (id: string) => {
+    ref.current?.close();
+    deleteAddress.mutate(
+      { id },
+      {
+        onSuccess: () => {
+          void utils.user.getAddresses.invalidate();
         },
       },
     );
@@ -28,19 +41,36 @@ export default function AddressScreen() {
         <Swipeable
           key={address.id}
           ref={ref}
-          renderLeftActions={() => (
+          renderRightActions={() => (
             <Button
-              label="Jadikan Alamat Utama"
-              bg-secondary
+              label="Hapus"
+              bg-red30
               br40
-              padding-s4
-              margin-s4
-              marginR-0
-              primary
-              onPress={() => setDefaultAddress(address.id)}
+              marginR-s4
+              marginL-0
+              marginV-s2
+              white
+              onPress={() => removeAddressHandler(address.id)}
             />
           )}
-          childrenContainerStyle={{ padding: Spacings.s4 }}
+          renderLeftActions={() => {
+            return address.default ? null : (
+              <Button
+                label="Jadikan Alamat Utama"
+                bg-secondary
+                br40
+                marginL-s4
+                marginR-0
+                marginV-s2
+                primary
+                onPress={() => setDefaultAddressHandler(address.id)}
+              />
+            );
+          }}
+          childrenContainerStyle={{
+            paddingHorizontal: Spacings.s4,
+            paddingVertical: Spacings.s2,
+          }}
         >
           <View br40 className="border-primary border bg-white" padding-s4>
             <View row className="space-x-1">
