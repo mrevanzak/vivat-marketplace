@@ -1,6 +1,7 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
 import { RefreshControl, ScrollView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   AnimatedImage,
   Avatar,
@@ -102,21 +103,23 @@ export default function ProductDetailScreen() {
         </View>
         <Text text70>{data?.description}</Text>
       </View>
-      <View bg-white>
-        <View
-          bg-primary
-          row
-          br50
-          padding-s4
-          spread
-          className="space-x-4 rounded-b-none"
-        >
-          {/* <Button bg-white primary label="Keranjang" br40 flex /> */}
-          <Link href="/(app)/checkout" asChild>
-            <Button bg-secondary primary label="Beli" br40 flex />
-          </Link>
+      <SafeAreaView edges={["bottom"]}>
+        <View bg-white>
+          <View
+            bg-primary
+            row
+            br50
+            padding-s4
+            spread
+            className="space-x-4 rounded-b-none"
+          >
+            {/* <Button bg-white primary label="Keranjang" br40 flex /> */}
+            <Link href="/(app)/checkout" asChild>
+              <Button bg-secondary primary label="Beli" br40 flex />
+            </Link>
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
     </ScrollView>
   );
 }
