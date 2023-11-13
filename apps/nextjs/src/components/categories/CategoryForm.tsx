@@ -12,12 +12,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { insertCategorieParams } from "@/server/db/schema/categories";
 import { api } from "@/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
+import { schema } from "@vivat/db";
 import type { Category, NewCategoryParams } from "@vivat/db/schema/categories";
 
 const CategoryForm = ({
@@ -34,8 +34,8 @@ const CategoryForm = ({
   const router = useRouter();
   const utils = api.useUtils();
 
-  const form = useForm<z.infer<typeof insertCategorieParams>>({
-    resolver: zodResolver(insertCategorieParams),
+  const form = useForm<z.infer<typeof schema.insertCategoryParams>>({
+    resolver: zodResolver(schema.insertCategoryParams),
     defaultValues: category ?? {
       name: "",
       imageUrl: "",

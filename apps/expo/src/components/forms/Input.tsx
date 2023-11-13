@@ -18,7 +18,7 @@ export default function Input({ id, label, placeholder, ...props }: InputProps) 
     formState: { errors },
     control,
   } = useFormContext();
-  const error = get(errors, id);
+  const error = get(errors, id) as Error;
 
   return (
     <Controller
@@ -39,7 +39,7 @@ export default function Input({ id, label, placeholder, ...props }: InputProps) 
           }}
           enableErrors
           retainValidationSpace={false}
-          value={field.value}
+          value={field.value as string}
           onChangeText={field.onChange}
           onBlur={field.onBlur}
           validationMessage={error?.message}
