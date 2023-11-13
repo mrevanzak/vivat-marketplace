@@ -2,7 +2,7 @@ import React from "react";
 import { Platform } from "react-native";
 import { Button, Colors, Spacings } from "react-native-ui-lib";
 import { Redirect, Tabs } from "expo-router";
-import { colors } from "@/utils/constant";
+import colors from "@/utils/colors";
 import { useUser } from "@clerk/clerk-expo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 

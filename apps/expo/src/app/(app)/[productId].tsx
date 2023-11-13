@@ -12,7 +12,7 @@ import {
 } from "react-native-ui-lib";
 import { Link, usePathname } from "expo-router";
 import { api } from "@/utils/api";
-import { colors } from "@/utils/constant";
+import colors from "@/utils/colors";
 import rupiahFormatter from "@/utils/rupiahFormatter";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 

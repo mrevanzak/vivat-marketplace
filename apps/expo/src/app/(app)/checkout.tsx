@@ -2,7 +2,7 @@ import React from "react";
 import { Text, TouchableOpacity, View } from "react-native-ui-lib";
 import { Link } from "expo-router";
 import { api } from "@/utils/api";
-import { colors } from "@/utils/constant";
+import colors from "@/utils/colors";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function CheckoutScreen() {

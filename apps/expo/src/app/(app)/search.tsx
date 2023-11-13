@@ -12,7 +12,7 @@ import { Link } from "expo-router";
 import { useDebouncedValue } from "@/lib/hooks/useDebouncedValues";
 import { useSearchStore } from "@/lib/stores/useSearchStore";
 import { api } from "@/utils/api";
-import { colors } from "@/utils/constant";
+import colors from "@/utils/colors";
 import rupiahFormatter from "@/utils/rupiahFormatter";
 import { FlashList } from "@shopify/flash-list";
 

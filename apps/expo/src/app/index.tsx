@@ -4,7 +4,7 @@ import { Colors, Image, View } from "react-native-ui-lib";
 import { LinearGradient } from "expo-linear-gradient";
 import { Redirect } from "expo-router";
 import SignInButton from "@/components/SignInButton";
-import { colors } from "@/utils/constant";
+import colors from "@/utils/colors";
 import { useAuth } from "@clerk/clerk-expo";
 
 import Logo from "~/full-logo.png";

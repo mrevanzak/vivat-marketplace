@@ -1,6 +1,6 @@
 import type { TextFieldProps } from "react-native-ui-lib";
 import { BorderRadiuses, Spacings, TextField } from "react-native-ui-lib";
-import { colors } from "@/utils/constant";
+import colors from "@/utils/colors";
 import { Controller, get, useFormContext } from "react-hook-form";
 
 type InputProps = {

@@ -1,14 +1,15 @@
 import { useEffect } from "react";
-import { LoaderScreen } from "react-native-ui-lib";
+import { Colors, LoaderScreen } from "react-native-ui-lib";
 import Constants from "expo-constants";
 import { Slot, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { TRPCProvider } from "@/utils/api";
 import { tokenCache } from "@/utils/cache";
-import { colors } from "@/utils/constant";
+import colors from "@/utils/colors";
 import { ClerkProvider, SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
 
+Colors.loadColors(colors);
 void SplashScreen.preventAutoHideAsync();
 
 function InitialLayout() {
