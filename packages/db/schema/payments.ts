@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { int, mysqlEnum, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { timestamp, varchar } from "drizzle-orm/mysql-core";
 import { createInsertSchema } from "drizzle-zod";
 
 import { mySqlTable } from "./_table";

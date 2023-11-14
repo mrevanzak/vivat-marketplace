@@ -43,7 +43,7 @@ export default function CheckoutScreen() {
       {
         note: data.note,
         addressId: address.id,
-        productId: productId as string,
+        productId: productId,
         totalPrice: product.price + ONGKIR,
         courier: data.courier,
       },
@@ -120,7 +120,9 @@ export default function CheckoutScreen() {
         </View>
         <View row spread>
           <Text text80>Total</Text>
-          <Text text80>{product?.price && rupiahFormatter(product.price + ONGKIR)}</Text>
+          <Text text80>
+            {product?.price && rupiahFormatter(product.price + ONGKIR)}
+          </Text>
         </View>
       </View>
       <Button
