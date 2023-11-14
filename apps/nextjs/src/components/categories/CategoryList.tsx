@@ -8,7 +8,7 @@ import CategoryModal from "./CategoryModal";
 
 type CompleteCategory = Awaited<
   ReturnType<typeof services.getCategories>
->["categories"][number];
+>[number];
 
 export default function CategoryList({
   categories,
@@ -16,17 +16,17 @@ export default function CategoryList({
   categories: CompleteCategory[];
 }) {
   const { data: c } = api.category.getCategories.useQuery(undefined, {
-    initialData: { categories },
+    initialData: categories,
     refetchOnMount: false,
   });
 
-  if (c.categories.length === 0) {
+  if (c.length === 0) {
     return <EmptyState />;
   }
 
   return (
     <ul>
-      {c.categories.map((category) => (
+      {c.map((category) => (
         <Category category={category} key={category.id} />
       ))}
     </ul>

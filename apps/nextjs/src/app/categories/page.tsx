@@ -3,7 +3,7 @@ import NewCategorieModal from "@/components/categories/CategoryModal";
 import { getCategories } from "@vivat/api/src/services/categories/queries";
 
 export default async function Categories() {
-  const { categories } = await getCategories();  
+  const categories = await getCategories();  
 
   return (
     <main className="max-w-3xl mx-auto p-5 md:p-0 sm:pt-4">
