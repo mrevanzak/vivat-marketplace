@@ -5,6 +5,7 @@ import { createInsertSchema } from "drizzle-zod";
 import { mySqlTable } from "./_table";
 import { addresses } from "./addresses";
 import { products } from "./products";
+import { payments } from "./payments";
 
 export const orders = mySqlTable("orders", {
   id: varchar("id", { length: 36 })
@@ -31,6 +32,7 @@ export const orders = mySqlTable("orders", {
   updatedAt: timestamp("updated_at").onUpdateNow(),
   productId: varchar("product_id", { length: 255 }).notNull(),
   addressId: varchar("address_id", { length: 255 }).notNull(),
+  paymentId: varchar("payment_id", { length: 255 }),
 });
 
 export const ordersRelations = relations(orders, ({ one }) => ({
@@ -42,9 +44,14 @@ export const ordersRelations = relations(orders, ({ one }) => ({
     fields: [orders.addressId],
     references: [addresses.id],
   }),
+  payment: one(payments, {
+    fields: [orders.paymentId],
+    references: [payments.id],
+  }),
 }));
 
 export const insertOrderSchema = createInsertSchema(orders);
 export const insertOrderParams = insertOrderSchema.omit({
   id: true,
 });
+export const orderIdSchema = insertOrderSchema.pick({ id: true }).required();

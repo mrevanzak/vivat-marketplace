@@ -19,7 +19,7 @@ export default function AuthLayout() {
         options={{
           header: (props) => <Header {...props} />,
           contentStyle: {
-            backgroundColor: 'white',
+            backgroundColor: "white",
           },
         }}
       />
@@ -45,7 +45,18 @@ export default function AuthLayout() {
         name="checkout"
         options={{
           headerTitle: "Pengiriman",
-          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="payment"
+        options={{
+          headerTitle: "Pembayaran",
+        }}
+      />
+      <Stack.Screen
+        name="payment-confirm"
+        options={{
+          headerTitle: "Konfirmasi Pembayaran",
         }}
       />
       <Stack.Screen

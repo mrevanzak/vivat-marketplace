@@ -17,9 +17,11 @@
     "@trpc/server": "next",
     "@vivat/db": "^0.1.0",
     "superjson": "1.13.1",
+    "uuid": "^9.0.1",
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@types/uuid": "^9.0.7",
     "@vivat/eslint-config": "^0.2.0",
     "@vivat/prettier-config": "^0.1.0",
     "@vivat/tsconfig": "^0.1.0",

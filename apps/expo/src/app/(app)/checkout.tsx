@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native-ui-lib";
-import { Link, useLocalSearchParams } from "expo-router";
+import { Link, router, useLocalSearchParams } from "expo-router";
 import Input from "@/components/forms/Input";
 import RadioButton from "@/components/forms/RadioButton";
 import { api } from "@/utils/api";
@@ -25,10 +25,10 @@ const schema = z.object({
 const ONGKIR = 40000;
 
 export default function CheckoutScreen() {
-  const { productId } = useLocalSearchParams();
+  const { productId } = useLocalSearchParams<{ productId: string }>();
 
   const { data: product } = api.product.showProduct.useQuery({
-    id: productId as string,
+    id: productId,
   });
   const { data: address } = api.user.getDefaultAddress.useQuery();
   const { mutate, isPending } = api.order.checkout.useMutation();
@@ -44,13 +44,15 @@ export default function CheckoutScreen() {
         note: data.note,
         addressId: address.id,
         productId: productId as string,
-        totalPrice: product.price + 10000,
+        totalPrice: product.price + ONGKIR,
         courier: data.courier,
       },
       {
-        onSuccess: () => {
-          console.log("success");
-          // void utils.user.getAddresses.invalidate();
+        onSuccess: ({ orderId }) => {
+          router.replace({
+            pathname: "/payment",
+            params: { orderId },
+          });
         },
       },
     );
@@ -118,7 +120,7 @@ export default function CheckoutScreen() {
         </View>
         <View row spread>
           <Text text80>Total</Text>
-          <Text text80>{rupiahFormatter(product?.price ?? 0 + ONGKIR)}</Text>
+          <Text text80>{product?.price && rupiahFormatter(product.price + ONGKIR)}</Text>
         </View>
       </View>
       <Button

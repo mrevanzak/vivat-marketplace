@@ -16,11 +16,14 @@ import rupiahFormatter from "@/utils/rupiahFormatter";
 import { FlashList } from "@shopify/flash-list";
 
 export default function SearchScreen() {
-  const { categoryId, search } = useLocalSearchParams();
-  const [debouncedSearch] = useDebouncedValue(search as string, 500);
+  const { categoryId, search } = useLocalSearchParams<{
+    categoryId: string;
+    search: string;
+  }>();
+  const [debouncedSearch] = useDebouncedValue(search, 500);
   const { data, isFetching, refetch } = api.product.getProducts.useQuery({
     query: debouncedSearch ?? "",
-    categoryId: categoryId as string,
+    categoryId,
   });
 
   return (
