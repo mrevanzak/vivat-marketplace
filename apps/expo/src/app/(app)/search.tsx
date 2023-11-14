@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from "react-native-ui-lib";
-import { Link } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { useDebouncedValue } from "@/lib/hooks/useDebouncedValues";
 import { useSearchStore } from "@/lib/stores/useSearchStore";
 import { api } from "@/utils/api";
@@ -17,10 +17,12 @@ import rupiahFormatter from "@/utils/rupiahFormatter";
 import { FlashList } from "@shopify/flash-list";
 
 export default function SearchScreen() {
+  const { categoryId } = useLocalSearchParams();
   const search = useSearchStore((state) => state.search);
   const [debouncedSearch] = useDebouncedValue(search, 500);
   const { data, isFetching, refetch } = api.product.getProducts.useQuery({
     query: debouncedSearch,
+    categoryId: categoryId as string,
   });
 
   return (
@@ -34,6 +36,11 @@ export default function SearchScreen() {
         estimatedItemSize={200}
         onRefresh={() => refetch()}
         refreshing={isFetching}
+        ListEmptyComponent={
+          <Text text70BO center marginT-s6>
+            Produk tidak ditemukan
+          </Text>
+        }
         renderItem={({ item }) => {
           return (
             <Link

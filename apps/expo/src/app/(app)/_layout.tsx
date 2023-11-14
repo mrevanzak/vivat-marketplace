@@ -19,7 +19,7 @@ export default function AuthLayout() {
         options={{
           header: (props) => <Header {...props} />,
           contentStyle: {
-            backgroundColor: colors.primary,
+            backgroundColor: 'white',
           },
         }}
       />
