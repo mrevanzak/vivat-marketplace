@@ -8,8 +8,7 @@ import {
   TextField,
   View,
 } from "react-native-ui-lib";
-import { Link, usePathname } from "expo-router";
-import { useSearchStore } from "@/lib/stores/useSearchStore";
+import { Link, usePathname, useRouter } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import type { BottomTabHeaderProps } from "@react-navigation/bottom-tabs";
 import type { NativeStackHeaderProps } from "@react-navigation/native-stack";
@@ -21,8 +20,7 @@ type HeaderProps = (BottomTabHeaderProps | NativeStackHeaderProps) & {
 export default function Header(props: HeaderProps) {
   const pathname = usePathname();
   const canGoBack = pathname !== "/home";
-
-  const setSearch = useSearchStore((state) => state.setSearch);
+  const router = useRouter();
 
   return (
     <SafeAreaView className="bg-primary flex-row" {...props} edges={["top"]}>
@@ -60,7 +58,9 @@ export default function Header(props: HeaderProps) {
                   marginVertical: Platform.OS === "ios" ? Spacings.s2 : 0,
                 }}
                 readonly={!canGoBack}
-                onChangeText={setSearch}
+                onChangeText={(text) => {
+                  router.setParams({ search: text });
+                }}
                 maxLength={30}
               />
             </Button>

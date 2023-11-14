@@ -10,18 +10,16 @@ import {
 } from "react-native-ui-lib";
 import { Link, useLocalSearchParams } from "expo-router";
 import { useDebouncedValue } from "@/lib/hooks/useDebouncedValues";
-import { useSearchStore } from "@/lib/stores/useSearchStore";
 import { api } from "@/utils/api";
 import colors from "@/utils/colors";
 import rupiahFormatter from "@/utils/rupiahFormatter";
 import { FlashList } from "@shopify/flash-list";
 
 export default function SearchScreen() {
-  const { categoryId } = useLocalSearchParams();
-  const search = useSearchStore((state) => state.search);
-  const [debouncedSearch] = useDebouncedValue(search, 500);
+  const { categoryId, search } = useLocalSearchParams();
+  const [debouncedSearch] = useDebouncedValue(search as string, 500);
   const { data, isFetching, refetch } = api.product.getProducts.useQuery({
-    query: debouncedSearch,
+    query: debouncedSearch ?? "",
     categoryId: categoryId as string,
   });
 
