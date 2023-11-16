@@ -1,9 +1,5 @@
 import type { ExpoConfig } from "@expo/config";
 
-
-
-
-
 const defineConfig = (): ExpoConfig => ({
   name: "Vivat Martketplace",
   slug: "vivat-marketplace",
@@ -34,19 +30,17 @@ const defineConfig = (): ExpoConfig => ({
       backgroundColor: "#1F104A",
     },
   },
-  // extra: {
-  //   eas: {
-  //     projectId: "your-eas-project-id",
-  //   },
-  // },
+  extra: {
+    eas: {
+      projectId: "9d910971-32eb-488a-9d9e-24983644d165",
+    },
+    CLERK_PUBLISHABLE_KEY: process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY,
+  },
   experiments: {
     tsconfigPaths: true,
     typedRoutes: true,
   },
   plugins: ["expo-router", "./expo-plugins/with-modify-gradle.js"],
-  extra: {
-    CLERK_PUBLISHABLE_KEY: process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY,
-  },
 });
 
 export default defineConfig;
