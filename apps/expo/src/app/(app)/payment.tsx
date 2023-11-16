@@ -28,9 +28,9 @@ const BANK_ACCOUNT = [
 ];
 
 export default function PaymentScreen() {
-  const { orderId } = useLocalSearchParams<{ orderId: string }>();
+  const { orderId } = useLocalSearchParams();
   const { data: orders } = api.order.showOrder.useQuery({
-    id: orderId,
+    id: orderId as string,
   });
 
   return (

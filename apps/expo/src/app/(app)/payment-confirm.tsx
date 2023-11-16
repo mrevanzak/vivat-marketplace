@@ -17,12 +17,14 @@ const schema = z.object({
 export default function PaymentConfirmScreen() {
   const { orderId } = useLocalSearchParams<{ orderId: string }>();
 
-  const { mutate } = api.order.confirmPayment.useMutation();
+  const { mutate, isPending } = api.order.confirmPayment.useMutation();
   const methods = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
   });
   const { handleSubmit } = methods;
   const onSubmit = handleSubmit((data) => {
+    if (!orderId) return;
+
     mutate({
       ...data,
       orderId,
@@ -43,6 +45,7 @@ export default function PaymentConfirmScreen() {
           label="Nomor Rekening"
           multiline
           placeholder="Masukan nomor rekening"
+          inputMode="numeric"
         />
         <Input
           id="bankHolder"
@@ -56,7 +59,7 @@ export default function PaymentConfirmScreen() {
         onPress={onSubmit}
         bg-primary
         br40
-        // disabled={isPending}
+        disabled={isPending}
       />
     </View>
   );

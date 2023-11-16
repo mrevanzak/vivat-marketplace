@@ -25,10 +25,10 @@ const schema = z.object({
 const ONGKIR = 40000;
 
 export default function CheckoutScreen() {
-  const { productId } = useLocalSearchParams<{ productId: string }>();
+  const { productId } = useLocalSearchParams();
 
   const { data: product } = api.product.showProduct.useQuery({
-    id: productId,
+    id: productId as string,
   });
   const { data: address } = api.user.getDefaultAddress.useQuery();
   const { mutate, isPending } = api.order.checkout.useMutation();
@@ -43,7 +43,7 @@ export default function CheckoutScreen() {
       {
         note: data.note,
         addressId: address.id,
-        productId: productId,
+        productId: productId as string,
         totalPrice: product.price + ONGKIR,
         courier: data.courier,
       },
