@@ -46,9 +46,11 @@ export default function ProductDetailScreen() {
           <View
             bg-primary
             br60
+            padding-s2
             paddingL-s4
             centerV
-            className="-ml-4 w-2/3 rounded-l-none"
+            flex
+            className="-ml-4 rounded-l-none space-y-1"
           >
             <Text white text65>
               {data?.name}
@@ -57,7 +59,7 @@ export default function ProductDetailScreen() {
               {data?.category.name}
             </Text>
           </View>
-          <View padding-s4>
+          <View padding-s4 centerV>
             <Text primary text60>
               {rupiahFormatter(data?.price)}
             </Text>
