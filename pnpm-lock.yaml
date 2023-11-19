@@ -47,6 +47,9 @@ importers:
       '@shopify/flash-list':
         specifier: 1.4.3
         version: 1.4.3(@babel/runtime@7.23.2)(react-native@0.72.6)(react@18.2.0)
+      '@supabase/storage-js':
+        specifier: ^2.5.4
+        version: 2.5.4
       '@tanstack/react-query':
         specifier: ^5.0.5
         version: 5.4.3(react-dom@18.2.0)(react-native@0.72.6)(react@18.2.0)
@@ -59,6 +62,9 @@ importers:
       '@trpc/server':
         specifier: next
         version: 11.0.0-alpha-next-2023-10-26-15-15-56.93
+      base64-arraybuffer:
+        specifier: ^1.0.2
+        version: 1.0.2
       expo:
         specifier: ^49.0.13
         version: 49.0.16(@babel/core@7.23.2)
@@ -74,6 +80,9 @@ importers:
       expo-crypto:
         specifier: ~12.4.1
         version: 12.4.1(expo@49.0.16)
+      expo-image-picker:
+        specifier: ~14.3.2
+        version: 14.3.2(expo@49.0.16)
       expo-linear-gradient:
         specifier: ~12.3.0
         version: 12.3.0(expo@49.0.16)
@@ -4197,6 +4206,19 @@ packages:
     resolution: {integrity: sha512-1bnPQqSxSuc3Ii6MhBysoWCg58j97aUjuCSZrGSmDxNqtytIi0k8utUenAwTZN4V5mXXYGsVUI9zeBqy+jBOSQ==}
     dev: false
 
+  /@supabase/node-fetch@2.6.15:
+    resolution: {integrity: sha512-1ibVeYUacxWYi9i0cf5efil6adJ9WRyZBLivgjs+AUpewx1F3xPi7gLgaASI2SmIQxPoCEjAsLAzKPgMJVgOUQ==}
+    engines: {node: 4.x || >=6.0.0}
+    dependencies:
+      whatwg-url: 5.0.0
+    dev: false
+
+  /@supabase/storage-js@2.5.4:
+    resolution: {integrity: sha512-yspHD19I9uQUgfTh0J94+/r/g6hnhdQmw6Y7OWqr/EbnL6uvicGV1i1UDkkmeUHqfF9Mbt2sLtuxRycYyKv2ew==}
+    dependencies:
+      '@supabase/node-fetch': 2.6.15
+    dev: false
+
   /@swc/helpers@0.5.2:
     resolution: {integrity: sha512-E4KcWTpoLHqwPHLxidpOqQbcrZVgi0rsmmZXUle1jXmJfuIf/UWpczUJ7MZZ5tlxytgJXyp0w4PGkkeLiuIdZw==}
     dependencies:
@@ -5344,6 +5366,11 @@ packages:
 
   /base-64@1.0.0:
     resolution: {integrity: sha512-kwDPIFCGx0NZHog36dj+tHiwP4QMzsZ3AgMViUBKI0+V5n4U0ufTCUMhnQ04diaRI8EX/QcPfql7zlhZ7j4zgg==}
+    dev: false
+
+  /base64-arraybuffer@1.0.2:
+    resolution: {integrity: sha512-I3yl4r9QB5ZRY3XuJVEPfc2XhZO6YweFPI+UovAzn+8/hb3oJ6lnysaFcjVpkCPfVWFUDvoZ8kmVDP7WyRtYtQ==}
+    engines: {node: '>= 0.6.0'}
     dev: false
 
   /base64-js@1.5.1:
@@ -7228,6 +7255,23 @@ packages:
       react-native: 0.72.6(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(react@18.2.0)
     transitivePeerDependencies:
       - react-dom
+    dev: false
+
+  /expo-image-loader@4.3.0(expo@49.0.16):
+    resolution: {integrity: sha512-2kqJIO+oYM8J3GbvTUHLqTSpt1dLpOn/X0eB4U4RTuzz/faj8l/TyQELsMBLlGAkweNUuG9LqznbaBz+WuSFEw==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 49.0.16(@babel/core@7.23.2)
+    dev: false
+
+  /expo-image-picker@14.3.2(expo@49.0.16):
+    resolution: {integrity: sha512-xr/YeQMIYheXecWP033F2SPwpBlBR5xVCx7YSfSCTH8Y9pw7Z886agqKGbS9QBVGlzJ5qecJktZ6ASSzeslDVg==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 49.0.16(@babel/core@7.23.2)
+      expo-image-loader: 4.3.0(expo@49.0.16)
     dev: false
 
   /expo-keep-awake@12.3.0(expo@49.0.16):

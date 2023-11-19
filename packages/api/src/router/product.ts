@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+import {
+  insertProductSchema,
+  productIdSchema,
+  products,
+} from "@vivat/db/schema/products";
+
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const productRouter = createTRPCRouter({
@@ -28,8 +34,15 @@ export const productRouter = createTRPCRouter({
           ),
       });
     }),
+  addProduct: protectedProcedure
+    .input(insertProductSchema)
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.db
+        .insert(products)
+        .values({ ...input, sellerId: ctx.auth.userId });
+    }),
   showProduct: protectedProcedure
-    .input(z.object({ id: z.string() }))
+    .input(productIdSchema)
     .query(async ({ input, ctx }) => {
       return (
         (await ctx.db.query.products.findFirst({

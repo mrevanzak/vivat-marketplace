@@ -1,9 +1,13 @@
-import type { TextFieldProps } from "react-native-ui-lib";
-import { BorderRadiuses, Spacings, TextField } from "react-native-ui-lib";
+import type { PickerProps as OGPickerProps } from "react-native-ui-lib";
+import {
+  BorderRadiuses,
+  Picker as OGPicker,
+  Spacings,
+} from "react-native-ui-lib";
 import colors from "@/utils/colors";
 import { Controller, get, useFormContext } from "react-hook-form";
 
-type InputProps = {
+type PickerProps = {
   /** Input label */
   label: string;
   /**
@@ -11,15 +15,14 @@ type InputProps = {
    * must be the same with the pre-defined types.
    */
   id: string;
-  numericFormat?: boolean;
-} & TextFieldProps;
+} & OGPickerProps;
 
-export default function Input({
+export default function Picker({
   id,
   label,
   placeholder,
   ...props
-}: InputProps) {
+}: PickerProps) {
   const {
     formState: { errors },
     control,
@@ -31,7 +34,7 @@ export default function Input({
       control={control}
       name={id}
       render={({ field }) => (
-        <TextField
+        <OGPicker
           placeholder={placeholder ?? `Masukkan ${label.toLowerCase()}...`}
           label={label}
           labelColor={colors.primary}
@@ -45,12 +48,25 @@ export default function Input({
           }}
           enableErrors
           retainValidationSpace={false}
-          value={field.value as string}
-          onChangeText={field.onChange}
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          value={field.value}
+          onChange={field.onChange}
           onBlur={field.onBlur}
           validationMessage={error?.message}
+          useSafeArea
+          migrate
           {...props}
-        />
+        >
+          {props.items?.map((value) => (
+            <OGPicker.Item
+              key={value.value}
+              value={value.value}
+              label={value.label}
+              disabled={value.disabled}
+              selectedIconColor={colors.primary}
+            />
+          ))}
+        </OGPicker>
       )}
     />
   );

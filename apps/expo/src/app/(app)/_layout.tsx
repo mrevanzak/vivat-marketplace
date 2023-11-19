@@ -17,7 +17,7 @@ export default function AuthLayout() {
       <Stack.Screen
         name="(tabs)"
         options={{
-          header: (props) => <Header {...props} />,
+          headerShown: false,
           contentStyle: {
             backgroundColor: "white",
           },

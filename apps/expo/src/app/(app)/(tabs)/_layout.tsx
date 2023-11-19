@@ -1,7 +1,9 @@
 import React from "react";
 import { Platform } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { Button, Colors, Spacings } from "react-native-ui-lib";
 import { Redirect, Tabs } from "expo-router";
+import Header from "@/components/Header";
 import colors from "@/utils/colors";
 import { useUser } from "@clerk/clerk-expo";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -18,20 +20,22 @@ export default function TabsLayout() {
       initialRouteName="home"
       screenOptions={{
         tabBarShowLabel: false,
+        tabBarItemStyle: {
+          paddingTop: Platform.OS === "ios" ? Spacings.s3 : 0,
+        },
         tabBarStyle: {
           backgroundColor: colors.primary,
           borderTopLeftRadius: 15,
           borderTopRightRadius: 15,
-          paddingVertical: Platform.OS === "ios" ? Spacings.s3 : 0,
           height: 70,
         },
-        headerShown: false,
       }}
     >
       <Tabs.Screen
         name="home"
         // redirect={!isSignedIn}
         options={{
+          header: (props) => <Header {...props} />,
           tabBarButton: (props) => (
             <Button avoidInnerPadding flex-1 {...props} />
           ),
@@ -48,21 +52,20 @@ export default function TabsLayout() {
         name="listing"
         // redirect={!isSignedIn}
         options={{
+          headerTitle: "Tambah Produk",
           tabBarItemStyle: {
-            top: "-10%",
-            borderRadius: 120,
+            bottom: 23,
             backgroundColor: Colors.white,
+            alignSelf: "center",
             aspectRatio: 1,
+            borderRadius: 50,
           },
           tabBarIconStyle: {
             left: 2,
+            bottom: Platform.OS === "ios" ? 2 : 0,
           },
           tabBarIcon: ({ focused }) => (
-            <Button
-              avoidInnerPadding
-              avoidMinWidth
-              backgroundColor="transparent"
-            >
+            <TouchableOpacity>
               <Ionicons
                 name={
                   focused
@@ -72,7 +75,7 @@ export default function TabsLayout() {
                 size={70}
                 color={colors.secondary}
               />
-            </Button>
+            </TouchableOpacity>
           ),
         }}
       />

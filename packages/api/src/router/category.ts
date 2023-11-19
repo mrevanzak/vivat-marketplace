@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 import {
   categoryIdSchema,
   insertCategoryParams,
@@ -9,13 +11,27 @@ import {
   deleteCategory,
   updateCategory,
 } from "../services/categories/mutations";
-import { getCategories, getCategoryById } from "../services/categories/queries";
+import { getCategoryById } from "../services/categories/queries";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const categoryRouter = createTRPCRouter({
-  getCategories: protectedProcedure.query(async () => {
-    return getCategories();
-  }),
+  getCategories: protectedProcedure
+    .input(
+      z.object({
+        partial: z.boolean(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.categories.findMany({
+        orderBy: (category, { asc }) => [asc(category.name)],
+        ...(input.partial && {
+          columns: {
+            id: true,
+            name: true,
+          },
+        }),
+      });
+    }),
   getCategoryById: protectedProcedure
     .input(categoryIdSchema)
     .query(async ({ input }) => {

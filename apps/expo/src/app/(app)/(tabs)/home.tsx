@@ -14,7 +14,9 @@ import colors from "@/utils/colors";
 import { FlashList } from "@shopify/flash-list";
 
 export default function HomeScreen() {
-  const { data, refetch, isFetching } = api.category.getCategories.useQuery();
+  const { data, refetch, isFetching } = api.category.getCategories.useQuery({
+    partial: false,
+  });
 
   return (
     <View flex bg-primary>

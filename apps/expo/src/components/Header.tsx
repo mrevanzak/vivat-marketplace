@@ -8,7 +8,7 @@ import {
   TextField,
   View,
 } from "react-native-ui-lib";
-import { Link, usePathname, useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import type { BottomTabHeaderProps } from "@react-navigation/bottom-tabs";
 import type { NativeStackHeaderProps } from "@react-navigation/native-stack";
@@ -18,18 +18,15 @@ type HeaderProps = (BottomTabHeaderProps | NativeStackHeaderProps) & {
 };
 
 export default function Header(props: HeaderProps) {
-  const pathname = usePathname();
-  const canGoBack = pathname !== "/home";
   const router = useRouter();
 
   return (
     <SafeAreaView className="bg-primary flex-row" {...props} edges={["top"]}>
       <View flex row padding-s4 className="space-x-2">
-        {canGoBack && (
+        {router.canGoBack() && (
           <Button
             avoidInnerPadding
             onPress={() => props.navigation.goBack()}
-            animateLayout
             bg-transparent
             centerH
             iconSource={() => (
@@ -38,13 +35,12 @@ export default function Header(props: HeaderProps) {
           />
         )}
         {!props.hideSearch && (
-          <Link href="/search" asChild disabled={canGoBack}>
+          <Link href="/search" asChild disabled={router.canGoBack()}>
             <Button
               avoidInnerPadding
               flex-1
               bg-transparent
               disabledBackgroundColor="transparent"
-              animateLayout
             >
               <TextField
                 placeholder="Search"
@@ -57,7 +53,7 @@ export default function Header(props: HeaderProps) {
                   marginLeft: 10,
                   marginVertical: Platform.OS === "ios" ? Spacings.s2 : 0,
                 }}
-                readonly={!canGoBack}
+                readonly={!router.canGoBack()}
                 onChangeText={(text) => {
                   router.setParams({ search: text });
                 }}

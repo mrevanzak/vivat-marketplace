@@ -11,14 +11,19 @@ export const userRouter = createTRPCRouter({
   getAddresses: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.db.query.addresses.findMany({
       where: (addresses, { eq }) => eq(addresses.userId, ctx.auth.userId),
-      orderBy: (addresses, {desc}) => [desc(addresses.default)],
+      orderBy: (addresses, { desc }) => [desc(addresses.default)],
     });
   }),
   getDefaultAddress: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.db.query.addresses.findFirst({
-      where: (addresses, { and, eq }) =>
-        and(eq(addresses.userId, ctx.auth.userId), eq(addresses.default, true)),
-    }) ?? null;
+    return (
+      (await ctx.db.query.addresses.findFirst({
+        where: (addresses, { and, eq }) =>
+          and(
+            eq(addresses.userId, ctx.auth.userId),
+            eq(addresses.default, true),
+          ),
+      })) ?? null
+    );
   }),
   createAddress: protectedProcedure
     .input(insertAddressSchema)

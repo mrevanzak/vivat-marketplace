@@ -46,7 +46,9 @@ export const productsRelations = relations(products, ({ many, one }) => ({
 }));
 
 // Schema for products - used to validate API requests
-export const insertProductSchema = createInsertSchema(products);
+export const insertProductSchema = createInsertSchema(products).omit({
+  sellerId: true,
+});
 export const insertProductParams = createSelectSchema(products, {
   price: z.coerce.number(),
   stock: z.coerce.number(),
