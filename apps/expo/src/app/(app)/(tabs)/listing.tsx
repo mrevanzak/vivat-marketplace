@@ -50,7 +50,11 @@ export default function UploadProductScreen() {
     const filePath = `${user?.id}/${data.name}.png`;
 
     await onUpload(filePath);
-    const imgUrl = storageClient.from("products").getPublicUrl(filePath);
+    const imgUrl = storageClient.from("products").getPublicUrl(filePath, {
+      transform: {
+        quality: 50,
+      },
+    });
 
     mutate(
       {
