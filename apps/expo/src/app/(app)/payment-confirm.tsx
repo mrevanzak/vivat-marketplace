@@ -37,20 +37,17 @@ export default function PaymentConfirmScreen() {
         <Input
           id="bankName"
           label="Nama Bank"
-          multiline
           placeholder="Masukan nama bank"
         />
         <Input
           id="bankAccount"
           label="Nomor Rekening"
-          multiline
           placeholder="Masukan nomor rekening"
           inputMode="numeric"
         />
         <Input
           id="bankHolder"
           label="Nama Pemilik Rekening"
-          multiline
           placeholder="Masukan nama pemilik rekening"
         />
       </FormProvider>
