@@ -15,10 +15,13 @@ export default function CategoryList({
 }: {
   categories: CompleteCategory[];
 }) {
-  const { data: c } = api.category.getCategories.useQuery(undefined, {
-    initialData: categories,
-    refetchOnMount: false,
-  });
+  const { data: c } = api.category.getCategories.useQuery(
+    { partial: false },
+    {
+      initialData: categories,
+      refetchOnMount: false,
+    },
+  );
 
   if (c.length === 0) {
     return <EmptyState />;
