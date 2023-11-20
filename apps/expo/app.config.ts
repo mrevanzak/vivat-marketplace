@@ -1,7 +1,7 @@
 import type { ExpoConfig } from "@expo/config";
 
 const defineConfig = (): ExpoConfig => ({
-  name: "Vivat Martketplace",
+  name: "Vivat Marketplace",
   slug: "vivat-marketplace",
   scheme: "vivat.marketplace.app",
   version: "1.0.0",
@@ -10,7 +10,7 @@ const defineConfig = (): ExpoConfig => ({
   userInterfaceStyle: "light",
   splash: {
     image: "./assets/splashscreen.png",
-    resizeMode: "contain",
+    resizeMode: "cover",
   },
   updates: {
     fallbackToCacheTimeout: 0,

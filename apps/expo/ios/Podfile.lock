@@ -9,9 +9,18 @@ PODS:
     - ExpoModulesCore
   - EXFont (11.4.0):
     - ExpoModulesCore
+  - EXImageLoader (4.3.0):
+    - ExpoModulesCore
+    - React-Core
   - Expo (49.0.16):
     - ExpoModulesCore
+  - ExpoClipboard (4.3.1):
+    - ExpoModulesCore
+  - ExpoCrypto (12.4.1):
+    - ExpoModulesCore
   - ExpoHead (0.0.14):
+    - ExpoModulesCore
+  - ExpoImagePicker (14.3.2):
     - ExpoModulesCore
   - ExpoKeepAwake (12.3.0):
     - ExpoModulesCore
@@ -24,6 +33,8 @@ PODS:
     - React-RCTAppDelegate
     - ReactCommon/turbomodule/core
   - ExpoSecureStore (12.3.1):
+    - ExpoModulesCore
+  - ExpoWebBrowser (12.3.2):
     - ExpoModulesCore
   - EXSplashScreen (0.20.5):
     - ExpoModulesCore
@@ -507,12 +518,17 @@ DEPENDENCIES:
   - EXConstants (from `../../../node_modules/expo-constants/ios`)
   - EXFileSystem (from `../../../node_modules/expo-file-system/ios`)
   - EXFont (from `../../../node_modules/expo-font/ios`)
+  - EXImageLoader (from `../../../node_modules/expo-image-loader/ios`)
   - Expo (from `../../../node_modules/expo`)
+  - ExpoClipboard (from `../../../node_modules/expo-clipboard/ios`)
+  - ExpoCrypto (from `../../../node_modules/expo-crypto/ios`)
   - ExpoHead (from `../../../node_modules/expo-head/ios`)
+  - ExpoImagePicker (from `../../../node_modules/expo-image-picker/ios`)
   - ExpoKeepAwake (from `../../../node_modules/expo-keep-awake/ios`)
   - ExpoLinearGradient (from `../../../node_modules/expo-linear-gradient/ios`)
   - ExpoModulesCore (from `../../../node_modules/expo-modules-core`)
   - ExpoSecureStore (from `../../../node_modules/expo-secure-store/ios`)
+  - ExpoWebBrowser (from `../../../node_modules/expo-web-browser/ios`)
   - EXSplashScreen (from `../../../node_modules/expo-splash-screen/ios`)
   - FBLazyVector (from `../../../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../../../node_modules/react-native/React/FBReactNativeSpec`)
@@ -579,10 +595,18 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/expo-file-system/ios"
   EXFont:
     :path: "../../../node_modules/expo-font/ios"
+  EXImageLoader:
+    :path: "../../../node_modules/expo-image-loader/ios"
   Expo:
     :path: "../../../node_modules/expo"
+  ExpoClipboard:
+    :path: "../../../node_modules/expo-clipboard/ios"
+  ExpoCrypto:
+    :path: "../../../node_modules/expo-crypto/ios"
   ExpoHead:
     :path: "../../../node_modules/expo-head/ios"
+  ExpoImagePicker:
+    :path: "../../../node_modules/expo-image-picker/ios"
   ExpoKeepAwake:
     :path: "../../../node_modules/expo-keep-awake/ios"
   ExpoLinearGradient:
@@ -591,6 +615,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/expo-modules-core"
   ExpoSecureStore:
     :path: "../../../node_modules/expo-secure-store/ios"
+  ExpoWebBrowser:
+    :path: "../../../node_modules/expo-web-browser/ios"
   EXSplashScreen:
     :path: "../../../node_modules/expo-splash-screen/ios"
   FBLazyVector:
@@ -688,12 +714,17 @@ SPEC CHECKSUMS:
   EXConstants: ce5bbea779da8031ac818c36bea41b10e14d04e1
   EXFileSystem: 2b826a3bf1071a4b80a8457e97124783d1ac860e
   EXFont: 738c44c390953ebcbab075a4848bfbef025fd9ee
+  EXImageLoader: 34b214f9387e98f3c73989f15d8d5b399c9ab3f7
   Expo: fcfd60c1ed6806dee5103b210335ae0c72f675ed
+  ExpoClipboard: 695f274f8e028cd113837f917da40c76850877eb
+  ExpoCrypto: a382ab9a2fa91f0b511ce1fe4d6baecee40a1615
   ExpoHead: 82eda8e633ca25980d8ec46ba793a3df4e2b16fc
+  ExpoImagePicker: c58fdf28be551681a8edc550bcec76c397a8dfcd
   ExpoKeepAwake: be4cbd52d9b177cde0fd66daa1913afa3161fc1d
   ExpoLinearGradient: 5966dd5d49872cc9c104fedc8bbc298b6049b2e8
   ExpoModulesCore: 51cb2e7ab4c8da14be3f40b66d54c1781002e99d
   ExpoSecureStore: 57db3b6da8b59046e2057e95bf7738a8027b47c3
+  ExpoWebBrowser: 2c788f9c07718a780fe6d8bf2f6195c47609faaa
   EXSplashScreen: c0e7f2d4a640f3b875808ed0b88575538daf6d82
   FBLazyVector: 748c0ef74f2bf4b36cfcccf37916806940a64c32
   FBReactNativeSpec: 8967d83a119a54ced1d4a37572dfae0c43768e49
@@ -742,6 +773,6 @@ SPEC CHECKSUMS:
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: b76f1acfda8212aa16b7e26bcce3983230c82603
 
-PODFILE CHECKSUM: f04468ca4255b930634212e09457f69830919e64
+PODFILE CHECKSUM: 1228cd05061d21af47a49e76618aab81374b68e5
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.14.3
