@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, Alert } from "react-native";
 import {
   AnimatedImage,
   BorderRadiuses,
@@ -44,7 +44,7 @@ export default function UploadProductScreen() {
   const methods = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
   const onSubmit = handleSubmit(async (data) => {
     setUploading(true);
     const filePath = `${user?.id}/${data.name}.png`;
@@ -64,6 +64,8 @@ export default function UploadProductScreen() {
       {
         onSuccess: () => {
           setUploading(false);
+          reset();
+          setImage(undefined);
           router.push("/home");
         },
       },
@@ -110,7 +112,7 @@ export default function UploadProductScreen() {
           cameraRollStatus.status !== ImagePicker.PermissionStatus.GRANTED ||
           cameraStatus.status !== ImagePicker.PermissionStatus.GRANTED
         ) {
-          alert("Sorry, we need these permissions to make this work!");
+          Alert.alert("Sorry, we need these permissions to make this work!");
         }
       }
     };
@@ -202,6 +204,7 @@ export default function UploadProductScreen() {
                 value: category.id,
               })) ?? [{ label: "Loading...", value: "loading" }]
             }
+            useSafeArea
           />
         </FormProvider>
         <Button
