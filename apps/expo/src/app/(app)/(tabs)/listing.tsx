@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { ActivityIndicator, Alert } from "react-native";
 import {
   AnimatedImage,
@@ -32,11 +32,10 @@ const schema = z.object({
 
 export default function UploadProductScreen() {
   const router = useRouter();
-  const [isUploading, setIsUploading] = useState(false);
   const { user } = useUser();
 
   const { data } = api.category.getCategories.useQuery({ partial: true });
-  const { mutate } = api.product.addProduct.useMutation();
+  const { mutate, isPending } = api.product.addProduct.useMutation();
 
   const { image, onSelectImage, onUpload, uploadProggres } = useSelectImage();
 
@@ -45,13 +44,11 @@ export default function UploadProductScreen() {
   });
   const { handleSubmit, reset } = methods;
   const onSubmit = handleSubmit(async (data) => {
-    setIsUploading(true);
     const filePath = `${user?.id}/${data.name}.png`;
 
     const { error } = await onUpload("products", filePath);
     if (error) {
       Alert.alert("Gagal mengupload gambar");
-      setIsUploading(false);
       return;
     }
 
@@ -64,7 +61,6 @@ export default function UploadProductScreen() {
       {
         onSuccess: () => {
           reset();
-          setIsUploading(false);
           router.push("/home");
         },
       },
@@ -98,7 +94,9 @@ export default function UploadProductScreen() {
                       />
                     }
                   />
-                  {isUploading && <AnimatedScanner progress={uploadProggres} />}
+                  {!!uploadProggres && (
+                    <AnimatedScanner progress={uploadProggres} />
+                  )}
                   <Button
                     onPress={onSelectImage}
                     label="Ganti Gambar"
@@ -166,7 +164,7 @@ export default function UploadProductScreen() {
           onPress={onSubmit}
           bg-primary
           br40
-          disabled={isUploading}
+          disabled={!!uploadProggres ?? isPending}
         />
       </KeyboardAwareScrollView>
     </View>

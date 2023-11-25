@@ -94,21 +94,29 @@ export default function PaymentScreen() {
           </Text>
         ))}
       </View>
-      <Link href="/payment-confirm" asChild>
-        <TouchableOpacity
-          row
-          spread
-          paddingV-s2
-          paddingH-s4
-          br40
-          className="border-primary mb-4 border"
+      {!orders?.paymentId && (
+        <Link
+          href={{
+            pathname: "/payment-confirm",
+            params: { orderId: orderId as string },
+          }}
+          asChild
         >
-          <Text text70 primary>
-            Unggah Bukti Pembayaran
-          </Text>
-          <Ionicons name="chevron-forward" size={24} color={colors.primary} />
-        </TouchableOpacity>
-      </Link>
+          <TouchableOpacity
+            row
+            spread
+            paddingV-s2
+            paddingH-s4
+            br40
+            className="border-primary mb-4 border"
+          >
+            <Text text70 primary>
+              Unggah Bukti Pembayaran
+            </Text>
+            <Ionicons name="chevron-forward" size={24} color={colors.primary} />
+          </TouchableOpacity>
+        </Link>
+      )}
     </View>
   );
 }

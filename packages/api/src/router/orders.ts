@@ -39,14 +39,16 @@ export const orderRouter = createTRPCRouter({
     .input(createPaymentParams)
     .mutation(async ({ input, ctx }) => {
       return await ctx.db.transaction(async (db) => {
-        await db
-          .update(payments)
-          .set(input)
-          .where(eq(payments.orderId, input.orderId));
+        const paymentId = v4();
+        await db.insert(payments).values({
+          ...input,
+          id: paymentId,
+        });
         await db
           .update(orders)
           .set({
             status: "payment",
+            paymentId,
           })
           .where(eq(orders.id, input.orderId));
       });
