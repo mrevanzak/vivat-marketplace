@@ -15,6 +15,7 @@
     "dev:web": "turbo --filter @vivat/nextjs dev",
     "dev:android": "pnpm --filter expo dev:android",
     "dev:ios": "pnpm --filter expo dev:ios",
+    "dev:expo": "pnpm --filter expo dev",
     "format": "turbo format --continue -- --cache --cache-location='node_modules/.cache/.prettiercache'",
     "format:fix": "turbo format --continue -- --write --cache --cache-location='node_modules/.cache/.prettiercache'",
     "lint": "turbo lint --continue -- --cache --cache-location 'node_modules/.cache/.eslintcache' && manypkg check",

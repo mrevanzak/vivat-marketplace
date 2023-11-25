@@ -5,7 +5,7 @@
   "main": "index.tsx",
   "scripts": {
     "clean": "git clean -xdf .expo .turbo node_modules",
-    "dev": "expo start --android",
+    "dev": "expo start",
     "dev:android": "expo start --android",
     "dev:ios": "expo start --ios",
     "lint": "eslint .",
@@ -26,7 +26,6 @@
     "@trpc/client": "next",
     "@trpc/react-query": "next",
     "@trpc/server": "next",
-    "base64-arraybuffer": "^1.0.2",
     "expo": "^49.0.13",
     "expo-auth-session": "~5.0.2",
     "expo-clipboard": "~4.3.1",
@@ -50,6 +49,8 @@
     "react-native-screens": "~3.22.1",
     "react-native-ui-lib": "^7.9.1",
     "superjson": "1.13.1",
+    "tus-js-client": "^3.1.1",
+    "use-tus": "^0.7.3",
     "zod": "^3.21.4",
     "zustand": "^4.4.6"
   },

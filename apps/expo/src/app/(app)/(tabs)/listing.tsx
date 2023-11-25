@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, Alert } from "react-native";
 import {
   AnimatedImage,
+  AnimatedScanner,
   BorderRadiuses,
   Button,
   KeyboardAwareScrollView,
@@ -9,19 +10,19 @@ import {
   View,
 } from "react-native-ui-lib";
 import Constants from "expo-constants";
-import * as FileSystem from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import Input from "@/components/forms/Input";
 import Picker from "@/components/forms/Picker";
 import { api } from "@/utils/api";
 import colors from "@/utils/colors";
-import { storageClient } from "@/utils/supabase";
+import { storageClient, uploadOptions } from "@/utils/supabase";
 import { useUser } from "@clerk/clerk-expo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { decode } from "base64-arraybuffer";
 import { FormProvider, useForm } from "react-hook-form";
+import type { UseTusResult } from "use-tus";
+import { useTus } from "use-tus";
 import { z } from "zod";
 
 const schema = z.object({
@@ -34,28 +35,30 @@ const schema = z.object({
 
 export default function UploadProductScreen() {
   const router = useRouter();
-  const [image, setImage] = useState<string | undefined>();
-  const [uploading, setUploading] = useState(false);
+  const [image, setImage] = useState<ImagePicker.ImagePickerResult>();
+  const [uploadProggres, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
   const { user } = useUser();
 
   const { data } = api.category.getCategories.useQuery({ partial: true });
-  const { mutate } = api.product.addProduct.useMutation({});
+  const { mutate } = api.product.addProduct.useMutation();
+  const { setUpload }: UseTusResult = useTus({ autoStart: true });
 
   const methods = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
   });
   const { handleSubmit, reset } = methods;
   const onSubmit = handleSubmit(async (data) => {
-    setUploading(true);
+    setIsUploading(true);
     const filePath = `${user?.id}/${data.name}.png`;
 
-    await onUpload(filePath);
-    const imgUrl = storageClient.from("products").getPublicUrl(filePath, {
-      transform: {
-        quality: 50,
-      },
-    });
+    const { error } = await onUpload(filePath);
+    if (error) {
+      Alert.alert("Gagal mengupload gambar");
+      return;
+    }
 
+    const imgUrl = storageClient.from("products").getPublicUrl(filePath);
     mutate(
       {
         ...data,
@@ -63,42 +66,45 @@ export default function UploadProductScreen() {
       },
       {
         onSuccess: () => {
-          setUploading(false);
           reset();
           setImage(undefined);
+          setIsUploading(false);
           router.push("/home");
         },
       },
     );
   });
 
-  const onUpload = async (filePath: string) => {
-    if (!image) return;
-    const base64 = await FileSystem.readAsStringAsync(image, {
-      encoding: "base64",
-    });
-
-    const { error } = await storageClient
-      .from("products")
-      .upload(filePath, decode(base64), {
-        contentType: "image/png",
+  const onUpload = useCallback(
+    (filePath: string) => {
+      return new Promise<{ error?: Error }>((resolve) => {
+        setUpload(image as unknown as Blob, {
+          ...uploadOptions("products", filePath),
+          onProgress(bytesSent, bytesTotal) {
+            setUploadProgress((bytesSent / bytesTotal) * 100);
+          },
+          onSuccess() {
+            resolve({ error: undefined });
+          },
+          onError(error) {
+            setIsUploading(false);
+            resolve({ error });
+          },
+        });
       });
-    if (error) {
-      console.log(error);
-      return;
-    }
-  };
+    },
+    [image, setUpload],
+  );
 
   const onSelectImage = async () => {
     const options: ImagePicker.ImagePickerOptions = {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      quality: 1,
     };
 
     const result = await ImagePicker.launchImageLibraryAsync(options);
     if (!result.canceled) {
-      setImage(result.assets[0]?.uri);
+      setImage(result);
     }
   };
 
@@ -133,10 +139,10 @@ export default function UploadProductScreen() {
               Upload Gambar
             </Text>
             <View flex center paddingV-s6 className="space-y-2">
-              {image ? (
+              {image?.assets ? (
                 <>
                   <AnimatedImage
-                    source={{ uri: image }}
+                    source={{ uri: image.assets[0]?.uri }}
                     style={{ width: 200, height: 200 }}
                     loader={
                       <ActivityIndicator
@@ -145,6 +151,7 @@ export default function UploadProductScreen() {
                       />
                     }
                   />
+                  {isUploading && <AnimatedScanner progress={uploadProggres} />}
                   <Button
                     onPress={onSelectImage}
                     label="Ganti Gambar"
@@ -212,7 +219,7 @@ export default function UploadProductScreen() {
           onPress={onSubmit}
           bg-primary
           br40
-          disabled={uploading}
+          disabled={isUploading}
         />
       </KeyboardAwareScrollView>
     </View>
