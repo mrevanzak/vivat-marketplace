@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ActivityIndicator, Alert } from "react-native";
 import {
   AnimatedImage,
@@ -9,20 +9,17 @@ import {
   Text,
   View,
 } from "react-native-ui-lib";
-import Constants from "expo-constants";
-import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import Input from "@/components/forms/Input";
 import Picker from "@/components/forms/Picker";
+import { useSelectImage } from "@/lib/hooks/useSelectImage";
 import { api } from "@/utils/api";
 import colors from "@/utils/colors";
-import { storageClient, uploadOptions } from "@/utils/supabase";
+import { storageClient } from "@/utils/supabase";
 import { useUser } from "@clerk/clerk-expo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
-import type { UseTusResult } from "use-tus";
-import { useTus } from "use-tus";
 import { z } from "zod";
 
 const schema = z.object({
@@ -35,14 +32,13 @@ const schema = z.object({
 
 export default function UploadProductScreen() {
   const router = useRouter();
-  const [image, setImage] = useState<ImagePicker.ImagePickerResult>();
-  const [uploadProggres, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const { user } = useUser();
 
   const { data } = api.category.getCategories.useQuery({ partial: true });
   const { mutate } = api.product.addProduct.useMutation();
-  const { setUpload }: UseTusResult = useTus({ autoStart: true });
+
+  const { image, onSelectImage, onUpload, uploadProggres } = useSelectImage();
 
   const methods = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -52,9 +48,10 @@ export default function UploadProductScreen() {
     setIsUploading(true);
     const filePath = `${user?.id}/${data.name}.png`;
 
-    const { error } = await onUpload(filePath);
+    const { error } = await onUpload("products", filePath);
     if (error) {
       Alert.alert("Gagal mengupload gambar");
+      setIsUploading(false);
       return;
     }
 
@@ -67,62 +64,12 @@ export default function UploadProductScreen() {
       {
         onSuccess: () => {
           reset();
-          setImage(undefined);
           setIsUploading(false);
           router.push("/home");
         },
       },
     );
   });
-
-  const onUpload = useCallback(
-    (filePath: string) => {
-      return new Promise<{ error?: Error }>((resolve) => {
-        setUpload(image as unknown as Blob, {
-          ...uploadOptions("products", filePath),
-          onProgress(bytesSent, bytesTotal) {
-            setUploadProgress((bytesSent / bytesTotal) * 100);
-          },
-          onSuccess() {
-            resolve({ error: undefined });
-          },
-          onError(error) {
-            setIsUploading(false);
-            resolve({ error });
-          },
-        });
-      });
-    },
-    [image, setUpload],
-  );
-
-  const onSelectImage = async () => {
-    const options: ImagePicker.ImagePickerOptions = {
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-    };
-
-    const result = await ImagePicker.launchImageLibraryAsync(options);
-    if (!result.canceled) {
-      setImage(result);
-    }
-  };
-
-  useEffect(() => {
-    void async function checkPermission() {
-      if (Constants.platform?.ios) {
-        const cameraRollStatus =
-          await ImagePicker.requestMediaLibraryPermissionsAsync();
-        const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
-        if (
-          cameraRollStatus.status !== ImagePicker.PermissionStatus.GRANTED ||
-          cameraStatus.status !== ImagePicker.PermissionStatus.GRANTED
-        ) {
-          Alert.alert("Sorry, we need these permissions to make this work!");
-        }
-      }
-    };
-  }, []);
 
   return (
     <View bg-white padding-s4 flex>
