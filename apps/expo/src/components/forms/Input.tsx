@@ -45,7 +45,7 @@ export default function Input({
           }}
           enableErrors
           retainValidationSpace={false}
-          value={field.value as string}
+          value={String(field.value)}
           onChangeText={field.onChange}
           onBlur={field.onBlur}
           validationMessage={error?.message}

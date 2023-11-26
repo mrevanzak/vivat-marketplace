@@ -13,6 +13,9 @@ export function useSelectImage() {
 
   const onUpload = useCallback(
     (bucketName: string, filePath: string) => {
+      if (!image) {
+        return Promise.resolve({ error: new Error("No image selected") });
+      }
       return new Promise<{ error?: Error }>((resolve) => {
         setUpload(image as unknown as Blob, {
           ...uploadOptions(bucketName, filePath),

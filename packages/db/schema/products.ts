@@ -3,9 +3,12 @@ import { index, int, timestamp, varchar } from "drizzle-orm/mysql-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
+
+
 import { mySqlTable } from "./_table";
 import { categories } from "./categories";
 import { productSold, users } from "./users";
+
 
 export const products = mySqlTable(
   "products",
@@ -15,7 +18,7 @@ export const products = mySqlTable(
       .primaryKey()
       .default(sql`(UUID())`),
     name: varchar("name", { length: 256 }).notNull(),
-    description: varchar("description", { length: 256 }),
+    description: varchar("description", { length: 256 }).notNull(),
     price: int("price").notNull(),
     stock: int("stock").notNull(),
     image: varchar("image", { length: 256 }).notNull(),
@@ -46,27 +49,20 @@ export const productsRelations = relations(products, ({ many, one }) => ({
 }));
 
 // Schema for products - used to validate API requests
-export const insertProductSchema = createInsertSchema(products).omit({
-  sellerId: true,
-});
-export const insertProductParams = createSelectSchema(products, {
+export const insertProductParams = createInsertSchema(products, {
   price: z.coerce.number(),
   stock: z.coerce.number(),
 }).omit({
   id: true,
+  sellerId: true,
 });
 export const updateProductSchema = createSelectSchema(products);
 export const updateProductParams = createSelectSchema(products, {
   price: z.coerce.number(),
   stock: z.coerce.number(),
 }).omit({
-  id: true,
+  sellerId: true,
+  createdAt: true,
+  updatedAt: true,
 });
 export const productIdSchema = updateProductSchema.pick({ id: true });
-
-// Types for products - used to type API request params and within Components
-export type Product = z.infer<typeof updateProductSchema>;
-export type NewProduct = z.infer<typeof insertProductSchema>;
-export type NewProductParams = z.infer<typeof insertProductParams>;
-export type UpdateProductParams = z.infer<typeof updateProductParams>;
-export type ProductId = z.infer<typeof productIdSchema>["id"];

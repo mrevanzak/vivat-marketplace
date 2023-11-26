@@ -15,10 +15,13 @@ import { Link, usePathname } from "expo-router";
 import { api } from "@/utils/api";
 import colors from "@/utils/colors";
 import rupiahFormatter from "@/utils/rupiahFormatter";
+import { useUser } from "@clerk/clerk-expo";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 export default function ProductDetailScreen() {
+  const { user } = useUser();
   const pathname = usePathname();
+
   const { data, isLoading, refetch } = api.product.showProduct.useQuery({
     id: pathname.slice(1),
   });
@@ -50,7 +53,7 @@ export default function ProductDetailScreen() {
             paddingL-s4
             centerV
             flex
-            className="-ml-4 rounded-l-none space-y-1"
+            className="-ml-4 space-y-1 rounded-l-none"
           >
             <Text white text65>
               {data?.name}
@@ -115,16 +118,27 @@ export default function ProductDetailScreen() {
             spread
             className="space-x-4 rounded-b-none"
           >
-            {/* <Button bg-white primary label="Keranjang" br40 flex /> */}
-            <Link
-              href={{
-                pathname: "/checkout",
-                params: { productId: data?.id ?? "" },
-              }}
-              asChild
-            >
-              <Button bg-secondary primary label="Beli" br40 flex />
-            </Link>
+            {user?.id === data?.user.id ? (
+              <Link
+                href={{
+                  pathname: "/edit-product",
+                  params: { productId: data?.id ?? "" },
+                }}
+                asChild
+              >
+                <Button bg-secondary primary label="Ubah Detil Produk" br40 flex />
+              </Link>
+            ) : (
+              <Link
+                href={{
+                  pathname: "/checkout",
+                  params: { productId: data?.id ?? "" },
+                }}
+                asChild
+              >
+                <Button bg-secondary primary label="Beli" br40 flex />
+              </Link>
+            )}
           </View>
         </View>
       </SafeAreaView>

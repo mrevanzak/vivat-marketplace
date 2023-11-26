@@ -60,6 +60,12 @@ export default function AuthLayout() {
         }}
       />
       <Stack.Screen
+        name="edit-product"
+        options={{
+          headerTitle: "Ubah detil produk",
+        }}
+      />
+      <Stack.Screen
         name="address/index"
         options={{
           headerTitle: "Alamat",
