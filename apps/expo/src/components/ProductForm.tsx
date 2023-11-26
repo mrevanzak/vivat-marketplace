@@ -36,13 +36,13 @@ interface ProductFormProps {
 
 export default function ProductForm({ edit }: ProductFormProps) {
   const router = useRouter();
-  const { productId } = useLocalSearchParams<{ productId: string }>();
+  const { productId } = useLocalSearchParams();
   const { user } = useUser();
   const utils = api.useUtils();
 
   const { data } = api.category.getCategories.useQuery({ partial: true });
   const productDetail = utils.product.showProduct.getData({
-    id: productId,
+    id: productId as string,
   });
   const addProduct = api.product.addProduct.useMutation();
   const editProduct = api.product.editProduct.useMutation();
@@ -102,7 +102,7 @@ export default function ProductForm({ edit }: ProductFormProps) {
         );
   });
   return (
-    <KeyboardAwareScrollView>
+    <KeyboardAwareScrollView paddingV-0>
       <FormProvider {...methods}>
         <View
           marginB-s4
