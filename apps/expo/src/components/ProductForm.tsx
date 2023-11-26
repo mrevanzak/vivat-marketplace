@@ -8,6 +8,7 @@ import {
   Text,
   View,
 } from "react-native-ui-lib";
+import { randomUUID } from "expo-crypto";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Input from "@/components/forms/Input";
 import Picker from "@/components/forms/Picker";
@@ -19,7 +20,6 @@ import { useUser } from "@clerk/clerk-expo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
-import { v4 } from "uuid";
 import { z } from "zod";
 
 const schema = z.object({
@@ -64,7 +64,7 @@ export default function ProductForm({ edit }: ProductFormProps) {
   });
   const { handleSubmit, reset } = methods;
   const onSubmit = handleSubmit(async (data) => {
-    const productId = edit ? productDetail?.id : v4();
+    const productId = edit ? productDetail?.id : randomUUID();
     const filePath = `${user?.id}/${productId}.png`;
 
     const { error } = await onUpload("products", filePath);
