@@ -28,6 +28,7 @@ export const productRouter = createTRPCRouter({
         },
         where: (products, { like, and, eq, gt }) =>
           and(
+            eq(products.approved, true),
             like(products.name, `%${input.query.toLowerCase()}%`),
             gt(products.stock, 0),
             ...(input.categoryId

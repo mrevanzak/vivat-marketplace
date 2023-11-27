@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { index, int, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { boolean, index, int, timestamp, varchar } from "drizzle-orm/mysql-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -18,10 +18,11 @@ export const products = mySqlTable(
       .primaryKey()
       .default(sql`(UUID())`),
     name: varchar("name", { length: 256 }).notNull(),
-    description: varchar("description", { length: 256 }).notNull(),
+    description: varchar("description", { length: 256 }),
     price: int("price").notNull(),
     stock: int("stock").notNull(),
     image: varchar("image", { length: 256 }).notNull(),
+    approved: boolean("approved").notNull().default(false),
     sellerId: varchar("seller_id", { length: 36 }).notNull(),
     categoryId: varchar("category_id", { length: 255 }).notNull(),
     createdAt: timestamp("created_at")
