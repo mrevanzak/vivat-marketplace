@@ -1,13 +1,32 @@
+import { z } from "zod";
+
 import { and, eq } from "@vivat/db";
 import {
   addresses,
   addressIdSchema,
   insertAddressSchema,
 } from "@vivat/db/schema/addresses";
+import { users } from "@vivat/db/schema/users";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const userRouter = createTRPCRouter({
+  checkMajor: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.db.query.users.findFirst({
+      columns: {
+        major: true,
+      },
+      where: (users, { eq }) => eq(users.id, ctx.auth.userId),
+    });
+  }),
+  setMajor: protectedProcedure
+    .input(z.object({ major: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db
+        .update(users)
+        .set({ major: input.major })
+        .where(eq(users.id, ctx.auth.userId));
+    }),
   getAddresses: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.db.query.addresses.findMany({
       where: (addresses, { eq }) => eq(addresses.userId, ctx.auth.userId),
