@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native-ui-lib";
 import { Link } from "expo-router";
+import OnboardingModal from "@/components/modal/onboarding";
 import { api } from "@/utils/api";
 import colors from "@/utils/colors";
 import { FlashList } from "@shopify/flash-list";
@@ -74,6 +75,7 @@ export default function HomeScreen() {
           }}
         />
       </View>
+      <OnboardingModal />
     </View>
   );
 }

@@ -35,14 +35,7 @@ export default function Input({
           placeholder={placeholder ?? `Masukkan ${label.toLowerCase()}...`}
           label={label}
           labelColor={colors.primary}
-          containerStyle={{
-            paddingHorizontal: Spacings.s4,
-            paddingVertical: Spacings.s2,
-            borderWidth: 1,
-            borderColor: colors.primary,
-            borderRadius: BorderRadiuses.br40,
-            marginBottom: Spacings.s4,
-          }}
+          containerStyle={InputStyle}
           enableErrors
           retainValidationSpace={false}
           value={String(field.value)}
@@ -55,3 +48,12 @@ export default function Input({
     />
   );
 }
+
+export const InputStyle = {
+  paddingHorizontal: Spacings.s4,
+  paddingVertical: Spacings.s2,
+  borderWidth: 1,
+  borderColor: colors.primary,
+  borderRadius: BorderRadiuses.br40,
+  marginBottom: Spacings.s4,
+};
