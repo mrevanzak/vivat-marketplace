@@ -34,7 +34,9 @@ const defineConfig = (): ExpoConfig => ({
     eas: {
       projectId: "9d910971-32eb-488a-9d9e-24983644d165",
     },
-    CLERK_PUBLISHABLE_KEY: process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    CLERK_PUBLISHABLE_KEY: process.env.CLERK_PUBLISHABLE_KEY,
+    SUPABASE_STORAGE_URL: process.env.SUPABASE_STORAGE_URL,
+    SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY,
   },
   experiments: {
     tsconfigPaths: true,

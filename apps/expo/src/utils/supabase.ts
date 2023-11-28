@@ -1,8 +1,9 @@
 import { StorageClient } from "@supabase/storage-js";
 import type { UploadOptions } from "use-tus";
+import Constants from "expo-constants";
 
-const STORAGE_URL = process.env.EXPO_PUBLIC_SUPABASE_STORAGE_URL;
-const SERVICE_KEY = process.env.EXPO_PUBLIC_SUPABASE_SERVICE_KEY;
+const STORAGE_URL = Constants.expoConfig?.extra?.SUPABASE_STORAGE_URL as string;
+const SERVICE_KEY = Constants.expoConfig?.extra?.SUPABASE_SERVICE_KEY as string;
 
 if (!STORAGE_URL || !SERVICE_KEY) {
   throw new Error("Missing env variables for Supabase");

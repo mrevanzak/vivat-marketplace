@@ -65,5 +65,6 @@ export const updateProductParams = createSelectSchema(products, {
   sellerId: true,
   createdAt: true,
   updatedAt: true,
+  approved: true,
 });
 export const productIdSchema = updateProductSchema.pick({ id: true });
