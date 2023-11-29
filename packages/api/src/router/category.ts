@@ -23,7 +23,6 @@ export const categoryRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       return await ctx.db.query.categories.findMany({
-        orderBy: (category, { asc }) => [asc(category.name)],
         ...(input.partial && {
           columns: {
             id: true,
