@@ -55,7 +55,10 @@ export const userRouter = createTRPCRouter({
   setDefaultAddress: protectedProcedure
     .input(addressIdSchema)
     .mutation(async ({ input, ctx }) => {
-      await ctx.db.update(addresses).set({ default: false });
+      await ctx.db
+        .update(addresses)
+        .set({ default: false })
+        .where(eq(addresses.userId, ctx.auth.userId));
 
       return await ctx.db
         .update(addresses)
