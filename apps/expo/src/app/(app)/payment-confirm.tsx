@@ -58,7 +58,7 @@ export default function PaymentConfirmScreen() {
         proof: imgUrl.data.publicUrl,
       },
       {
-        onSuccess: () => {
+        onSettled: () => {
           router.back();
         },
       },

@@ -11,7 +11,7 @@ import {
   Text,
   View,
 } from "react-native-ui-lib";
-import { Link, usePathname } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { api } from "@/utils/api";
 import colors from "@/utils/colors";
 import rupiahFormatter from "@/utils/rupiahFormatter";
@@ -20,10 +20,10 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 export default function ProductDetailScreen() {
   const { user } = useUser();
-  const pathname = usePathname();
+  const { productId } = useLocalSearchParams();
 
   const { data, isLoading, refetch } = api.product.showProduct.useQuery({
-    id: pathname.slice(1),
+    id: productId as string,
   });
 
   return (
@@ -121,12 +121,18 @@ export default function ProductDetailScreen() {
             {user?.id === data?.user.id ? (
               <Link
                 href={{
-                  pathname: "/edit-product",
+                  pathname: "/product/edit",
                   params: { productId: data?.id ?? "" },
                 }}
                 asChild
               >
-                <Button bg-secondary primary label="Ubah Detil Produk" br40 flex />
+                <Button
+                  bg-secondary
+                  primary
+                  label="Ubah Detail Produk"
+                  br40
+                  flex
+                />
               </Link>
             ) : (
               <Link

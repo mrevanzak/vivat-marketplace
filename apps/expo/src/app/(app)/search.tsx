@@ -49,13 +49,13 @@ export default function SearchScreen() {
             <Link
               asChild
               href={{
-                pathname: "/(app)/[productId]",
+                pathname: "/(app)/product/[productId]",
                 params: {
                   productId: item.id,
                 },
               }}
             >
-              <Card flex-1 margin-8 enableShadow>
+              <Card flex-1 margin-8 enableShadow borderRadius={BorderRadiuses.br60}>
                 <AnimatedImage
                   source={{ uri: item.image }}
                   height={250}

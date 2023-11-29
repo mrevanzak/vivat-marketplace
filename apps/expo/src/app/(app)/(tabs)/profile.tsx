@@ -4,13 +4,14 @@ import {
   Button,
   Spacings,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native-ui-lib";
 import { Link } from "expo-router";
 import { api } from "@/utils/api";
 import colors from "@/utils/colors";
 import { useAuth, useUser } from "@clerk/clerk-expo";
-import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 
 export default function ProfileScreen() {
   const { isLoaded, signOut, userId } = useAuth();
@@ -22,13 +23,8 @@ export default function ProfileScreen() {
   }
 
   return (
-    <View bg-white padding-s4 flex>
-      <View
-        br40
-        className="border-primary border bg-white"
-        padding-s4
-        marginB-s4
-      >
+    <View bg-white padding-s4 flex className="space-y-4">
+      <View br40 className="border-primary border bg-white" padding-s4>
         <View row spread>
           <View row centerV className="space-x-4">
             <Avatar
@@ -71,6 +67,16 @@ export default function ProfileScreen() {
             </Link>
           </View>
         </View>
+      </View>
+      <View br40 className="border-primary border bg-white" padding-s4>
+        <Link asChild href="/order/">
+          <TouchableOpacity row centerV className="space-x-3">
+            <FontAwesome name="shopping-bag" size={20} color={colors.primary} />
+            <Text text70 primary>
+              Pembelian
+            </Text>
+          </TouchableOpacity>
+        </Link>
       </View>
       <Button
         label="Keluar"

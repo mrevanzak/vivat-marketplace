@@ -63,7 +63,6 @@ export default function HomeScreen() {
                         <ActivityIndicator
                           color={colors.secondary}
                           size="large"
-                          className="mb-24"
                         />
                       }
                     />

@@ -33,7 +33,7 @@ export default function AuthLayout() {
         }}
       />
       <Stack.Screen
-        name="[productId]"
+        name="product/[productId]"
         options={{
           header: (props) => <Header {...props} hideSearch />,
           contentStyle: {
@@ -48,21 +48,15 @@ export default function AuthLayout() {
         }}
       />
       <Stack.Screen
-        name="payment"
-        options={{
-          headerTitle: "Pembayaran",
-        }}
-      />
-      <Stack.Screen
         name="payment-confirm"
         options={{
           headerTitle: "Konfirmasi Pembayaran",
         }}
       />
       <Stack.Screen
-        name="edit-product"
+        name="product/edit"
         options={{
-          headerTitle: "Ubah detil produk",
+          headerTitle: "Ubah Detail Produk",
         }}
       />
       <Stack.Screen
@@ -84,6 +78,18 @@ export default function AuthLayout() {
         options={{
           headerTitle: "Buat Alamat",
           headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="order/index"
+        options={{
+          headerTitle: "Pembelian",
+        }}
+      />
+      <Stack.Screen
+        name="order/[orderId]"
+        options={{
+          headerTitle: "Detail Pembelian",
         }}
       />
     </Stack>

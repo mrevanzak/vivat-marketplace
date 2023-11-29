@@ -27,7 +27,7 @@ const BANK_ACCOUNT = [
   },
 ];
 
-export default function PaymentScreen() {
+export default function OrderDetailScreen() {
   const { orderId } = useLocalSearchParams();
   const { data: orders } = api.order.showOrder.useQuery({
     id: orderId as string,
@@ -73,49 +73,55 @@ export default function PaymentScreen() {
           </Text>
         </View>
       </View>
-      <View
-        paddingV-s2
-        paddingH-s4
-        br40
-        className="border-primary mb-4 space-y-1 border"
-      >
-        <Text text80 primary marginB-s1>
-          Transfer ke Vivat Marketplace
-        </Text>
-        {BANK_ACCOUNT.map((bank) => (
-          <Text
-            key={bank.name}
-            onPress={async () => {
-              await Clipboard.setStringAsync(bank.number);
-              Alert.alert("Berhasil menyalin nomor rekening");
-            }}
-          >
-            {bank.name}: {bank.number} - Vivat Marketplace
-          </Text>
-        ))}
-      </View>
-      {!orders?.paymentId && (
-        <Link
-          href={{
-            pathname: "/payment-confirm",
-            params: { orderId: orderId as string },
-          }}
-          asChild
-        >
-          <TouchableOpacity
-            row
-            spread
+      {orders?.status === "pending" && (
+        <>
+          <View
             paddingV-s2
             paddingH-s4
             br40
-            className="border-primary mb-4 border"
+            className="border-primary mb-4 space-y-1 border"
           >
-            <Text text70 primary>
-              Unggah Bukti Pembayaran
+            <Text text80 primary marginB-s1>
+              Transfer ke Vivat Marketplace
             </Text>
-            <Ionicons name="chevron-forward" size={24} color={colors.primary} />
-          </TouchableOpacity>
-        </Link>
+            {BANK_ACCOUNT.map((bank) => (
+              <Text
+                key={bank.name}
+                onPress={async () => {
+                  await Clipboard.setStringAsync(bank.number);
+                  Alert.alert("Berhasil menyalin nomor rekening");
+                }}
+              >
+                {bank.name}: {bank.number} - Vivat Marketplace
+              </Text>
+            ))}
+          </View>
+          <Link
+            href={{
+              pathname: "/payment-confirm",
+              params: { orderId: orderId as string },
+            }}
+            asChild
+          >
+            <TouchableOpacity
+              row
+              spread
+              paddingV-s2
+              paddingH-s4
+              br40
+              className="border-primary mb-4 border"
+            >
+              <Text text70 primary>
+                Unggah Bukti Pembayaran
+              </Text>
+              <Ionicons
+                name="chevron-forward"
+                size={24}
+                color={colors.primary}
+              />
+            </TouchableOpacity>
+          </Link>
+        </>
       )}
     </View>
   );

@@ -38,7 +38,7 @@ export default function Input({
           containerStyle={InputStyle}
           enableErrors
           retainValidationSpace={false}
-          value={String(field.value)}
+          value={field.value ? String(field.value) : ""}
           onChangeText={field.onChange}
           onBlur={field.onBlur}
           validationMessage={error?.message}

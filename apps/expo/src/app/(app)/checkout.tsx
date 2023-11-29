@@ -50,7 +50,7 @@ export default function CheckoutScreen() {
       {
         onSuccess: ({ orderId }) => {
           router.replace({
-            pathname: "/payment",
+            pathname: "/(app)/order/[orderId]",
             params: { orderId },
           });
         },
