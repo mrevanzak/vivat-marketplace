@@ -83,6 +83,7 @@ export default function TabsLayout() {
         name="profile"
         // redirect={!isSignedIn}
         options={{
+          headerTitle: "Profil",
           tabBarButton: (props) => (
             <Button avoidInnerPadding flex-1 {...props} />
           ),

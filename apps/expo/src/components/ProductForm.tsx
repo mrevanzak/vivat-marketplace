@@ -16,7 +16,7 @@ import { useSelectImage } from "@/lib/hooks/useSelectImage";
 import { api } from "@/utils/api";
 import colors from "@/utils/colors";
 import { storageClient } from "@/utils/supabase";
-import { useUser } from "@clerk/clerk-expo";
+import { useAuth } from "@clerk/clerk-expo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
@@ -37,7 +37,7 @@ interface ProductFormProps {
 export default function ProductForm({ edit }: ProductFormProps) {
   const router = useRouter();
   const { productId } = useLocalSearchParams();
-  const { user } = useUser();
+  const { userId } = useAuth();
   const utils = api.useUtils();
 
   const { data } = api.category.getCategories.useQuery({ partial: true });
@@ -65,7 +65,7 @@ export default function ProductForm({ edit }: ProductFormProps) {
   const { handleSubmit, reset } = methods;
   const onSubmit = handleSubmit(async (data) => {
     const productId = edit ? productDetail?.id : randomUUID();
-    const filePath = `${user?.id}/${productId}.png`;
+    const filePath = `${userId}/${productId}.png`;
 
     const { error } = await onUpload("products", filePath);
     if (error && error.message !== "No image selected") {
@@ -96,7 +96,10 @@ export default function ProductForm({ edit }: ProductFormProps) {
           {
             onSuccess: () => {
               reset();
-              router.push("/home");
+              router.push({
+                pathname: "/search",
+                params: { sellerId: userId ?? "" },
+              });
             },
           },
         );
@@ -196,7 +199,7 @@ export default function ProductForm({ edit }: ProductFormProps) {
         onPress={onSubmit}
         bg-primary
         br40
-        disabled={!!uploadProggres ?? addProduct.isPending}
+        disabled={!!uploadProggres || addProduct.isPending || editProduct.isPending}
       />
     </KeyboardAwareScrollView>
   );

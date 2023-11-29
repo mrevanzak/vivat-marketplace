@@ -22,8 +22,7 @@ export default function OnboardingModal() {
   const [major, setMajor] = useState("");
 
   useFocusEffect(() => {
-    if (!user.data?.major) bottomSheetRef?.current?.expand();
-    console.log(user.data?.major);
+    if (user.data && !user.data.major) bottomSheetRef?.current?.expand();
   });
 
   const onSubmit = () => {

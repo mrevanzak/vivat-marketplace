@@ -13,7 +13,11 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 export const productRouter = createTRPCRouter({
   getProducts: protectedProcedure
     .input(
-      z.object({ query: z.string(), categoryId: z.string().uuid().optional() }),
+      z.object({
+        query: z.string(),
+        categoryId: z.string().uuid().optional(),
+        sellerId: z.string().optional(),
+      }),
     )
     .query(async ({ input, ctx }) => {
       return await ctx.db.query.products.findMany({
@@ -22,18 +26,22 @@ export const productRouter = createTRPCRouter({
           name: true,
           image: true,
           price: true,
+          approved: true,
+          stock: true,
         },
         with: {
           user: true,
         },
+        orderBy: (products, { desc }) => [desc(products.createdAt)],
         where: (products, { like, and, eq, gt }) =>
           and(
-            eq(products.approved, true),
             like(products.name, `%${input.query.toLowerCase()}%`),
-            gt(products.stock, 0),
             ...(input.categoryId
               ? [eq(products.categoryId, input.categoryId)]
               : []),
+            ...(input.sellerId
+              ? [eq(products.sellerId, input.sellerId)]
+              : [gt(products.stock, 0), eq(products.approved, true)]),
           ),
       });
     }),

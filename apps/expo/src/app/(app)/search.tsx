@@ -16,14 +16,16 @@ import rupiahFormatter from "@/utils/rupiahFormatter";
 import { FlashList } from "@shopify/flash-list";
 
 export default function SearchScreen() {
-  const { categoryId, search } = useLocalSearchParams<{
+  const { categoryId, search, sellerId } = useLocalSearchParams<{
     categoryId: string;
     search: string;
+    sellerId: string;
   }>();
   const [debouncedSearch] = useDebouncedValue(search, 500);
   const { data, isFetching, refetch } = api.product.getProducts.useQuery({
     query: debouncedSearch ?? "",
     categoryId,
+    sellerId,
   });
 
   return (
@@ -75,22 +77,37 @@ export default function SearchScreen() {
                 >
                   <Text white>{item.name}</Text>
                   <Text white>{rupiahFormatter(item.price)}</Text>
-                  <View row right centerV>
-                    <Avatar
-                      source={{ uri: item.user.imageUrl }}
-                      animate
-                      useAutoColors
-                      size={28}
-                    />
-                    <View padding-s2>
-                      <Text text100 white>
-                        {item.user.name}
-                      </Text>
-                      <Text text100 white className="text-right">
-                        {item.user.major}
-                      </Text>
+                  {sellerId ? (
+                    <Text
+                      white
+                      text90BO
+                      marginT-s1
+                      {...{ red10: !item.approved || item.stock === 0 }}
+                    >
+                      {item.stock === 0
+                        ? "Stok habis"
+                        : !item.approved
+                        ? "Menunggu persetujuan"
+                        : "Aktif"}
+                    </Text>
+                  ) : (
+                    <View row right centerV>
+                      <Avatar
+                        source={{ uri: item.user.imageUrl }}
+                        animate
+                        useAutoColors
+                        size={28}
+                      />
+                      <View padding-s2>
+                        <Text text100 white>
+                          {item.user.name}
+                        </Text>
+                        <Text text100 white className="text-right">
+                          {item.user.major}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
+                  )}
                 </View>
               </Card>
             </Link>
