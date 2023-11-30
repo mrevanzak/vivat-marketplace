@@ -81,12 +81,6 @@ export default function AuthLayout() {
         }}
       />
       <Stack.Screen
-        name="order/index"
-        options={{
-          headerTitle: "Pembelian",
-        }}
-      />
-      <Stack.Screen
         name="order/[orderId]"
         options={{
           headerTitle: "Detail Pembelian",

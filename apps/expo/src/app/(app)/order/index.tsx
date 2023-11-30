@@ -8,22 +8,26 @@ import {
   Text,
   View,
 } from "react-native-ui-lib";
-import { Link, useLocalSearchParams } from "expo-router";
+import { Link, Stack, useLocalSearchParams } from "expo-router";
 import { api } from "@/utils/api";
 import colors from "@/utils/colors";
 import rupiahFormatter from "@/utils/rupiahFormatter";
 import { FlashList } from "@shopify/flash-list";
 
 export default function OrdersScreen() {
-  const { seller } = useLocalSearchParams();
+  const { isSeller } = useLocalSearchParams();
   const { data, refetch, isFetching } = api.order.getOrders.useQuery({
-    asSeller: seller ? true : false,
+    isSeller: isSeller ? true : false,
   });
 
   const getStatus = (status: string) => {
     switch (status) {
       case "pending":
         return "Menunggu pembayaran";
+      case "payment":
+        return "Menunggu konfirmasi";
+      case "confirmed":
+        return "Menunggu pengiriman";
       case "accepted":
         return "Diproses";
       case "cancelled":
@@ -35,6 +39,11 @@ export default function OrdersScreen() {
 
   return (
     <View bg-white br50 flex padding-s4 className="rounded-b-none">
+      <Stack.Screen
+        options={{
+          headerTitle: `${isSeller ? "Penjualan" : "Pembelian"}`,
+        }}
+      />
       <FlashList
         data={data}
         numColumns={1}
@@ -43,7 +52,7 @@ export default function OrdersScreen() {
         refreshing={isFetching}
         ListEmptyComponent={
           <Text text70BO center marginT-s6>
-            Tidak ada pembelian
+            Tidak ada {isSeller ? "penjualan" : "pembelian"}
           </Text>
         }
         renderItem={({ item }) => {
@@ -54,6 +63,7 @@ export default function OrdersScreen() {
                 pathname: "/(app)/order/[orderId]",
                 params: {
                   orderId: item.id,
+                  isSeller: isSeller ? 1 : 0,
                 },
               }}
             >

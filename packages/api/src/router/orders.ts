@@ -58,17 +58,17 @@ export const orderRouter = createTRPCRouter({
   getOrders: protectedProcedure
     .input(
       z.object({
-        asSeller: z.boolean(),
+        isSeller: z.boolean(),
       }),
     )
     .query(async ({ input, ctx }) => {
       const seller = alias(users, "seller");
 
       const where: SQL[] = [];
-      input.asSeller
+      input.isSeller
         ? where.push(eq(seller.id, ctx.auth.userId))
         : where.push(eq(users.id, ctx.auth.userId));
-      if (input.asSeller) {
+      if (input.isSeller) {
         where.push(not(eq(orders.status, "pending")));
       }
 
@@ -77,7 +77,7 @@ export const orderRouter = createTRPCRouter({
           id: orders.id,
           status: orders.status,
           products,
-          user: input.asSeller ? users : seller,
+          user: input.isSeller ? users : seller,
         })
         .from(orders)
         .innerJoin(addresses, eq(orders.addressId, addresses.id))
@@ -85,6 +85,14 @@ export const orderRouter = createTRPCRouter({
         .innerJoin(products, eq(orders.productId, products.id))
         .innerJoin(seller, eq(products.sellerId, seller.id))
         .where(and(...where));
+    }),
+  getLogOrders: protectedProcedure
+    .input(orderIdSchema)
+    .query(async ({ input, ctx }) => {
+      return await ctx.db.query.logOrders.findMany({
+        where: (log, { eq }) => eq(log.orderId, input.id),
+        orderBy: (log, { asc }) => [asc(log.timestamp)]
+      });
     }),
   showOrder: protectedProcedure
     .input(orderIdSchema)
@@ -165,6 +173,22 @@ export const orderRouter = createTRPCRouter({
             stock: sql`${products.stock} - 1`,
           })
           .where(eq(products.id, order.product.id));
+      });
+    }),
+  confirmOrder: protectedProcedure
+    .input(orderIdSchema)
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.db.transaction(async (tx) => {
+        await tx.insert(logOrders).values({
+          orderId: input.id,
+          status: "confirmed",
+        });
+        await tx
+          .update(orders)
+          .set({
+            status: "confirmed",
+          })
+          .where(eq(orders.id, input.id));
       });
     }),
 });

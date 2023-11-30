@@ -84,7 +84,7 @@ export default function ProfileScreen() {
           href={{
             pathname: "/order/",
             params: {
-              seller: 1,
+              isSeller: 1,
             },
           }}
         >
