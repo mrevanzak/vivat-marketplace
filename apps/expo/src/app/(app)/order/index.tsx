@@ -64,16 +64,16 @@ export default function OrdersScreen() {
                     <View row className="space-x-2">
                       <Avatar
                         source={{
-                          uri: item.users?.imageUrl,
+                          uri: item.seller?.imageUrl,
                         }}
                         animate
-                        name={item.users?.name}
+                        name={item.seller?.name}
                         useAutoColors
                         size={36}
                       />
                       <View>
-                        <Text text80>{item.users?.name}</Text>
-                        <Text text90R>{item.users.major}</Text>
+                        <Text text80>{item.seller?.name}</Text>
+                        <Text text90R>{item.seller?.major}</Text>
                       </View>
                     </View>
                     <View bg-secondary {...{ "bg-red30": item.status === "cancelled" }} padding-s1 br20>

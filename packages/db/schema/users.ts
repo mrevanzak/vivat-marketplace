@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { primaryKey, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { timestamp, varchar } from "drizzle-orm/mysql-core";
 
 import { mySqlTable } from "./_table";
 import { addresses } from "./addresses";
@@ -18,29 +18,6 @@ export const users = mySqlTable("users", {
 
 export const usersRelations = relations(users, ({ many }) => ({
   product: many(products),
-  bought: many(productSold),
   address: many(addresses),
   order: many(orders),
-}));
-
-export const productSold = mySqlTable(
-  "product_sold",
-  {
-    userId: varchar("user_id", { length: 255 }).notNull(),
-    productId: varchar("product_id", { length: 255 }).notNull(),
-  },
-  (productSold) => ({
-    compoundKey: primaryKey(productSold.userId, productSold.productId),
-  }),
-);
-
-export const productSoldRelations = relations(productSold, ({ one }) => ({
-  user: one(users, {
-    fields: [productSold.userId],
-    references: [users.id],
-  }),
-  product: one(products, {
-    fields: [productSold.productId],
-    references: [products.id],
-  }),
 }));

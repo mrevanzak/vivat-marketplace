@@ -30,7 +30,7 @@ export const productRouter = createTRPCRouter({
           stock: true,
         },
         with: {
-          user: true,
+          seller: true,
         },
         orderBy: (products, { desc }) => [desc(products.createdAt)],
         where: (products, { like, and, eq, gt }) =>
@@ -58,7 +58,7 @@ export const productRouter = createTRPCRouter({
       return (
         (await ctx.db.query.products.findFirst({
           with: {
-            user: true,
+            seller: true,
             category: true,
           },
           where: (products, { eq }) => eq(products.id, input.id),

@@ -1,14 +1,17 @@
 import { relations, sql } from "drizzle-orm";
-import { boolean, index, int, timestamp, varchar } from "drizzle-orm/mysql-core";
+import {
+  boolean,
+  index,
+  int,
+  timestamp,
+  varchar,
+} from "drizzle-orm/mysql-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-
-
 import { mySqlTable } from "./_table";
 import { categories } from "./categories";
-import { productSold, users } from "./users";
-
+import { users } from "./users";
 
 export const products = mySqlTable(
   "products",
@@ -37,12 +40,11 @@ export const products = mySqlTable(
   },
 );
 
-export const productsRelations = relations(products, ({ many, one }) => ({
-  user: one(users, {
+export const productsRelations = relations(products, ({ one }) => ({
+  seller: one(users, {
     fields: [products.sellerId],
     references: [users.id],
   }),
-  productSold: many(productSold),
   category: one(categories, {
     fields: [products.categoryId],
     references: [categories.id],

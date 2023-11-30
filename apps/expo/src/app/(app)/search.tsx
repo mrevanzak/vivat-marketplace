@@ -55,7 +55,12 @@ export default function SearchScreen() {
                 },
               }}
             >
-              <Card flex-1 margin-8 enableShadow borderRadius={BorderRadiuses.br60}>
+              <Card
+                flex-1
+                margin-8
+                enableShadow
+                borderRadius={BorderRadiuses.br60}
+              >
                 <AnimatedImage
                   source={{ uri: item.image }}
                   height={250}
@@ -93,17 +98,17 @@ export default function SearchScreen() {
                   ) : (
                     <View row right centerV>
                       <Avatar
-                        source={{ uri: item.user.imageUrl }}
+                        source={{ uri: item.seller.imageUrl }}
                         animate
                         useAutoColors
                         size={28}
                       />
                       <View padding-s2>
                         <Text text100 white>
-                          {item.user.name}
+                          {item.seller.name}
                         </Text>
                         <Text text100 white className="text-right">
-                          {item.user.major}
+                          {item.seller.major}
                         </Text>
                       </View>
                     </View>

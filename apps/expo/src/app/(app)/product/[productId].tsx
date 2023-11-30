@@ -75,14 +75,14 @@ export default function ProductDetailScreen() {
         <View row spread>
           <View row centerV>
             <Avatar
-              source={{ uri: data?.user.imageUrl }}
+              source={{ uri: data?.seller.imageUrl }}
               animate
               useAutoColors
               size={42}
             />
             <View padding-s2>
-              <Text text70>{data?.user.name}</Text>
-              <Text text90>{data?.user.major}</Text>
+              <Text text70>{data?.seller.name}</Text>
+              <Text text90>{data?.seller.major}</Text>
             </View>
           </View>
           <View row centerV className="space-x-2">
@@ -118,7 +118,7 @@ export default function ProductDetailScreen() {
             spread
             className="space-x-4 rounded-b-none"
           >
-            {user?.id === data?.user.id ? (
+            {user?.id === data?.seller.id ? (
               <Link
                 href={{
                   pathname: "/product/edit",
