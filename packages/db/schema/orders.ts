@@ -4,8 +4,9 @@ import { createInsertSchema } from "drizzle-zod";
 
 import { mySqlTable } from "./_table";
 import { addresses } from "./addresses";
-import { products } from "./products";
+import { logOrders } from "./log-orders";
 import { payments } from "./payments";
+import { products } from "./products";
 
 export const orders = mySqlTable("orders", {
   id: varchar("id", { length: 36 })
@@ -35,7 +36,7 @@ export const orders = mySqlTable("orders", {
   paymentId: varchar("payment_id", { length: 255 }),
 });
 
-export const ordersRelations = relations(orders, ({ one }) => ({
+export const ordersRelations = relations(orders, ({ one, many }) => ({
   product: one(products, {
     fields: [orders.productId],
     references: [products.id],
@@ -48,6 +49,7 @@ export const ordersRelations = relations(orders, ({ one }) => ({
     fields: [orders.paymentId],
     references: [payments.id],
   }),
+  logOrders: many(logOrders),
 }));
 
 export const insertOrderSchema = createInsertSchema(orders);

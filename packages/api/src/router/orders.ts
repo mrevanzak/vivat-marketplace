@@ -4,8 +4,9 @@ import { v4 } from "uuid";
 import { z } from "zod";
 
 import type { SQL } from "@vivat/db";
-import { and, eq, sql } from "@vivat/db";
+import { and, eq, not, sql } from "@vivat/db";
 import { addresses } from "@vivat/db/schema/addresses";
+import { logOrders } from "@vivat/db/schema/log-orders";
 import {
   insertOrderParams,
   orderIdSchema,
@@ -21,13 +22,38 @@ export const orderRouter = createTRPCRouter({
   checkout: protectedProcedure
     .input(insertOrderParams)
     .mutation(async ({ input, ctx }) => {
-      const orderId = v4();
+      return await ctx.db.transaction(async (tx) => {
+        const orderId = v4();
 
-      await ctx.db.insert(orders).values({
-        ...input,
-        id: orderId,
+        const product = await tx.query.products.findFirst({
+          columns: {
+            id: true,
+            stock: true,
+          },
+          where: (product, { eq }) => eq(product.id, input.productId),
+        });
+        if (!product) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Product not found",
+          });
+        }
+        if (product?.stock < 1) {
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: "Product out of stock",
+          });
+        }
+
+        await tx.insert(logOrders).values({
+          orderId,
+        });
+        await tx.insert(orders).values({
+          ...input,
+          id: orderId,
+        });
+        return { orderId };
       });
-      return { orderId };
     }),
   getOrders: protectedProcedure
     .input(
@@ -42,6 +68,9 @@ export const orderRouter = createTRPCRouter({
       input.asSeller
         ? where.push(eq(seller.id, ctx.auth.userId))
         : where.push(eq(users.id, ctx.auth.userId));
+      if (input.asSeller) {
+        where.push(not(eq(orders.status, "pending")));
+      }
 
       return await ctx.db
         .select({
@@ -96,12 +125,18 @@ export const orderRouter = createTRPCRouter({
         });
       }
       if (order.product.stock < 1) {
-        await ctx.db
-          .update(orders)
-          .set({
+        await ctx.db.transaction(async (tx) => {
+          await tx.insert(logOrders).values({
+            orderId: input.orderId,
             status: "cancelled",
-          })
-          .where(eq(orders.id, input.orderId));
+          });
+          await tx
+            .update(orders)
+            .set({
+              status: "cancelled",
+            })
+            .where(eq(orders.id, input.orderId));
+        });
         throw new TRPCError({
           code: "CONFLICT",
           message: "Product out of stock",
@@ -112,6 +147,10 @@ export const orderRouter = createTRPCRouter({
         await tx.insert(payments).values({
           ...input,
           id: paymentId,
+        });
+        await tx.insert(logOrders).values({
+          orderId: input.orderId,
+          status: "payment",
         });
         await tx
           .update(orders)

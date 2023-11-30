@@ -7,6 +7,7 @@ import * as orders from "./schema/orders";
 import * as products from "./schema/products";
 import * as users from "./schema/users";
 import * as payments from "./schema/payments";
+import * as logOrders from "./schema/log-orders";
 
 export const schema = {
   ...users,
@@ -15,6 +16,7 @@ export const schema = {
   ...addresses,
   ...orders,
   ...payments,
+  ...logOrders,
 };
 
 export { mySqlTable as tableCreator } from "./schema/_table";
