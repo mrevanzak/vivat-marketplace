@@ -34,6 +34,7 @@ export default function PaymentConfirmScreen() {
 
   const { image, onSelectImage, onUpload, uploadProggres } = useSelectImage();
 
+  const utils = api.useUtils();
   const { mutate, isPending } = api.order.confirmPayment.useMutation();
   const methods = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -59,6 +60,7 @@ export default function PaymentConfirmScreen() {
       },
       {
         onSettled: () => {
+          void utils.order.showOrder.invalidate();
           router.back();
         },
       },
