@@ -11,7 +11,7 @@ import { Link } from "expo-router";
 import { api } from "@/utils/api";
 import colors from "@/utils/colors";
 import { useAuth, useUser } from "@clerk/clerk-expo";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 
 export default function ProfileScreen() {
   const { isLoaded, signOut, userId } = useAuth();
@@ -74,6 +74,28 @@ export default function ProfileScreen() {
             <FontAwesome name="shopping-bag" size={20} color={colors.primary} />
             <Text text70 primary>
               Pembelian
+            </Text>
+          </TouchableOpacity>
+        </Link>
+      </View>
+      <View br40 className="border-primary border bg-white" padding-s4>
+        <Link
+          asChild
+          href={{
+            pathname: "/order/",
+            params: {
+              seller: 1,
+            },
+          }}
+        >
+          <TouchableOpacity row centerV className="space-x-2">
+            <FontAwesome5
+              name="shipping-fast"
+              size={20}
+              color={colors.primary}
+            />
+            <Text text70 primary>
+              Penjualan
             </Text>
           </TouchableOpacity>
         </Link>

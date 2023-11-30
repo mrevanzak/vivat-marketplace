@@ -8,14 +8,17 @@ import {
   Text,
   View,
 } from "react-native-ui-lib";
-import { Link } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { api } from "@/utils/api";
 import colors from "@/utils/colors";
 import rupiahFormatter from "@/utils/rupiahFormatter";
 import { FlashList } from "@shopify/flash-list";
 
 export default function OrdersScreen() {
-  const { data, refetch, isFetching } = api.order.getOrders.useQuery();
+  const { seller } = useLocalSearchParams();
+  const { data, refetch, isFetching } = api.order.getOrders.useQuery({
+    asSeller: seller ? true : false,
+  });
 
   const getStatus = (status: string) => {
     switch (status) {
@@ -64,19 +67,24 @@ export default function OrdersScreen() {
                     <View row className="space-x-2">
                       <Avatar
                         source={{
-                          uri: item.seller?.imageUrl,
+                          uri: item.user?.imageUrl,
                         }}
                         animate
-                        name={item.seller?.name}
+                        name={item.user?.name}
                         useAutoColors
                         size={36}
                       />
                       <View>
-                        <Text text80>{item.seller?.name}</Text>
-                        <Text text90R>{item.seller?.major}</Text>
+                        <Text text80>{item.user?.name}</Text>
+                        <Text text90R>{item.user?.major}</Text>
                       </View>
                     </View>
-                    <View bg-secondary {...{ "bg-red30": item.status === "cancelled" }} padding-s1 br20>
+                    <View
+                      bg-secondary
+                      {...{ "bg-red30": item.status === "cancelled" }}
+                      padding-s1
+                      br20
+                    >
                       <Text text100BO white>
                         {getStatus(item.status)}
                       </Text>
@@ -90,7 +98,6 @@ export default function OrdersScreen() {
                     aspectRatio={1}
                     borderRadius={BorderRadiuses.br60}
                     loader={<ActivityIndicator color={colors.secondary} />}
-                    // style={{ flex: 1 }}
                   />
                   <View>
                     <Text text70 primary>

@@ -1,7 +1,10 @@
 import { TRPCError } from "@trpc/server";
+import { alias } from "drizzle-orm/mysql-core";
 import { v4 } from "uuid";
+import { z } from "zod";
 
-import { eq, sql } from "@vivat/db";
+import type { SQL } from "@vivat/db";
+import { and, eq, sql } from "@vivat/db";
 import { addresses } from "@vivat/db/schema/addresses";
 import {
   insertOrderParams,
@@ -13,7 +16,6 @@ import { products } from "@vivat/db/schema/products";
 import { users } from "@vivat/db/schema/users";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-import { alias } from "drizzle-orm/mysql-core";
 
 export const orderRouter = createTRPCRouter({
   checkout: protectedProcedure
@@ -27,17 +29,34 @@ export const orderRouter = createTRPCRouter({
       });
       return { orderId };
     }),
-  getOrders: protectedProcedure.query(async ({ ctx }) => {
-    const seller = alias(users, "seller");
-    return await ctx.db
-      .select({ id: orders.id, status: orders.status, products, seller })
-      .from(orders)
-      .innerJoin(addresses, eq(orders.addressId, addresses.id))
-      .innerJoin(users, eq(addresses.userId, users.id))
-      .innerJoin(products, eq(orders.productId, products.id))
-      .innerJoin(seller, eq(products.sellerId, seller.id))
-      .where(eq(users.id, ctx.auth.userId));
-  }),
+  getOrders: protectedProcedure
+    .input(
+      z.object({
+        asSeller: z.boolean(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const seller = alias(users, "seller");
+
+      const where: SQL[] = [];
+      input.asSeller
+        ? where.push(eq(seller.id, ctx.auth.userId))
+        : where.push(eq(users.id, ctx.auth.userId));
+
+      return await ctx.db
+        .select({
+          id: orders.id,
+          status: orders.status,
+          products,
+          user: input.asSeller ? users : seller,
+        })
+        .from(orders)
+        .innerJoin(addresses, eq(orders.addressId, addresses.id))
+        .innerJoin(users, eq(addresses.userId, users.id))
+        .innerJoin(products, eq(orders.productId, products.id))
+        .innerJoin(seller, eq(products.sellerId, seller.id))
+        .where(and(...where));
+    }),
   showOrder: protectedProcedure
     .input(orderIdSchema)
     .query(async ({ input, ctx }) => {
