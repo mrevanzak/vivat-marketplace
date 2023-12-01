@@ -302,7 +302,7 @@ export default function OrderDetailScreen() {
             onPress={onConfirmDelivered}
           />
         )}
-        {isSeller && renderSellerAction()}
+        {isSeller && !!+isSeller && renderSellerAction()}
       </SafeAreaView>
     </ScrollView>
   );
