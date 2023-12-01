@@ -4,7 +4,7 @@ import { mysqlEnum, timestamp, varchar } from "drizzle-orm/mysql-core";
 import { mySqlTable } from "./_table";
 import { orders } from "./orders";
 
-export const logOrders = mySqlTable("logOrders", {
+export const logOrders = mySqlTable("log_orders", {
   id: varchar("id", { length: 36 })
     .notNull()
     .primaryKey()
