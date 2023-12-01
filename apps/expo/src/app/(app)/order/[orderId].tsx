@@ -244,19 +244,22 @@ export default function OrderDetailScreen() {
           <Text text80 primary marginB-s1>
             Nomer Resi Pengiriman
           </Text>
-          <Text primary>
-            {orders?.shipping?.courier}: <Text>{orders?.shipping?.trackingNumber}</Text>
+          <Text
+            primary
+            onPress={async () => {
+              orders.shipping &&
+                (await Clipboard.setStringAsync(orders.shipping?.courier));
+              Alert.alert("Berhasil menyalin nomor resi");
+            }}
+          >
+            {orders?.shipping?.courier}:{" "}
+            <Text>{orders?.shipping?.trackingNumber}</Text>
           </Text>
           <AnimatedImage
             containerStyle={{ alignItems: "center" }}
             source={{ uri: orders?.shipping?.proof }}
             style={{ width: 200, height: 200 }}
-            loader={
-              <ActivityIndicator
-                color={colors.secondary}
-                size="small"
-              />
-            }
+            loader={<ActivityIndicator color={colors.secondary} size="small" />}
           />
         </View>
       )}
