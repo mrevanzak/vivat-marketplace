@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivityIndicator, Alert } from "react-native";
+import { ActivityIndicator } from "react-native";
 import {
   AnimatedImage,
   BorderRadiuses,
@@ -21,6 +21,7 @@ import "moment/locale/id";
 
 import { RefreshControl, ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { toast } from "@backpackapp-io/react-native-toast";
 import type { z } from "zod";
 
 import type { schema } from "@vivat/db";
@@ -228,7 +229,7 @@ export default function OrderDetailScreen() {
                   key={bank.name}
                   onPress={async () => {
                     await Clipboard.setStringAsync(bank.number);
-                    Alert.alert("Berhasil menyalin nomor rekening");
+                    toast.success("Berhasil menyalin nomor rekening");
                   }}
                 >
                   {bank.name}: {bank.number} - Vivat Marketplace
@@ -277,7 +278,7 @@ export default function OrderDetailScreen() {
               onPress={async () => {
                 orders.shipping &&
                   (await Clipboard.setStringAsync(orders.shipping?.courier));
-                Alert.alert("Berhasil menyalin nomor resi");
+                toast.success("Berhasil menyalin nomor resi");
               }}
             >
               {orders?.shipping?.courier}:{" "}

@@ -2,6 +2,7 @@ import React from "react";
 import { Button, View } from "react-native-ui-lib";
 import { makeRedirectUri } from "expo-auth-session";
 import { useWarmUpBrowser } from "@/lib/hooks/useWarmUpBrowser";
+import { toast } from "@backpackapp-io/react-native-toast";
 import { useOAuth } from "@clerk/clerk-expo";
 
 export default function SignInButton() {
@@ -26,8 +27,9 @@ export default function SignInButton() {
         );
       }
     } catch (err) {
-      console.log(JSON.stringify(err, null, 2));
-      console.log("error signing in", err);
+      if (err instanceof Error) {
+        toast.error("Error signing in: " + err.message);
+      }
     }
   }, [startOAuthFlow]);
 

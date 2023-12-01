@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivityIndicator, Alert } from "react-native";
+import { ActivityIndicator } from "react-native";
 import {
   AnimatedImage,
   AnimatedScanner,
@@ -20,6 +20,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
+import { toast } from "@backpackapp-io/react-native-toast";
 
 const schema = z.object({
   courier: z.string().min(1),
@@ -40,13 +41,14 @@ export default function PaymentConfirmScreen() {
   });
   const { handleSubmit } = methods;
   const onSubmit = handleSubmit(async (data) => {
+    const toastId = toast.loading("Loading...");
     if (!orderId) return;
 
     const filePath = `${user?.id}/${orderId}.png`;
 
     const { error } = await onUpload("shipping_proof", filePath);
     if (error) {
-      Alert.alert("Gagal mengupload gambar");
+      toast.error("Gagal mengupload gambar", { id: toastId });
       return;
     }
 
@@ -61,6 +63,7 @@ export default function PaymentConfirmScreen() {
         onSettled: () => {
           void utils.order.showOrder.invalidate();
           router.back();
+          toast.dismiss();
         },
       },
     );

@@ -1,4 +1,4 @@
-import { ActivityIndicator, Alert } from "react-native";
+import { ActivityIndicator } from "react-native";
 import {
   AnimatedImage,
   AnimatedScanner,
@@ -16,6 +16,7 @@ import { useSelectImage } from "@/lib/hooks/useSelectImage";
 import { api } from "@/utils/api";
 import colors from "@/utils/colors";
 import { storageClient } from "@/utils/supabase";
+import { toast } from "@backpackapp-io/react-native-toast";
 import { useAuth } from "@clerk/clerk-expo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -64,12 +65,13 @@ export default function ProductForm({ edit }: ProductFormProps) {
   });
   const { handleSubmit, reset } = methods;
   const onSubmit = handleSubmit(async (data) => {
+    const toastId = toast.loading("Loading...");
     const productId = edit ? productDetail?.id : randomUUID();
     const filePath = `${userId}/${productId}.png`;
 
     const { error } = await onUpload("products", filePath);
     if (error && error.message !== "No image selected") {
-      Alert.alert("Gagal mengupload gambar");
+      toast.error("Gagal mengupload gambar", { id: toastId });
       return;
     }
 
@@ -85,6 +87,7 @@ export default function ProductForm({ edit }: ProductFormProps) {
             onSuccess: () => {
               reset();
               router.back();
+              toast.dismiss();
             },
           },
         )
@@ -96,6 +99,7 @@ export default function ProductForm({ edit }: ProductFormProps) {
           {
             onSuccess: () => {
               reset();
+              toast.dismiss();
               router.push({
                 pathname: "/search",
                 params: { sellerId: userId ?? "" },
@@ -199,7 +203,9 @@ export default function ProductForm({ edit }: ProductFormProps) {
         onPress={onSubmit}
         bg-primary
         br40
-        disabled={!!uploadProggres || addProduct.isPending || editProduct.isPending}
+        disabled={
+          !!uploadProggres || addProduct.isPending || editProduct.isPending
+        }
       />
     </KeyboardAwareScrollView>
   );

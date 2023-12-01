@@ -1,7 +1,13 @@
 import React from "react";
 import Constants from "expo-constants";
+import { toast } from "@backpackapp-io/react-native-toast";
 import { useAuth } from "@clerk/clerk-expo";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  MutationCache,
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
 import superjson from "superjson";
@@ -50,7 +56,21 @@ const getBaseUrl = () => {
 
 export function TRPCProvider(props: { children: React.ReactNode }) {
   const { getToken } = useAuth();
-  const [queryClient] = React.useState(() => new QueryClient());
+  const [queryClient] = React.useState(
+    () =>
+      new QueryClient({
+        queryCache: new QueryCache({
+          onError: (err) => {
+            toast.error(err.message);
+          },
+        }),
+        mutationCache: new MutationCache({
+          onError: (err) => {
+            toast.error(err.message);
+          },
+        }),
+      }),
+  );
   const [trpcClient] = React.useState(() =>
     api.createClient({
       transformer: superjson,

@@ -15,6 +15,7 @@
     "ios": "expo run:ios"
   },
   "dependencies": {
+    "@backpackapp-io/react-native-toast": "^0.10.0",
     "@clerk/clerk-expo": "^0.19.14",
     "@expo/metro-config": "^0.10.7",
     "@expo/vector-icons": "^13.0.0",

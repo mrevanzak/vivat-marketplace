@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import { Alert } from "react-native";
 import Constants from "expo-constants";
 import * as ImagePicker from "expo-image-picker";
 import { uploadOptions } from "@/utils/supabase";
+import { toast } from "@backpackapp-io/react-native-toast";
 import { useTus } from "use-tus";
 
 export function useSelectImage() {
@@ -56,7 +56,7 @@ export function useSelectImage() {
           cameraRollStatus.status !== ImagePicker.PermissionStatus.GRANTED ||
           cameraStatus.status !== ImagePicker.PermissionStatus.GRANTED
         ) {
-          Alert.alert("Sorry, we need these permissions to make this work!");
+          toast.error("Mohon izinkan akses kamera dan galeri");
         }
       }
     };

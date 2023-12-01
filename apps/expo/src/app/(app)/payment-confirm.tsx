@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivityIndicator, Alert } from "react-native";
+import { ActivityIndicator } from "react-native";
 import {
   AnimatedImage,
   AnimatedScanner,
@@ -15,6 +15,7 @@ import { useSelectImage } from "@/lib/hooks/useSelectImage";
 import { api } from "@/utils/api";
 import colors from "@/utils/colors";
 import { storageClient } from "@/utils/supabase";
+import { toast } from "@backpackapp-io/react-native-toast";
 import { useUser } from "@clerk/clerk-expo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -41,13 +42,14 @@ export default function PaymentConfirmScreen() {
   });
   const { handleSubmit } = methods;
   const onSubmit = handleSubmit(async (data) => {
+    const toastId = toast.loading("Loading...");
     if (!orderId) return;
 
     const filePath = `${user?.id}/${orderId}.png`;
 
     const { error } = await onUpload("payment_proof", filePath);
     if (error) {
-      Alert.alert("Gagal mengupload gambar");
+      toast.error("Gagal mengupload gambar", { id: toastId });
       return;
     }
 
@@ -61,6 +63,7 @@ export default function PaymentConfirmScreen() {
       {
         onSettled: () => {
           void utils.order.showOrder.invalidate();
+          toast.dismiss();
           router.back();
         },
       },

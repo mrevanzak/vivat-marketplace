@@ -9,6 +9,7 @@ import { StatusBar } from "expo-status-bar";
 import { TRPCProvider } from "@/utils/api";
 import { tokenCache } from "@/utils/cache";
 import colors from "@/utils/colors";
+import { Toasts } from "@backpackapp-io/react-native-toast";
 import { ClerkProvider, SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
 import { focusManager } from "@tanstack/react-query";
 
@@ -71,6 +72,7 @@ export default function RootLayout() {
       tokenCache={tokenCache}
     >
       <InitialLayout />
+      <Toasts overrideDarkMode={true} />
     </ClerkProvider>
   );
 }
