@@ -1,6 +1,7 @@
 import React from "react";
-import { Alert } from "react-native";
+import { ActivityIndicator, Alert } from "react-native";
 import {
+  AnimatedImage,
   BorderRadiuses,
   Button,
   Spacings,
@@ -67,6 +68,8 @@ export default function OrderDetailScreen() {
         return "Pembayaran berhasil";
       case "confirmed":
         return "Pesanan dikonfirmasi";
+      case "shipped":
+        return "Pesanan dikirim";
       case "accepted":
         return "Diproses";
       case "cancelled":
@@ -74,6 +77,46 @@ export default function OrderDetailScreen() {
       default:
         return "Menunggu konfirmasi";
     }
+  };
+
+  const renderSellerAction = () => {
+    if (orders?.status === "payment") {
+      return (
+        <Button
+          label="Terima pesanan"
+          bg-secondary
+          borderRadius={BorderRadiuses.br30}
+          onPress={onConfirmOrder}
+          labelStyle={{ marginLeft: Spacings.s1 }}
+        />
+      );
+    }
+    if (orders?.status === "confirmed") {
+      return (
+        <Link
+          href={{
+            pathname: "/order/confirm",
+            params: { orderId: orderId as string },
+          }}
+          asChild
+        >
+          <TouchableOpacity
+            row
+            spread
+            paddingV-s2
+            paddingH-s4
+            br40
+            className="border-primary mb-4 border"
+          >
+            <Text text70 primary>
+              Unggah Bukti Pengiriman
+            </Text>
+            <Ionicons name="chevron-forward" size={24} color={colors.primary} />
+          </TouchableOpacity>
+        </Link>
+      );
+    }
+    return null;
   };
 
   return (
@@ -191,38 +234,33 @@ export default function OrderDetailScreen() {
           </Link>
         </>
       )}
-      {isSeller && orders?.status === "payment" && (
-        <Button
-          label="Terima pesanan"
-          bg-secondary
-          borderRadius={BorderRadiuses.br30}
-          onPress={onConfirmOrder}
-          labelStyle={{ marginLeft: Spacings.s1 }}
-        />
-      )}
-      {isSeller && orders?.status === "confirmed" && (
-        <Link
-          href={{
-            pathname: "/payment-confirm",
-            params: { orderId: orderId as string },
-          }}
-          asChild
+      {orders?.status === "shipped" && (
+        <View
+          paddingV-s2
+          paddingH-s4
+          br40
+          className="border-primary mb-4 space-y-1 border"
         >
-          <TouchableOpacity
-            row
-            spread
-            paddingV-s2
-            paddingH-s4
-            br40
-            className="border-primary mb-4 border"
-          >
-            <Text text70 primary>
-              Unggah Bukti Pengiriman
-            </Text>
-            <Ionicons name="chevron-forward" size={24} color={colors.primary} />
-          </TouchableOpacity>
-        </Link>
+          <Text text80 primary marginB-s1>
+            Nomer Resi Pengiriman
+          </Text>
+          <Text primary>
+            {orders?.shipping?.courier}: <Text>{orders?.shipping?.trackingNumber}</Text>
+          </Text>
+          <AnimatedImage
+            containerStyle={{ alignItems: "center" }}
+            source={{ uri: orders?.shipping?.proof }}
+            style={{ width: 200, height: 200 }}
+            loader={
+              <ActivityIndicator
+                color={colors.secondary}
+                size="small"
+              />
+            }
+          />
+        </View>
       )}
+      {isSeller && renderSellerAction()}
     </View>
   );
 }

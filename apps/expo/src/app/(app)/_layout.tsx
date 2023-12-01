@@ -83,7 +83,13 @@ export default function AuthLayout() {
       <Stack.Screen
         name="order/[orderId]"
         options={{
-          headerTitle: "Detail Pembelian",
+          headerTitle: "Detail Pesanan",
+        }}
+      />
+      <Stack.Screen
+        name="order/confirm"
+        options={{
+          headerTitle: "Konfirmasi Pengiriman",
         }}
       />
     </Stack>

@@ -7,6 +7,7 @@ import { addresses } from "./addresses";
 import { logOrders } from "./log-orders";
 import { payments } from "./payments";
 import { products } from "./products";
+import { shippings } from "./shippings";
 
 export const orders = mySqlTable("orders", {
   id: varchar("id", { length: 36 })
@@ -34,6 +35,7 @@ export const orders = mySqlTable("orders", {
   productId: varchar("product_id", { length: 255 }).notNull(),
   addressId: varchar("address_id", { length: 255 }).notNull(),
   paymentId: varchar("payment_id", { length: 255 }),
+  shippingId: varchar("shippings_id", { length: 255 }),
 });
 
 export const ordersRelations = relations(orders, ({ one, many }) => ({
@@ -48,6 +50,10 @@ export const ordersRelations = relations(orders, ({ one, many }) => ({
   payment: one(payments, {
     fields: [orders.paymentId],
     references: [payments.id],
+  }),
+  shipping: one(shippings, {
+    fields: [orders.shippingId],
+    references: [shippings.id],
   }),
   logOrders: many(logOrders),
 }));

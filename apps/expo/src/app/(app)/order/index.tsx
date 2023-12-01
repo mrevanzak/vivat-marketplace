@@ -28,6 +28,8 @@ export default function OrdersScreen() {
         return "Menunggu konfirmasi";
       case "confirmed":
         return "Menunggu pengiriman";
+      case "shipped":
+        return "Dikirim";
       case "accepted":
         return "Diproses";
       case "cancelled":
