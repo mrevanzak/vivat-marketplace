@@ -17,6 +17,8 @@ next-env.d.ts
 .expo/
 dist/
 apps/expo/.gitignore
+ios
+android
 
 # production
 build
@@ -43,6 +45,3 @@ yarn-error.log*
 
 # turbo
 .turbo
-
-server
-apps/nextjs/drizzle.config.ts
