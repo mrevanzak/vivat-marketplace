@@ -13,6 +13,9 @@ import { api } from "@/utils/api";
 import colors from "@/utils/colors";
 import rupiahFormatter from "@/utils/rupiahFormatter";
 import { FlashList } from "@shopify/flash-list";
+import type { z } from "zod";
+
+import type { schema } from "@vivat/db";
 
 export default function OrdersScreen() {
   const { isSeller } = useLocalSearchParams();
@@ -20,7 +23,7 @@ export default function OrdersScreen() {
     isSeller: isSeller ? true : false,
   });
 
-  const getStatus = (status: string) => {
+  const getStatus = (status: z.infer<typeof schema.orderStatusEnum>) => {
     switch (status) {
       case "pending":
         return "Menunggu pembayaran";
@@ -30,12 +33,10 @@ export default function OrdersScreen() {
         return "Menunggu pengiriman";
       case "shipped":
         return "Dikirim";
-      case "accepted":
-        return "Diproses";
+      case "done":
+        return "Pesanan selesai";
       case "cancelled":
         return "Dibatalkan";
-      default:
-        return "Menunggu konfirmasi";
     }
   };
 
@@ -93,7 +94,10 @@ export default function OrdersScreen() {
                     </View>
                     <View
                       bg-secondary
-                      {...{ "bg-red30": item.status === "cancelled" }}
+                      {...{
+                        "bg-red30": item.status === "cancelled",
+                        "bg-primary": item.status === "done",
+                      }}
                       padding-s1
                       br20
                     >

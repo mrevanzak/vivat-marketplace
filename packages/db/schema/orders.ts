@@ -1,6 +1,6 @@
 import { relations, sql } from "drizzle-orm";
 import { int, mysqlEnum, timestamp, varchar } from "drizzle-orm/mysql-core";
-import { createInsertSchema } from "drizzle-zod";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 import { mySqlTable } from "./_table";
 import { addresses } from "./addresses";
@@ -19,7 +19,6 @@ export const orders = mySqlTable("orders", {
     "payment",
     "confirmed",
     "shipped",
-    "delivered",
     "cancelled",
     "done",
   ])
@@ -63,3 +62,8 @@ export const insertOrderParams = insertOrderSchema.omit({
   id: true,
 });
 export const orderIdSchema = insertOrderSchema.pick({ id: true }).required();
+export const orderStatusEnum = createSelectSchema(orders)
+  .pick({
+    status: true,
+  })
+  .transform((schema) => schema.status);

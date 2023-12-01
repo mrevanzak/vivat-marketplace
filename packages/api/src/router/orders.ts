@@ -87,14 +87,6 @@ export const orderRouter = createTRPCRouter({
         .innerJoin(seller, eq(products.sellerId, seller.id))
         .where(and(...where));
     }),
-  getLogOrders: protectedProcedure
-    .input(orderIdSchema)
-    .query(async ({ input, ctx }) => {
-      return await ctx.db.query.logOrders.findMany({
-        where: (log, { eq }) => eq(log.orderId, input.id),
-        orderBy: (log, { asc }) => [asc(log.timestamp)],
-      });
-    }),
   showOrder: protectedProcedure
     .input(orderIdSchema)
     .query(async ({ input, ctx }) => {
@@ -104,6 +96,9 @@ export const orderRouter = createTRPCRouter({
             product: true,
             address: true,
             shipping: true,
+            logOrders: {
+              orderBy: (logOrders, { asc }) => asc(logOrders.timestamp),
+            }
           },
           where: (order, { eq }) => eq(order.id, input.id),
         })) ?? null
@@ -214,6 +209,22 @@ export const orderRouter = createTRPCRouter({
           ...input,
           id: shippingId,
         });
+      });
+    }),
+  confirmDelivered: protectedProcedure
+    .input(orderIdSchema)
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.db.transaction(async (tx) => {
+        await tx.insert(logOrders).values({
+          orderId: input.id,
+          status: "done",
+        });
+        await tx
+          .update(orders)
+          .set({
+            status: "done",
+          })
+          .where(eq(orders.id, input.id));
       });
     }),
 });

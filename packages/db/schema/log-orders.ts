@@ -2,6 +2,7 @@ import { relations, sql } from "drizzle-orm";
 import { mysqlEnum, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 import { mySqlTable } from "./_table";
+import { orders } from "./orders";
 
 export const logOrders = mySqlTable("logOrders", {
   id: varchar("id", { length: 36 })
@@ -13,7 +14,6 @@ export const logOrders = mySqlTable("logOrders", {
     "payment",
     "confirmed",
     "shipped",
-    "delivered",
     "cancelled",
     "done",
   ])
@@ -26,8 +26,8 @@ export const logOrders = mySqlTable("logOrders", {
 });
 
 export const logOrdersRelations = relations(logOrders, ({ one }) => ({
-  order: one(logOrders, {
+  order: one(orders, {
     fields: [logOrders.orderId],
-    references: [logOrders.id],
+    references: [orders.id],
   }),
 }));
