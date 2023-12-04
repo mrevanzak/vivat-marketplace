@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { ActivityIndicator } from "react-native";
 import {
   AnimatedImage,
   AnimatedScanner,
   BorderRadiuses,
   Button,
+  Dialog,
   KeyboardAwareScrollView,
   Text,
   View,
@@ -32,6 +33,8 @@ export default function PaymentConfirmScreen() {
   const { user } = useUser();
   const router = useRouter();
   const { orderId } = useLocalSearchParams<{ orderId: string }>();
+
+  const [showDialog, setShowDialog] = useState(false);
 
   const { image, onSelectImage, onUpload, uploadProggres } = useSelectImage();
 
@@ -64,7 +67,7 @@ export default function PaymentConfirmScreen() {
         onSettled: () => {
           void utils.order.showOrder.invalidate();
           toast.dismiss();
-          router.back();
+          setShowDialog(true);
         },
       },
     );
@@ -149,6 +152,14 @@ export default function PaymentConfirmScreen() {
           br40
           disabled={!!uploadProggres || isPending}
         />
+        <Dialog visible={showDialog} onDismiss={() => router.back()}>
+          <View padding-s4 bg-white br40>
+            <Text text70BO center>
+              Terima kasih sudah melakukan pembayaran. Admin akan segera
+              memproses transaksi kamu.
+            </Text>
+          </View>
+        </Dialog>
       </KeyboardAwareScrollView>
     </View>
   );
