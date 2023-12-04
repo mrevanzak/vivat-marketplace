@@ -154,7 +154,7 @@ export default function PaymentConfirmScreen() {
         />
         <Dialog visible={showDialog} onDismiss={() => router.back()}>
           <View padding-s4 bg-white br40>
-            <Text text70BO center>
+            <Text text70 center primary>
               Terima kasih sudah melakukan pembayaran. Admin akan segera
               memproses transaksi kamu.
             </Text>
