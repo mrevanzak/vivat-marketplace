@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { ActivityIndicator } from "react-native";
 import {
   AnimatedImage,
   AnimatedScanner,
   BorderRadiuses,
   Button,
+  Dialog,
   KeyboardAwareScrollView,
   Text,
   View,
@@ -40,6 +42,8 @@ export default function ProductForm({ edit }: ProductFormProps) {
   const { productId } = useLocalSearchParams();
   const { userId } = useAuth();
   const utils = api.useUtils();
+
+  const [showDialog, setShowDialog] = useState(false);
 
   const { data } = api.category.getCategories.useQuery({ partial: true });
   const productDetail = utils.product.showProduct.getData({
@@ -100,10 +104,7 @@ export default function ProductForm({ edit }: ProductFormProps) {
             onSuccess: () => {
               reset();
               toast.dismiss();
-              router.push({
-                pathname: "/search",
-                params: { sellerId: userId ?? "" },
-              });
+              setShowDialog(true);
             },
           },
         );
@@ -207,6 +208,22 @@ export default function ProductForm({ edit }: ProductFormProps) {
           !!uploadProggres || addProduct.isPending || editProduct.isPending
         }
       />
+      <Dialog
+        visible={showDialog}
+        onDismiss={() =>
+          router.push({
+            pathname: "/search",
+            params: { sellerId: userId ?? "" },
+          })
+        }
+      >
+        <View padding-s4 bg-white br40>
+          <Text text70 center primary>
+            Produk anda sudah diajukan dan masuk ke tahap pengecekkan oleh
+            Admin.
+          </Text>
+        </View>
+      </Dialog>
     </KeyboardAwareScrollView>
   );
 }
