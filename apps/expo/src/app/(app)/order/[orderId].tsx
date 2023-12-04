@@ -4,6 +4,7 @@ import {
   AnimatedImage,
   BorderRadiuses,
   Button,
+  Colors,
   Spacings,
   Text,
   TouchableOpacity,
@@ -56,29 +57,9 @@ export default function OrderDetailScreen() {
   });
 
   const utils = api.useUtils();
-  const confirmOrder = api.order.confirmOrder.useMutation();
-  const onConfirmOrder = () => {
-    confirmOrder.mutate(
-      {
-        id: orderId as string,
-      },
-      {
-        onSuccess: () => void utils.order.invalidate(),
-      },
-    );
-  };
-
-  const confirmDelivered = api.order.confirmDelivered.useMutation();
-  const onConfirmDelivered = () => {
-    confirmDelivered.mutate(
-      {
-        id: orderId as string,
-      },
-      {
-        onSuccess: () => void utils.order.invalidate(),
-      },
-    );
-  };
+  const confirmOrder = api.order.confirmOrder.useMutation({
+    onSuccess: () => void utils.order.invalidate(),
+  });
 
   const getStatus = (status: z.infer<typeof schema.orderStatusEnum>) => {
     switch (status) {
@@ -86,6 +67,8 @@ export default function OrderDetailScreen() {
         return "Pesanan dibuat";
       case "payment":
         return "Pembayaran berhasil";
+      case "verified":
+        return "Pembayaran diverifikasi";
       case "confirmed":
         return "Pesanan dikonfirmasi";
       case "shipped":
@@ -98,15 +81,35 @@ export default function OrderDetailScreen() {
   };
 
   const renderSellerAction = () => {
-    if (orders?.status === "payment") {
+    if (orders?.status === "verified") {
       return (
-        <Button
-          label="Terima pesanan"
-          bg-secondary
-          primary
-          borderRadius={BorderRadiuses.br30}
-          onPress={onConfirmOrder}
-        />
+        <View className="space-y-4">
+          <Button
+            label="Tolak pesanan"
+            bg-red20
+            outline
+            outlineColor={Colors.red20}
+            borderRadius={BorderRadiuses.br30}
+            onPress={() =>
+              confirmOrder.mutate({
+                id: orderId as string,
+                status: "cancelled",
+              })
+            }
+          />
+          <Button
+            label="Terima pesanan"
+            bg-secondary
+            primary
+            borderRadius={BorderRadiuses.br30}
+            onPress={() =>
+              confirmOrder.mutate({
+                id: orderId as string,
+                status: "confirmed",
+              })
+            }
+          />
+        </View>
       );
     }
     if (orders?.status === "confirmed") {
@@ -300,7 +303,12 @@ export default function OrderDetailScreen() {
             bg-secondary
             primary
             borderRadius={BorderRadiuses.br30}
-            onPress={onConfirmDelivered}
+            onPress={() =>
+              confirmOrder.mutate({
+                id: orderId as string,
+                status: "done",
+              })
+            }
           />
         )}
         {isSeller && !!+isSeller && renderSellerAction()}

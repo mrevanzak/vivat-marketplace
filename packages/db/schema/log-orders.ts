@@ -12,6 +12,7 @@ export const logOrders = mySqlTable("log_orders", {
   status: mysqlEnum("status", [
     "pending",
     "payment",
+    "verified",
     "confirmed",
     "shipped",
     "cancelled",

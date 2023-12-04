@@ -17,6 +17,7 @@ export const orders = mySqlTable("orders", {
   status: mysqlEnum("status", [
     "pending",
     "payment",
+    "verified",
     "confirmed",
     "shipped",
     "cancelled",
@@ -67,3 +68,7 @@ export const orderStatusEnum = createSelectSchema(orders)
     status: true,
   })
   .transform((schema) => schema.status);
+export const orderConfirmParams = createSelectSchema(orders).pick({
+  id: true,
+  status: true,
+});

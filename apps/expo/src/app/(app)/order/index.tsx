@@ -29,6 +29,8 @@ export default function OrdersScreen() {
         return "Menunggu pembayaran";
       case "payment":
         return "Menunggu konfirmasi";
+      case "verified":
+        return "Pembayaran diverifikasi";
       case "confirmed":
         return "Menunggu pengiriman";
       case "shipped":

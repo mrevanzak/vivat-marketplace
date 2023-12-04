@@ -9,6 +9,7 @@ import { addresses } from "@vivat/db/schema/addresses";
 import { logOrders } from "@vivat/db/schema/log-orders";
 import {
   insertOrderParams,
+  orderConfirmParams,
   orderIdSchema,
   orders,
 } from "@vivat/db/schema/orders";
@@ -98,7 +99,7 @@ export const orderRouter = createTRPCRouter({
             shipping: true,
             logOrders: {
               orderBy: (logOrders, { asc }) => asc(logOrders.timestamp),
-            }
+            },
           },
           where: (order, { eq }) => eq(order.id, input.id),
         })) ?? null
@@ -173,17 +174,17 @@ export const orderRouter = createTRPCRouter({
       });
     }),
   confirmOrder: protectedProcedure
-    .input(orderIdSchema)
+    .input(orderConfirmParams)
     .mutation(async ({ input, ctx }) => {
       return await ctx.db.transaction(async (tx) => {
         await tx.insert(logOrders).values({
           orderId: input.id,
-          status: "confirmed",
+          status: input.status,
         });
         await tx
           .update(orders)
           .set({
-            status: "confirmed",
+            status: input.status,
           })
           .where(eq(orders.id, input.id));
       });
@@ -209,22 +210,6 @@ export const orderRouter = createTRPCRouter({
           ...input,
           id: shippingId,
         });
-      });
-    }),
-  confirmDelivered: protectedProcedure
-    .input(orderIdSchema)
-    .mutation(async ({ input, ctx }) => {
-      return await ctx.db.transaction(async (tx) => {
-        await tx.insert(logOrders).values({
-          orderId: input.id,
-          status: "done",
-        });
-        await tx
-          .update(orders)
-          .set({
-            status: "done",
-          })
-          .where(eq(orders.id, input.id));
       });
     }),
 });
