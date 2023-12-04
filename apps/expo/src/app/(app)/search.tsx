@@ -103,8 +103,8 @@ export default function SearchScreen() {
                         useAutoColors
                         size={28}
                       />
-                      <View padding-s2>
-                        <Text text100 white>
+                      <View padding-s2 className="w-4/5">
+                        <Text text100 white numberOfLines={1}>
                           {item.seller.name}
                         </Text>
                         <Text text100 white className="text-right">
