@@ -1,9 +1,12 @@
 import React from "react";
 import { Button, View } from "react-native-ui-lib";
 import { makeRedirectUri } from "expo-auth-session";
+import * as WebBrowser from "expo-web-browser";
 import { useWarmUpBrowser } from "@/lib/hooks/useWarmUpBrowser";
 import { toast } from "@backpackapp-io/react-native-toast";
 import { useOAuth } from "@clerk/clerk-expo";
+
+WebBrowser.maybeCompleteAuthSession();
 
 export default function SignInButton() {
   useWarmUpBrowser();
@@ -12,16 +15,16 @@ export default function SignInButton() {
     strategy: "oauth_google",
     redirectUrl: makeRedirectUri({
       scheme: "vivat.marketplace.app",
+      path: "/",
     }),
   });
 
-  const handleSignInWithDiscordPress = React.useCallback(async () => {
+  const handleSignIn = React.useCallback(async () => {
     try {
       const { createdSessionId, setActive } = await startOAuthFlow();
       if (createdSessionId) {
         void setActive?.({ session: createdSessionId });
       } else {
-        // Modify this code to use signIn or signUp to set this missing requirements you set in your dashboard.
         throw new Error(
           "There are unmet requirements, modifiy this else to handle them",
         );
@@ -40,7 +43,7 @@ export default function SignInButton() {
         size="medium"
         bg-primary
         className="w-1/2 p-3"
-        onPress={handleSignInWithDiscordPress}
+        onPress={handleSignIn}
       />
     </View>
   );
