@@ -297,7 +297,7 @@ export default function OrderDetailScreen() {
             />
           </View>
         )}
-        {orders?.status === "shipped" && (
+        {isSeller && !+isSeller && orders?.status === "shipped" && (
           <Button
             label="Konfirmasi pesanan diterima"
             bg-secondary
