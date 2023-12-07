@@ -22,8 +22,7 @@ export default function HomeScreen() {
   return (
     <View flex bg-primary>
       <AnimatedImage
-        source={{ uri: "https://picsum.photos/200/160" }}
-        // source={{ uri: data?.image }}
+        source={{ uri: "https://bqdpbxgudfvqzcxgvhhn.supabase.co/storage/v1/object/public/assets/banner.png" }}
         height={124}
         style={{ borderRadius: BorderRadiuses.br60 }}
         containerStyle={{
