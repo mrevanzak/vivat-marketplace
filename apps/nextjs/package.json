@@ -5,7 +5,7 @@
   "scripts": {
     "build": "pnpm with-env next build",
     "clean": "git clean -xdf .next .turbo node_modules",
-    "dev": "pnpm with-env next dev",
+    "dev": "pnpm with-env next dev --turbo",
     "lint": "dotenv -v SKIP_ENV_VALIDATION=1 next lint",
     "format": "prettier --check \"**/*.{js,cjs,mjs,ts,tsx,md,json}\"",
     "start": "pnpm with-env next start",
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.26.1",
+    "@clerk/themes": "^1.7.9",
     "@hookform/resolvers": "^3.3.0",
     "@planetscale/database": "^1.11.0",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -36,7 +37,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "lucide-react": "^0.292.0",
-    "next": "^13.5.4",
+    "next": "^14.0.4",
     "next-themes": "^0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
