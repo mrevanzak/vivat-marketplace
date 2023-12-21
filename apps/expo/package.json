@@ -66,6 +66,7 @@
     "@types/babel__core": "^7.20.3",
     "@types/react": "^18.2.33",
     "@vivat/api": "^0.1.0",
+    "@vivat/color-palette": "^0.1.0",
     "@vivat/db": "^0.1.0",
     "@vivat/eslint-config": "^0.2.0",
     "@vivat/prettier-config": "^0.1.0",

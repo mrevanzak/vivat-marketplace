@@ -10,12 +10,13 @@ import { Link, router, useLocalSearchParams } from "expo-router";
 import Input from "@/components/forms/Input";
 import RadioButton from "@/components/forms/RadioButton";
 import { api } from "@/utils/api";
-import colors from "@/utils/colors";
 import rupiahFormatter from "@/utils/rupiahFormatter";
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
+
+import colors from "@vivat/color-palette";
 
 const schema = z.object({
   note: z.string().optional(),
@@ -67,7 +68,7 @@ export default function CheckoutScreen() {
           paddingV-s2
           paddingH-s4
           br40
-          className="border-primary mb-4 border"
+          className="mb-4 border border-primary"
         >
           <Text text70 primary>
             Alamat
@@ -91,7 +92,7 @@ export default function CheckoutScreen() {
           paddingV-s2
           paddingH-s4
           br40
-          className="border-primary mb-4 border"
+          className="mb-4 border border-primary"
         >
           <Text text80 primary marginB-s1>
             Kurir
@@ -106,7 +107,7 @@ export default function CheckoutScreen() {
           />
         </View>
       </FormProvider>
-      <View paddingV-s2 paddingH-s4 br40 className="border-primary mb-4 border">
+      <View paddingV-s2 paddingH-s4 br40 className="mb-4 border border-primary">
         <Text text80 primary marginB-s1>
           Rincian
         </Text>

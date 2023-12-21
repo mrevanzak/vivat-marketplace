@@ -11,8 +11,9 @@ import {
 import { Link } from "expo-router";
 import OnboardingModal from "@/components/modal/onboarding";
 import { api } from "@/utils/api";
-import colors from "@/utils/colors";
 import { FlashList } from "@shopify/flash-list";
+
+import colors from "@vivat/color-palette";
 
 export default function HomeScreen() {
   const { data, refetch, isFetching } = api.category.getCategories.useQuery({
@@ -22,7 +23,9 @@ export default function HomeScreen() {
   return (
     <View flex bg-primary>
       <AnimatedImage
-        source={{ uri: "https://bqdpbxgudfvqzcxgvhhn.supabase.co/storage/v1/object/public/assets/banner.png" }}
+        source={{
+          uri: "https://bqdpbxgudfvqzcxgvhhn.supabase.co/storage/v1/object/public/assets/banner.png",
+        }}
         height={124}
         style={{ borderRadius: BorderRadiuses.br60 }}
         containerStyle={{

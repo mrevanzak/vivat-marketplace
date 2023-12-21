@@ -4,9 +4,10 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Button, Colors, Spacings } from "react-native-ui-lib";
 import { Redirect, Tabs } from "expo-router";
 import Header from "@/components/Header";
-import colors from "@/utils/colors";
 import { useUser } from "@clerk/clerk-expo";
 import Ionicons from "@expo/vector-icons/Ionicons";
+
+import colors from "@vivat/color-palette";
 
 export default function TabsLayout() {
   const { isSignedIn } = useUser();

@@ -8,10 +8,11 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { TRPCProvider } from "@/utils/api";
 import { tokenCache } from "@/utils/cache";
-import colors from "@/utils/colors";
 import { Toasts } from "@backpackapp-io/react-native-toast";
 import { ClerkProvider, SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
 import { focusManager } from "@tanstack/react-query";
+
+import colors from "@vivat/color-palette";
 
 Colors.loadColors(colors);
 void SplashScreen.preventAutoHideAsync();

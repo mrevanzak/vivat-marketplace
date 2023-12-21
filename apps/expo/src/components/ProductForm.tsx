@@ -16,7 +16,6 @@ import Input from "@/components/forms/Input";
 import Picker from "@/components/forms/Picker";
 import { useSelectImage } from "@/lib/hooks/useSelectImage";
 import { api } from "@/utils/api";
-import colors from "@/utils/colors";
 import { storageClient } from "@/utils/supabase";
 import { toast } from "@backpackapp-io/react-native-toast";
 import { useAuth } from "@clerk/clerk-expo";
@@ -24,6 +23,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
+
+import colors from "@vivat/color-palette";
 
 const schema = z.object({
   name: z.string().min(3),
@@ -115,7 +116,7 @@ export default function ProductForm({ edit }: ProductFormProps) {
         <View
           marginB-s4
           br40
-          className="border-primary border bg-white"
+          className="border border-primary bg-white"
           padding-s4
           flex
         >

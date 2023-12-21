@@ -10,11 +10,11 @@ import {
 } from "react-native-ui-lib";
 import { Link, Stack, useLocalSearchParams } from "expo-router";
 import { api } from "@/utils/api";
-import colors from "@/utils/colors";
 import rupiahFormatter from "@/utils/rupiahFormatter";
 import { FlashList } from "@shopify/flash-list";
 import type { z } from "zod";
 
+import colors from "@vivat/color-palette";
 import type { schema } from "@vivat/db";
 
 export default function OrdersScreen() {
@@ -75,9 +75,9 @@ export default function OrdersScreen() {
               <Card
                 padding-s4
                 borderRadius={BorderRadiuses.br40}
-                className="border-primary mb-4 space-y-4 border"
+                className="mb-4 space-y-4 border border-primary"
               >
-                <View className="border-primary border-b pb-4">
+                <View className="border-b border-primary pb-4">
                   <View row spread centerV>
                     <View row className="space-x-2">
                       <Avatar

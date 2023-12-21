@@ -11,9 +11,10 @@ import {
 import { Link, useLocalSearchParams } from "expo-router";
 import { useDebouncedValue } from "@/lib/hooks/useDebouncedValues";
 import { api } from "@/utils/api";
-import colors from "@/utils/colors";
 import rupiahFormatter from "@/utils/rupiahFormatter";
 import { FlashList } from "@shopify/flash-list";
+
+import colors from "@vivat/color-palette";
 
 export default function SearchScreen() {
   const { categoryId, search, sellerId } = useLocalSearchParams<{

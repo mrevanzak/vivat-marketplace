@@ -1,7 +1,8 @@
 import type { RadioButtonProps as UIRadioButtonProps } from "react-native-ui-lib";
 import { Text, RadioButton as UIRadioButton } from "react-native-ui-lib";
-import colors from "@/utils/colors";
 import { Controller, get, useFormContext } from "react-hook-form";
+
+import colors from "@vivat/color-palette";
 
 type RadioButtonProps = {
   /**

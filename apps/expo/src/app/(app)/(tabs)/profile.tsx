@@ -9,9 +9,10 @@ import {
 } from "react-native-ui-lib";
 import { Link } from "expo-router";
 import { api } from "@/utils/api";
-import colors from "@/utils/colors";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import { FontAwesome, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+
+import colors from "@vivat/color-palette";
 
 export default function ProfileScreen() {
   const { isLoaded, signOut, userId } = useAuth();
@@ -24,7 +25,7 @@ export default function ProfileScreen() {
 
   return (
     <View bg-white padding-s4 flex className="space-y-4">
-      <View br40 className="border-primary border bg-white" padding-s4>
+      <View br40 className="border border-primary bg-white" padding-s4>
         <View row spread>
           <View row centerV className="space-x-4">
             <Avatar
@@ -68,7 +69,7 @@ export default function ProfileScreen() {
           </View>
         </View>
       </View>
-      <View br40 className="border-primary border bg-white" padding-s4>
+      <View br40 className="border border-primary bg-white" padding-s4>
         <Link asChild href="/order/">
           <TouchableOpacity row centerV className="space-x-3">
             <FontAwesome name="shopping-bag" size={20} color={colors.primary} />
@@ -78,7 +79,7 @@ export default function ProfileScreen() {
           </TouchableOpacity>
         </Link>
       </View>
-      <View br40 className="border-primary border bg-white" padding-s4>
+      <View br40 className="border border-primary bg-white" padding-s4>
         <Link
           asChild
           href={{

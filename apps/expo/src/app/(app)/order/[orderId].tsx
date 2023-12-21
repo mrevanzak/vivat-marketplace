@@ -13,10 +13,11 @@ import {
 import * as Clipboard from "expo-clipboard";
 import { Link, useLocalSearchParams } from "expo-router";
 import { api } from "@/utils/api";
-import colors from "@/utils/colors";
 import rupiahFormatter from "@/utils/rupiahFormatter";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
+
+import colors from "@vivat/color-palette";
 
 import "moment/locale/id";
 
@@ -127,7 +128,7 @@ export default function OrderDetailScreen() {
             paddingV-s2
             paddingH-s4
             br40
-            className="border-primary mb-4 border"
+            className="mb-4 border border-primary"
           >
             <Text text70 primary>
               Unggah Bukti Pengiriman
@@ -157,7 +158,7 @@ export default function OrderDetailScreen() {
           paddingV-s2
           paddingH-s4
           br40
-          className="border-primary mb-4 space-y-1 border"
+          className="mb-4 space-y-1 border border-primary"
         >
           <Text text80 primary marginB-s1>
             Catatan Pembelian
@@ -182,7 +183,7 @@ export default function OrderDetailScreen() {
           paddingV-s2
           paddingH-s4
           br40
-          className="border-primary mb-4 space-y-1 border"
+          className="mb-4 space-y-1 border border-primary"
         >
           <Text text80 primary marginB-s1>
             Rincian Pembelian
@@ -222,7 +223,7 @@ export default function OrderDetailScreen() {
               paddingV-s2
               paddingH-s4
               br40
-              className="border-primary mb-4 space-y-1 border"
+              className="mb-4 space-y-1 border border-primary"
             >
               <Text text80 primary marginB-s1>
                 Transfer ke Vivat Marketplace
@@ -252,7 +253,7 @@ export default function OrderDetailScreen() {
                 paddingV-s2
                 paddingH-s4
                 br40
-                className="border-primary mb-4 border"
+                className="mb-4 border border-primary"
               >
                 <Text text70 primary>
                   Unggah Bukti Pembayaran
@@ -271,7 +272,7 @@ export default function OrderDetailScreen() {
             paddingV-s2
             paddingH-s4
             br40
-            className="border-primary mb-4 space-y-1 border"
+            className="mb-4 space-y-1 border border-primary"
           >
             <Text text80 primary marginB-s1>
               Nomer Resi Pengiriman

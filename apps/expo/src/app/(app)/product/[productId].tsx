@@ -13,10 +13,11 @@ import {
 } from "react-native-ui-lib";
 import { Link, useLocalSearchParams } from "expo-router";
 import { api } from "@/utils/api";
-import colors from "@/utils/colors";
 import rupiahFormatter from "@/utils/rupiahFormatter";
 import { useUser } from "@clerk/clerk-expo";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+
+import colors from "@vivat/color-palette";
 
 export default function ProductDetailScreen() {
   const { user } = useUser();

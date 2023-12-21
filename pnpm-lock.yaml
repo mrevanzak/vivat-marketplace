@@ -177,6 +177,9 @@ importers:
       '@vivat/api':
         specifier: ^0.1.0
         version: link:../../packages/api
+      '@vivat/color-palette':
+        specifier: ^0.1.0
+        version: link:../../packages/color-palette
       '@vivat/db':
         specifier: ^0.1.0
         version: link:../../packages/db
@@ -294,6 +297,9 @@ importers:
       react-hook-form:
         specifier: ^7.47.0
         version: 7.48.2(react@18.2.0)
+      react-icons:
+        specifier: ^4.12.0
+        version: 4.12.0(react@18.2.0)
       superjson:
         specifier: 1.13.1
         version: 1.13.1
@@ -319,6 +325,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.14
         version: 18.2.14
+      '@vivat/color-palette':
+        specifier: ^0.1.0
+        version: link:../../packages/color-palette
       '@vivat/eslint-config':
         specifier: ^0.2.0
         version: link:../../tooling/eslint
@@ -377,6 +386,27 @@ importers:
       '@types/uuid':
         specifier: ^9.0.7
         version: 9.0.7
+      '@vivat/eslint-config':
+        specifier: ^0.2.0
+        version: link:../../tooling/eslint
+      '@vivat/prettier-config':
+        specifier: ^0.1.0
+        version: link:../../tooling/prettier
+      '@vivat/tsconfig':
+        specifier: ^0.1.0
+        version: link:../../tooling/typescript
+      eslint:
+        specifier: ^8.52.0
+        version: 8.52.0
+      prettier:
+        specifier: ^3.0.3
+        version: 3.0.3
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
+  packages/color-palette:
+    devDependencies:
       '@vivat/eslint-config':
         specifier: ^0.2.0
         version: link:../../tooling/eslint
@@ -513,6 +543,9 @@ importers:
         specifier: 3.3.2
         version: 3.3.2
     devDependencies:
+      '@vivat/color-palette':
+        specifier: ^0.1.0
+        version: link:../../packages/color-palette
       '@vivat/eslint-config':
         specifier: ^0.2.0
         version: link:../eslint
@@ -1575,6 +1608,16 @@ packages:
 
   /@babel/plugin-transform-react-display-name@7.22.5(@babel/core@7.23.2):
     resolution: {integrity: sha512-PVk3WPYudRF5z4GKMEYUrLjPl38fJSKNaEOkFuoprioowGuWN6w2RKznuFNSlJx7pzzXXStPUnNSOEO0jL5EVw==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.23.2
+      '@babel/helper-plugin-utils': 7.22.5
+    dev: false
+
+  /@babel/plugin-transform-react-display-name@7.23.3(@babel/core@7.23.2):
+    resolution: {integrity: sha512-GnvhtVfA2OAtzdX58FJxU19rhoGeQzyVndw3GgtdECQvQFXPEZIOVULHVZGAYmOgmqjXpVpfocAbSjh99V/Fqw==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -5414,7 +5457,7 @@ packages:
       '@babel/plugin-syntax-flow': 7.22.5(@babel/core@7.23.2)
       '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.23.2)
       '@babel/plugin-syntax-object-rest-spread': 7.8.3(@babel/core@7.23.2)
-      '@babel/plugin-transform-arrow-functions': 7.22.5(@babel/core@7.23.2)
+      '@babel/plugin-transform-arrow-functions': 7.23.3(@babel/core@7.23.2)
       '@babel/plugin-transform-block-scoped-functions': 7.22.5(@babel/core@7.23.2)
       '@babel/plugin-transform-block-scoping': 7.23.0(@babel/core@7.23.2)
       '@babel/plugin-transform-classes': 7.22.15(@babel/core@7.23.2)
@@ -5429,11 +5472,11 @@ packages:
       '@babel/plugin-transform-object-super': 7.22.5(@babel/core@7.23.2)
       '@babel/plugin-transform-parameters': 7.22.15(@babel/core@7.23.2)
       '@babel/plugin-transform-property-literals': 7.22.5(@babel/core@7.23.2)
-      '@babel/plugin-transform-react-display-name': 7.22.5(@babel/core@7.23.2)
+      '@babel/plugin-transform-react-display-name': 7.23.3(@babel/core@7.23.2)
       '@babel/plugin-transform-react-jsx': 7.22.15(@babel/core@7.23.2)
-      '@babel/plugin-transform-shorthand-properties': 7.22.5(@babel/core@7.23.2)
+      '@babel/plugin-transform-shorthand-properties': 7.23.3(@babel/core@7.23.2)
       '@babel/plugin-transform-spread': 7.22.5(@babel/core@7.23.2)
-      '@babel/plugin-transform-template-literals': 7.22.5(@babel/core@7.23.2)
+      '@babel/plugin-transform-template-literals': 7.23.3(@babel/core@7.23.2)
       babel-plugin-syntax-trailing-function-commas: 7.0.0-beta.0
     dev: false
 
@@ -11152,6 +11195,14 @@ packages:
     engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+    dev: false
+
+  /react-icons@4.12.0(react@18.2.0):
+    resolution: {integrity: sha512-IBaDuHiShdZqmfc/TwHu6+d6k2ltNCf3AszxNmjJc1KUfXdEeRJOKyNvLmAHaarhzGmTSVygNdyu8/opXv2gaw==}
+    peerDependencies:
+      react: '*'
     dependencies:
       react: 18.2.0
     dev: false

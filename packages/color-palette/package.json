@@ -1,26 +1,17 @@
 {
-  "name": "@vivat/tailwind-config",
+  "name": "@vivat/color-palette",
   "version": "0.1.0",
   "private": true,
-  "main": "index.ts",
+  "main": "./index.ts",
+  "types": "./index.ts",
   "license": "MIT",
-  "files": [
-    "index.ts",
-    "postcss.js"
-  ],
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
     "lint": "eslint .",
     "format": "prettier --check \"**/*.{mjs,ts,md,json}\"",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
-    "autoprefixer": "^10.4.16",
-    "postcss": "8.4.31",
-    "tailwindcss": "3.3.2"
-  },
   "devDependencies": {
-    "@vivat/color-palette": "^0.1.0",
     "@vivat/eslint-config": "^0.2.0",
     "@vivat/prettier-config": "^0.1.0",
     "@vivat/tsconfig": "^0.1.0",

@@ -4,8 +4,9 @@ import {
   Picker as OGPicker,
   Spacings,
 } from "react-native-ui-lib";
-import colors from "@/utils/colors";
 import { Controller, get, useFormContext } from "react-hook-form";
+
+import colors from "@vivat/color-palette";
 
 type PickerProps = {
   /** Input label */

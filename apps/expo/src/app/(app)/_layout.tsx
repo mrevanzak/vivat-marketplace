@@ -2,8 +2,9 @@ import React from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Link, Stack } from "expo-router";
 import Header from "@/components/Header";
-import colors from "@/utils/colors";
 import { Ionicons } from "@expo/vector-icons";
+
+import colors from "@vivat/color-palette";
 
 export default function AuthLayout() {
   return (
