@@ -1,33 +1,9 @@
 import { headers } from "next/headers";
-import type { User } from "@clerk/nextjs/api";
+import type { UserJSON } from "@clerk/nextjs/api";
 import { Webhook } from "svix";
 
 import { db, eq } from "@vivat/db";
 import { users } from "@vivat/db/schema/users";
-
-type UnwantedKeys =
-  | "emailAddresses"
-  | "firstName"
-  | "lastName"
-  | "primaryEmailAddressId"
-  | "primaryPhoneNumberId"
-  | "phoneNumbers";
-
-interface UserInterface extends Omit<User, UnwantedKeys> {
-  email_addresses: {
-    email_address: string;
-    id: string;
-  }[];
-  primary_email_address_id: string;
-  first_name: string;
-  last_name: string;
-  primary_phone_number_id: string;
-  phone_numbers: {
-    phone_number: string;
-    id: string;
-  }[];
-  image_url: string;
-}
 
 const webhookSecret: string = process.env.WEBHOOK_SECRET ?? "";
 
@@ -78,7 +54,7 @@ export async function POST(req: Request) {
     await db.insert(users).values({
       id,
       email: emailObject.email_address,
-      name: evt.data.first_name + " " + evt.data.last_name,
+      name: `${evt.data.first_name} ${evt.data.last_name ?? ""}`,
       imageUrl: evt.data.image_url,
     });
   }
@@ -92,9 +68,9 @@ export async function POST(req: Request) {
 }
 
 interface Event {
-  data: UserInterface;
+  data: UserJSON;
   object: "event";
   type: EventType;
 }
 
-  type EventType = "user.created" | "user.updated" | "user.deleted";
+type EventType = "user.created" | "user.updated" | "user.deleted";
