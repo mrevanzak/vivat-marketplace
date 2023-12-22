@@ -30,7 +30,7 @@ const createContext = cache(async () => {
   });
 });
 
-export const api = createTRPCClient<AppRouter>({
+export const server = createTRPCClient<AppRouter>({
   transformer: SuperJSON,
   links: [
     loggerLink({

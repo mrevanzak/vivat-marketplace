@@ -32,6 +32,7 @@ export function TRPCReactProvider(props: {
         defaultOptions: {
           queries: {
             staleTime: 5 * 1000,
+            refetchOnMount: false,
           },
         },
       }),
