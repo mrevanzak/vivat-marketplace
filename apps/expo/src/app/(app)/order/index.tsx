@@ -28,9 +28,9 @@ export default function OrdersScreen() {
       case "pending":
         return "Menunggu pembayaran";
       case "payment":
-        return "Menunggu konfirmasi";
+        return "Menunggu verifikasi";
       case "verified":
-        return "Pembayaran diverifikasi";
+        return "Menunggu konfirmasi";
       case "confirmed":
         return "Menunggu pengiriman";
       case "shipped":
