@@ -23,9 +23,13 @@
     "typecheck": "turbo typecheck"
   },
   "dependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
     "@manypkg/cli": "^0.21.0",
     "@turbo/gen": "^1.10.15",
     "@vivat/prettier-config": "^0.1.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
     "prettier": "^3.0.3",
     "turbo": "^1.10.15",
     "typescript": "^5.2.2"
@@ -36,5 +40,14 @@
     "apps/*",
     "packages/*",
     "tooling/*"
-  ]
+  ],
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "pnpm format:fix",
+      "pnpm lint"
+    ],
+    "**/*.{json,css,scss,md,webmanifest}": [
+      "pnpm lint"
+    ]
+  }
 }
