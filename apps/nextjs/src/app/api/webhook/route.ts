@@ -51,12 +51,22 @@ export async function POST(req: Request) {
         status: 400,
       });
     }
-    await db.insert(users).values({
-      id,
-      email: emailObject.email_address,
-      name: `${evt.data.first_name} ${evt.data.last_name ?? ""}`,
-      imageUrl: evt.data.image_url,
-    });
+
+    eventType === "user.created"
+      ? await db.insert(users).values({
+          id,
+          email: emailObject.email_address,
+          name: `${evt.data.first_name} ${evt.data.last_name ?? ""}`,
+          imageUrl: evt.data.image_url,
+        })
+      : await db
+          .update(users)
+          .set({
+            email: emailObject.email_address,
+            name: `${evt.data.first_name} ${evt.data.last_name ?? ""}`,
+            imageUrl: evt.data.image_url,
+          })
+          .where(eq(users.id, id));
   }
   if (eventType === "user.deleted") {
     await db.delete(users).where(eq(users.id, id));
