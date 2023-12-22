@@ -1,6 +1,6 @@
 "use client";
 
-import { api } from "@/utils/api";
+import { api } from "@/lib/api";
 
 import type { services } from "@vivat/api";
 

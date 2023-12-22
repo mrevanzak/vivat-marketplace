@@ -10,10 +10,8 @@ import type {
   SignedInAuthObject,
   SignedOutAuthObject,
 } from "@clerk/nextjs/server";
-import { getAuth } from "@clerk/nextjs/server";
 import type { inferAsyncReturnType } from "@trpc/server";
 import { initTRPC, TRPCError } from "@trpc/server";
-import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
@@ -30,41 +28,18 @@ import { db } from "@vivat/db";
  */
 interface CreateContextOptions {
   auth: SignedInAuthObject | SignedOutAuthObject;
+  headers: Headers;
 }
 
-/**
- * This helper generates the "internals" for a tRPC context. If you need to use
- * it, you can export it from here
- *
- * Examples of things you may need it for:
- * - testing, so we dont have to mock Next.js' req/res
- * - trpc's `createSSGHelpers` where we don't have req/res
- * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
- */
-// eslint-disable-next-line @typescript-eslint/require-await
-export const createInnerTRPCContext = async ({ auth }: CreateContextOptions) => {
+export const createTRPCContext = ({ auth, headers }: CreateContextOptions) => {
+  const source = headers.get("x-trpc-source") ?? "unknown";
+
+  console.log(">>> tRPC Request from", source, "by", auth?.userId);
   return {
     auth,
     db,
   };
 };
-
-/**
- * This is the actual context you'll use in your router. It will be used to
- * process every request that goes through your tRPC endpoint
- * @link https://trpc.io/docs/context
- */
-export const createTRPCContext = async (opts: CreateNextContextOptions) => {
-  const auth = getAuth(opts.req);
-  const source = opts.req?.headers["x-trpc-source"] ?? "unknown";
-
-  console.log(">>> tRPC Request from", source, "by", auth?.user);
-
-  return await createInnerTRPCContext({
-    auth,
-  });
-};
-
 /**
  * 2. INITIALIZATION
  *
@@ -123,6 +98,19 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
     },
   });
 });
+const enforceUserIsAdmin = t.middleware(({ ctx, next }) => {
+  if (!ctx.auth?.userId) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  if (ctx.auth.sessionClaims?.role !== "admin") {
+    throw new TRPCError({ code: "UNAUTHORIZED", message: "Not an admin" });
+  }
+  return next({
+    ctx: {
+      auth: ctx.auth,
+    },
+  });
+});
 
 /**
  * Protected (authed) procedure
@@ -134,3 +122,4 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
+export const adminProcedure = t.procedure.use(enforceUserIsAdmin);

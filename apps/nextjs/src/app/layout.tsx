@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 
 import "@/styles/globals.css";
 
+import { cache } from "react";
 import { headers } from "next/headers";
 
 import { TRPCReactProvider } from "./providers";
@@ -30,11 +31,14 @@ export const metadata: Metadata = {
   },
 };
 
+// Lazy load headers
+const getHeaders = cache(() => Promise.resolve(headers()));
+
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={["font-sans", fontSans.variable].join(" ")}>
-        <TRPCReactProvider headers={headers()}>
+        <TRPCReactProvider headersPromise={getHeaders()}>
           {props.children}
         </TRPCReactProvider>
       </body>

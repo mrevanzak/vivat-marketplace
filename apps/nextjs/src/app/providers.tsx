@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { env } from "@/env.mjs";
-import { api } from "@/utils/api";
+import { api } from "@/lib/api";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -24,7 +24,7 @@ const getBaseUrl = () => {
 
 export function TRPCReactProvider(props: {
   children: React.ReactNode;
-  headers?: Headers;
+  headersPromise: Promise<Headers>;
 }) {
   const [queryClient] = useState(
     () =>
@@ -48,8 +48,8 @@ export function TRPCReactProvider(props: {
         }),
         unstable_httpBatchStreamLink({
           url: `${getBaseUrl()}/api/trpc`,
-          headers() {
-            const headers = new Map(props.headers);
+          async headers() {
+            const headers = new Map(await props.headersPromise);
             headers.set("x-trpc-source", "nextjs-react");
             return Object.fromEntries(headers);
           },

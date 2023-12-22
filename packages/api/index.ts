@@ -4,7 +4,7 @@ import type { AppRouter } from "./src/root";
 import * as categories from "./src/services/categories/queries";
 
 export { appRouter, type AppRouter } from "./src/root";
-export { createInnerTRPCContext, createTRPCContext } from "./src/trpc";
+export { createTRPCContext } from "./src/trpc";
 
 export const services = {
   ...categories,

@@ -1,8 +1,8 @@
+import type { NextRequest } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
-import { appRouter, createInnerTRPCContext } from "@vivat/api";
-import type { NextRequest } from "next/server";
+import { appRouter, createTRPCContext } from "@vivat/api";
 
 export const runtime = "edge";
 
@@ -26,12 +26,12 @@ export function OPTIONS() {
 }
 
 const handler = async (req: NextRequest) => {
-  const auth = getAuth(req);
   const response = await fetchRequestHandler({
     endpoint: "/api/trpc",
     router: appRouter,
     req,
-    createContext: () => createInnerTRPCContext({ auth }),
+    createContext: () =>
+      createTRPCContext({ auth: getAuth(req), headers: req.headers }),
     onError({ error, path }) {
       console.error(`>>> tRPC Error on '${path}'`, error);
     },
