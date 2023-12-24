@@ -12,6 +12,28 @@ import { users } from "@vivat/db/schema/users";
 import { adminProcedure, createTRPCRouter } from "../trpc";
 
 export const adminRouter = createTRPCRouter({
+  getPendingProducts: adminProcedure.query(async ({ ctx }) => {
+    return await ctx.db.query.products.findMany({
+      with: {
+        seller: true,
+      },
+      where: (product) => eq(product.approved, false),
+    });
+  }),
+  approveProduct: adminProcedure
+    .input(
+      z.object({
+        productId: z.string().uuid(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.db
+        .update(products)
+        .set({
+          approved: true,
+        })
+        .where(eq(products.id, input.productId));
+    }),
   getOrders: adminProcedure.query(async ({ ctx }) => {
     const seller = alias(users, "seller");
 
