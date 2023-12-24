@@ -1,7 +1,10 @@
+import { TRPCError } from "@trpc/server";
 import { alias } from "drizzle-orm/mysql-core";
+import { z } from "zod";
 
 import { eq, sql } from "@vivat/db";
 import { addresses } from "@vivat/db/schema/addresses";
+import { logOrders } from "@vivat/db/schema/log-orders";
 import { orders } from "@vivat/db/schema/orders";
 import { products } from "@vivat/db/schema/products";
 import { users } from "@vivat/db/schema/users";
@@ -27,6 +30,53 @@ export const adminRouter = createTRPCRouter({
       .innerJoin(users, eq(addresses.userId, users.id))
       .innerJoin(products, eq(orders.productId, products.id))
       .innerJoin(seller, eq(products.sellerId, seller.id))
-      .orderBy(sql`(CASE ${orders.status} WHEN 'payment' THEN 0 ELSE 1 END), ${orders.createdAt} DESC`) 
+      .orderBy(
+        sql`(CASE ${orders.status} WHEN 'payment' THEN 0 ELSE 1 END), ${orders.createdAt} DESC`,
+      );
   }),
+  getPaymentDetails: adminProcedure
+    .input(
+      z.object({
+        orderId: z.string().uuid().optional(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      if (!input.orderId)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "orderId is required",
+        });
+
+      if (input.orderId)
+        return await ctx.db.query.payments.findFirst({
+          columns: {
+            id: false,
+            orderId: false,
+            createdAt: false,
+            updatedAt: false,
+          },
+          where: (payment) => eq(payment.orderId, input.orderId!),
+        });
+    }),
+  verifyPayment: adminProcedure
+    .input(
+      z.object({
+        orderId: z.string().uuid(),
+        status: z.enum(["verified", "cancelled"]),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.db.transaction(async (tx) => {
+        await tx.insert(logOrders).values({
+          orderId: input.orderId,
+          status: input.status,
+        });
+        await tx
+          .update(orders)
+          .set({
+            status: input.status,
+          })
+          .where(eq(orders.id, input.orderId));
+      });
+    }),
 });
