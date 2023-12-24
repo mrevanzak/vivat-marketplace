@@ -72,7 +72,7 @@ export default function AddressScreen() {
             paddingVertical: Spacings.s2,
           }}
         >
-          <View br40 className="border-primary border bg-white" padding-s4>
+          <View br40 className="border border-primary bg-white" padding-s4>
             <View row className="space-x-1">
               <Text text65 primary className="font-bold">
                 {address.title}

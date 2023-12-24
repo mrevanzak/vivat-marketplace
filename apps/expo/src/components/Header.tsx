@@ -21,7 +21,7 @@ export default function Header(props: HeaderProps) {
   const router = useRouter();
 
   return (
-    <SafeAreaView className="bg-primary flex-row" {...props} edges={["top"]}>
+    <SafeAreaView className="flex-row bg-primary" {...props} edges={["top"]}>
       <View flex row padding-s4 className="space-x-2">
         {router.canGoBack() && (
           <Button

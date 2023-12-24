@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LINKS } from "@/constant/router";
 
 import { Button } from "./ui/button";
-import { LINKS } from "@/constant/router";
 
 export default function Sidebar() {
   const activeLink = usePathname();

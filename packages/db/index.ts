@@ -3,12 +3,12 @@ import { drizzle } from "drizzle-orm/planetscale-serverless";
 
 import * as addresses from "./schema/addresses";
 import * as categories from "./schema/categories";
-import * as orders from "./schema/orders";
-import * as products from "./schema/products";
-import * as users from "./schema/users";
-import * as payments from "./schema/payments";
 import * as logOrders from "./schema/log-orders";
+import * as orders from "./schema/orders";
+import * as payments from "./schema/payments";
+import * as products from "./schema/products";
 import * as shippings from "./schema/shippings";
+import * as users from "./schema/users";
 
 export const schema = {
   ...users,

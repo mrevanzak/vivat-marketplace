@@ -1,6 +1,6 @@
+import Constants from "expo-constants";
 import { StorageClient } from "@supabase/storage-js";
 import type { UploadOptions } from "use-tus";
-import Constants from "expo-constants";
 
 const STORAGE_URL = Constants.expoConfig?.extra?.SUPABASE_STORAGE_URL as string;
 const SERVICE_KEY = Constants.expoConfig?.extra?.SUPABASE_SERVICE_KEY as string;
