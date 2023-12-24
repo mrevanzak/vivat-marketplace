@@ -74,6 +74,13 @@ export default function OrderTable({
         </TableRow>
       </TableHeader>
       <TableBody>
+        {data.length === 0 && (
+          <TableRow>
+            <TableCell colSpan={7} className="text-center">
+              No products need to be approved.
+            </TableCell>
+          </TableRow>
+        )}
         {data.map((order) => (
           <TableRow key={order.id}>
             <TableCell className="line-clamp-1 font-medium">
