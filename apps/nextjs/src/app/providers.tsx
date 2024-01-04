@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experimental";
 import { loggerLink, unstable_httpBatchStreamLink } from "@trpc/client";
+import NextTopLoader from "nextjs-toploader";
 import superjson from "superjson";
 
 import colors from "@vivat/color-palette";
@@ -77,6 +78,7 @@ export function TRPCReactProvider(props: {
               enableSystem
               disableTransitionOnChange
             >
+              <NextTopLoader color={colors.primary} />
               {props.children}
               <Toaster />
             </ThemeProvider>
